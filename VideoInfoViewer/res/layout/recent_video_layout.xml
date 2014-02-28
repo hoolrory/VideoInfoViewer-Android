@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/video_selector"
+    android:paddingTop="2dp" >
+
+    <ImageView
+        android:id="@+id/video_thumbnail"
+        android:layout_width="60dip"
+        android:layout_height="60dip"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop" />
+
+    <View
+        android:layout_width="0dip"
+        android:layout_height="2px"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dip"
+        android:layout_toRightOf="@+id/video_thumbnail"
+        android:background="@color/grey_lighter"
+        android:paddingRight="10dip" />
+
+    <com.roryhool.videoinfoviewer.views.RobotoTextView
+        android:id="@+id/video_filename"
+        style="@style/CardText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/video_thumbnail"
+        android:ellipsize="marquee"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp" />
+
+    <com.roryhool.videoinfoviewer.views.RobotoTextView
+        android:id="@+id/video_resolution"
+        style="@style/CardText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/video_filename"
+        android:layout_toRightOf="@+id/video_thumbnail"
+        android:ellipsize="marquee"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp" />
+
+</RelativeLayout>
