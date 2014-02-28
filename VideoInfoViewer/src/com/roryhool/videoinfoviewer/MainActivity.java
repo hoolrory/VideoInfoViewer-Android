@@ -35,7 +35,6 @@ public class MainActivity extends Activity {
 
    RecentVideosAdapter mAdapter;
 
-   @SuppressWarnings( "deprecation" )
    @Override
    public void onStart() {
       super.onStart();
