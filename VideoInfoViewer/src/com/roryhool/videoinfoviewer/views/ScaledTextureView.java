@@ -1,25 +1,53 @@
 package com.roryhool.videoinfoviewer.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.TextureView;
+import android.view.TextureView.SurfaceTextureListener;
 
-public class ScaledTextureView extends TextureView {
+public class ScaledTextureView extends TextureView implements SurfaceTextureListener {
 
-   int mVideoWidth;
-   int mVideoHeight;
+   int mVideoWidth = 1;
+   int mVideoHeight = 1;
+
+   private List<SurfaceTextureListener> mListeners = new ArrayList<SurfaceTextureListener>();
+
+   boolean mSurfaceAvailable = false;
+
+   SurfaceTexture mSurfaceTexture;
+
+   int mWidth;
+   int mHeight;
 
    public ScaledTextureView( Context context ) {
       super( context );
+      init();
    }
 
    public ScaledTextureView( Context context, AttributeSet attrs ) {
       super( context, attrs );
+      init();
    }
 
    public ScaledTextureView( Context context, AttributeSet attrs, int defStyle ) {
       super( context, attrs, defStyle );
+      init();
+   }
+
+   private void init() {
+      setSurfaceTextureListener( this );
+   }
+
+   public void addSurfaceTextureListener( SurfaceTextureListener listener ) {
+      mListeners.add( listener );
+      
+      if ( mSurfaceAvailable ) {
+         listener.onSurfaceTextureAvailable( mSurfaceTexture, mWidth, mHeight );
+      }
    }
 
    public void SetVideoSize( int videoWidth, int videoHeight ) {
@@ -45,7 +73,46 @@ public class ScaledTextureView extends TextureView {
          height = (int) ( parentSpecifiedWidth * heightToWidthRatio );
       }
 
-      Log.d( "this", String.format( "onMeasure(%d, %d", width, height ) );
       super.onMeasure( MeasureSpec.makeMeasureSpec( width, MeasureSpec.EXACTLY ), MeasureSpec.makeMeasureSpec( height, MeasureSpec.EXACTLY ) );
+   }
+
+   @Override
+   public void onSurfaceTextureAvailable( SurfaceTexture surface, int width, int height ) {
+      mSurfaceTexture = surface;
+
+      mWidth = width;
+      mHeight = height;
+
+      mSurfaceAvailable = true;
+
+      for ( SurfaceTextureListener listener : mListeners ) {
+         listener.onSurfaceTextureAvailable( surface, width, height );
+      }
+   }
+
+   @Override
+   public boolean onSurfaceTextureDestroyed( SurfaceTexture surface ) {
+      for ( SurfaceTextureListener listener : mListeners ) {
+         listener.onSurfaceTextureDestroyed( surface );
+      }
+
+      return true;
+   }
+
+   @Override
+   public void onSurfaceTextureSizeChanged( SurfaceTexture surface, int width, int height ) {
+      mWidth = width;
+      mHeight = height;
+
+      for ( SurfaceTextureListener listener : mListeners ) {
+         listener.onSurfaceTextureSizeChanged( surface, width, height );
+      }
+   }
+
+   @Override
+   public void onSurfaceTextureUpdated( SurfaceTexture surface ) {
+      for ( SurfaceTextureListener listener : mListeners ) {
+         listener.onSurfaceTextureUpdated( surface );
+      }
    }
 }

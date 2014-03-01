@@ -1,7 +1,6 @@
 package com.roryhool.videoinfoviewer;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
@@ -10,23 +9,16 @@ import org.androidannotations.annotations.ViewById;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.SurfaceTexture;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnBufferingUpdateListener;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnPreparedListener;
-import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
-import android.view.Surface;
-import android.view.TextureView;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
@@ -34,21 +26,19 @@ import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
 import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
 import com.roryhool.videoinfoviewer.views.RobotoTextView;
-import com.roryhool.videoinfoviewer.views.ScaledTextureView;
+import com.roryhool.videoinfoviewer.views.VideoPlayerView;
 
 @SuppressWarnings( "deprecation" )
 @Fullscreen
 @EActivity( R.layout.activity_video )
 @NoTitle
-public class VideoActivity extends Activity implements TextureView.SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener {
+public class VideoActivity extends Activity {
    
    public static final String EXTRA_VIDEO_JSON = "EXTRA_VIDEO_JSON";
 
-   @ViewById( R.id.video_texture_view )
-   ScaledTextureView mVideoTextureView;
+   @ViewById( R.id.video_player )
+   VideoPlayerView mVideoPlayer;
    
-   MediaPlayer mMediaPlayer;
-
    Uri mVideoUri;
 
    RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
@@ -59,6 +49,7 @@ public class VideoActivity extends Activity implements TextureView.SurfaceTextur
    public void onStart() {
       super.onStart();
       
+      Log.d( "this", "XAJM - VideoActivty::onStart" );
       Bundle extras = getIntent().getExtras();
 
       Video video = null;
@@ -81,17 +72,15 @@ public class VideoActivity extends Activity implements TextureView.SurfaceTextur
             mRetrieveVideoDetailsTask.execute( mVideoUri );
          }
       }
+
+      mVideoPlayer.setVideoUri( mVideoUri );
    }
 
    @Override
    public void onPause() {
       super.onPause();
 
-      if ( mMediaPlayer != null ) {
-         if ( mMediaPlayer.isPlaying() ) {
-            mMediaPlayer.pause();
-         }
-      }
+      mVideoPlayer.pause();
    }
 
    @Override
@@ -102,33 +91,10 @@ public class VideoActivity extends Activity implements TextureView.SurfaceTextur
    }
 
    @Override
-   public void onSurfaceTextureAvailable( SurfaceTexture surface, int width, int height ) {
-      Surface s = new Surface( surface );
+   public void onConfigurationChanged( Configuration newConfig ) {
+      super.onConfigurationChanged( newConfig );
 
-      try {
-         mMediaPlayer = new MediaPlayer();
-         mMediaPlayer.setDataSource( this, mVideoUri );
-         mMediaPlayer.setSurface( s );
-         mMediaPlayer.prepare();
-         mMediaPlayer.setOnBufferingUpdateListener( this );
-         mMediaPlayer.setOnCompletionListener( this );
-         mMediaPlayer.setOnPreparedListener( this );
-         mMediaPlayer.setOnVideoSizeChangedListener( this );
-         mMediaPlayer.setAudioStreamType( AudioManager.STREAM_MUSIC );
-         mMediaPlayer.start();
-      } catch ( IllegalArgumentException e ) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      } catch ( SecurityException e ) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      } catch ( IllegalStateException e ) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      } catch ( IOException e ) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
+      Log.d( "this", "XAJM - VideoActivty::onConfigurationChanged" );
    }
 
    private void addKeyValueField( int linearLayoutId, int keyStringId, String value ) {
@@ -226,10 +192,6 @@ public class VideoActivity extends Activity implements TextureView.SurfaceTextur
       addKeyValueField( R.id.video_properties_layout, R.string.key_overall_bit_rate, video.OverallBitRate );
       addKeyValueField( R.id.video_properties_layout, R.string.key_encoded_date, video.EncodedDate );
       addKeyValueField( R.id.video_properties_layout, R.string.key_tagged_date, video.TaggedDate );
-
-      mVideoTextureView.SetVideoSize( video.VideoWidth, video.VideoHeight );
-
-      mVideoTextureView.setSurfaceTextureListener( VideoActivity.this );
    }
 
    public class RetrieveVideoDetailsTask extends AsyncTask<Uri, Void, Video> {
@@ -251,47 +213,5 @@ public class VideoActivity extends Activity implements TextureView.SurfaceTextur
 
          LoadVideo( video );
       }
-   }
-
-   @Override
-   public boolean onSurfaceTextureDestroyed( SurfaceTexture surface ) {
-      // TODO Auto-generated method stub
-      return false;
-   }
-
-   @Override
-   public void onSurfaceTextureSizeChanged( SurfaceTexture surface, int width, int height ) {
-      // TODO Auto-generated method stub
-
-   }
-
-   @Override
-   public void onSurfaceTextureUpdated( SurfaceTexture surface ) {
-      // TODO Auto-generated method stub
-
-   }
-
-   @Override
-   public void onVideoSizeChanged( MediaPlayer arg0, int arg1, int arg2 ) {
-      // TODO Auto-generated method stub
-
-   }
-
-   @Override
-   public void onPrepared( MediaPlayer arg0 ) {
-      // TODO Auto-generated method stub
-
-   }
-
-   @Override
-   public void onCompletion( MediaPlayer arg0 ) {
-      // TODO Auto-generated method stub
-
-   }
-
-   @Override
-   public void onBufferingUpdate( MediaPlayer arg0, int arg1 ) {
-      // TODO Auto-generated method stub
-
    }
 }

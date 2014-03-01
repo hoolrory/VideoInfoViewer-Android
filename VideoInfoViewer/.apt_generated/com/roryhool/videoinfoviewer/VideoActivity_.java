@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.Window;
 import com.roryhool.videoinfoviewer.R.id;
 import com.roryhool.videoinfoviewer.R.layout;
-import com.roryhool.videoinfoviewer.views.ScaledTextureView;
+import com.roryhool.videoinfoviewer.views.VideoPlayerView;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
@@ -72,7 +72,7 @@ public final class VideoActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        mVideoTextureView = ((ScaledTextureView) hasViews.findViewById(id.video_texture_view));
+        mVideoPlayer = ((VideoPlayerView) hasViews.findViewById(id.video_player));
     }
 
     public static class IntentBuilder_ {

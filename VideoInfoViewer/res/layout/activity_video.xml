@@ -5,24 +5,15 @@
     tools:context=".MainActivity"
     android:background="#F0F0F0" >
     
-    <RelativeLayout
-        android:id="@+id/video_frame"
+    <com.roryhool.videoinfoviewer.views.VideoPlayerView
+        android:id="@+id/video_player"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="#000000">
-
-	    <com.roryhool.videoinfoviewer.views.ScaledTextureView
-	        android:id="@+id/video_texture_view"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_centerInParent="true" />
-    
-    </RelativeLayout>
+        android:layout_height="180dp" />
     
     <LinearLayout
         android:id="@+id/video_properties_card"
         style="@style/CardLinearLayout"
-        android:layout_below="@+id/video_frame">
+        android:layout_below="@+id/video_player">
         
         <com.roryhool.videoinfoviewer.views.RobotoTextView
             android:layout_width="wrap_content"
