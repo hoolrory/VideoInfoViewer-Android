@@ -150,7 +150,9 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    OnClickListener mOnFullscreenClickListener = new OnClickListener() {
       @Override
       public void onClick( View view ) {
-         resetTimer();
+         if ( mMediaPlayer.isPlaying() ) {
+            resetTimer();
+         }
 
          ResizeAnimation animation = null;
 
