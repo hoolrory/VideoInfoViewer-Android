@@ -300,6 +300,10 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    private void hideControls() {
 
+      if ( !mControlsShowing ) {
+         return;
+      }
+
       mControlsShowing = false;
 
       AlphaAnimation alphaAnim = new AlphaAnimation( 1.0f, 0.0f );
@@ -318,6 +322,9 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    private void showControls() {
 
+      if ( mControlsShowing ) {
+         return;
+      }
       updateProgress();
       mControlsShowing = true;
 
