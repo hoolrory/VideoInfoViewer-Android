@@ -79,7 +79,7 @@ public class Video implements Comparable<Video> {
       video.FilePath = filePath;
       video.FileName = file.getName();
       video.Format = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_TITLE );
-      video.FileSize = Long.toString( file.getTotalSpace() );
+      video.FileSize = Long.toString( file.length() );
       video.Duration = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DURATION );
       video.OverallBitRate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_BITRATE );
       video.EncodedDate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DATE );
