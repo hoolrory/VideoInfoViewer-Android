@@ -21,22 +21,39 @@
         android:background="@drawable/button_selector"
         android:contentDescription="@string/play_description" />
     
-    <View
+    <RelativeLayout
+        android:id="@+id/video_controls"
         android:layout_width="match_parent"
         android:layout_height="48dip"
         android:background="@color/transparent_black"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignBottom="@+id/video_texture_view">
     
-    <ImageButton
-        android:id="@+id/fullscreen_button"
-        android:layout_width="48dip"
+	    <SeekBar
+	        android:id="@+id/seek_bar"
+	        android:layout_width="match_parent"
+	        android:layout_height="48dip"
+	        android:minHeight="48dip"
+	        android:maxHeight="48dip"
+	        android:layout_marginRight="4dip"
+	        android:layout_marginLeft="4dip"
+	        android:layout_toLeftOf="@+id/fullscreen_button" />
+	    
+	    <ImageButton
+	        android:id="@+id/fullscreen_button"
+	        android:layout_width="48dip"
+	        android:layout_height="48dip"
+	        android:layout_marginRight="4dip"
+	        android:src="@drawable/ic_vidcontrol_fullscreen_on"
+	        android:layout_alignParentRight="true"
+	        android:background="@drawable/button_selector"
+	        android:contentDescription="@string/fullscreen_description" />
+    
+    </RelativeLayout>
+    
+    <View 
+        android:layout_width="match_parent"
         android:layout_height="48dip"
-        android:layout_marginRight="4dip"
-        android:src="@drawable/ic_vidcontrol_fullscreen_on"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/button_selector"
-        android:contentDescription="@string/fullscreen_description" />
+        android:layout_below="@+id/video_texture_view"
+        android:background="@color/black" />
     
-
 </RelativeLayout>

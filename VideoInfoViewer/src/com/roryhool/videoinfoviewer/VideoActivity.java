@@ -16,7 +16,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.widget.LinearLayout;
@@ -49,7 +48,6 @@ public class VideoActivity extends Activity {
    public void onStart() {
       super.onStart();
       
-      Log.d( "this", "XAJM - VideoActivty::onStart" );
       Bundle extras = getIntent().getExtras();
 
       Video video = null;
@@ -93,8 +91,6 @@ public class VideoActivity extends Activity {
    @Override
    public void onConfigurationChanged( Configuration newConfig ) {
       super.onConfigurationChanged( newConfig );
-
-      Log.d( "this", "XAJM - VideoActivty::onConfigurationChanged" );
    }
 
    private void addKeyValueField( int linearLayoutId, int keyStringId, String value ) {
