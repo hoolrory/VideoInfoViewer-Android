@@ -318,6 +318,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    private void showControls() {
 
+      updateProgress();
       mControlsShowing = true;
 
       AlphaAnimation alphaAnim = new AlphaAnimation( 0.0f, 1.0f );
