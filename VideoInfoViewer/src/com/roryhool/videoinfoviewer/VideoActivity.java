@@ -1,7 +1,6 @@
 package com.roryhool.videoinfoviewer;
 
 import java.io.File;
-import java.util.Locale;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
@@ -186,8 +185,8 @@ public class VideoActivity extends Activity {
       addKeyValueField( R.id.video_properties_layout, R.string.key_format_profile, video.FormatProfile );
       addKeyValueField( R.id.video_properties_layout, R.string.key_codec_id, video.CodecID );
 
-      String fileSizeInMB = String.format( Locale.US, "%.2f MB", Float.parseFloat( video.FileSize ) / ( 1024F * 1024F ) );
-      addKeyValueField( R.id.video_properties_layout, R.string.key_file_size, fileSizeInMB );
+      String fileSizeString = FormatUtils.FormatFileSizeForDisplay( Float.parseFloat( video.FileSize ) );
+      addKeyValueField( R.id.video_properties_layout, R.string.key_file_size, fileSizeString );
 
 
       String durationString = FormatUtils.FormatTimeForDisplay( Long.parseLong( video.Duration ) );
