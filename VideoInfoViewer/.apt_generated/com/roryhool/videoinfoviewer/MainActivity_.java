@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import com.roryhool.videoinfoviewer.R.id;
 import com.roryhool.videoinfoviewer.R.layout;
@@ -71,6 +72,7 @@ public final class MainActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         mRecentVideosList = ((ListView) hasViews.findViewById(id.recentVideosList));
+        mAdFrame = ((FrameLayout) hasViews.findViewById(id.adFrame));
     }
 
     public static class IntentBuilder_ {

@@ -15,11 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
@@ -33,7 +37,12 @@ public class MainActivity extends Activity {
    @ViewById( R.id.recentVideosList )
    ListView mRecentVideosList;
 
+   @ViewById( R.id.adFrame )
+   FrameLayout mAdFrame;
+
    RecentVideosAdapter mAdapter;
+
+   private AdView mAdView;
 
    @Override
    public void onStart() {
@@ -41,6 +50,8 @@ public class MainActivity extends Activity {
       mAdapter = new RecentVideosAdapter( this, R.layout.recent_video_layout, RecentVideosManager.Instance( this ).getRecentVideos() );
       mRecentVideosList.setAdapter( mAdapter );
       mRecentVideosList.setOnItemClickListener( new OnVideoItemClickListener() );
+
+      setupAds();
    }
 
    @Override
@@ -58,6 +69,33 @@ public class MainActivity extends Activity {
       default:
          return super.onOptionsItemSelected( item );
       }
+   }
+
+   private void setupAds() {
+      
+      String admobAdUnitId = getString( R.string.main_activity_admob_ad_unit_id );
+      
+      if ( admobAdUnitId != null && !admobAdUnitId.equals( ( "" ) ) ) {
+         mAdView = new AdView( this );
+         mAdView.setAdSize( AdSize.BANNER );
+         mAdView.setAdUnitId( admobAdUnitId );
+
+         mAdFrame.addView( mAdView );
+
+         String[] testDeviceIds = getResources().getStringArray( R.array.admob_test_device_ids );
+
+         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+         adRequestBuilder.addTestDevice( AdRequest.DEVICE_ID_EMULATOR );
+
+         for ( int i = 0; i < testDeviceIds.length; i++ ) {
+            adRequestBuilder.addTestDevice( testDeviceIds[i] );
+         }
+
+         AdRequest adRequest = adRequestBuilder.build();
+         mAdView.loadAd( adRequest );
+      }
+
+      
    }
 
    private void launchVideoChooser() {
