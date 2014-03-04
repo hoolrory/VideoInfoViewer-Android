@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import com.google.gson.Gson;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
+import com.roryhool.videoinfoviewer.utils.FormatUtils;
 import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
 import com.roryhool.videoinfoviewer.views.RobotoTextView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView;
@@ -187,7 +188,11 @@ public class VideoActivity extends Activity {
 
       String fileSizeInMB = String.format( Locale.US, "%.2f MB", Float.parseFloat( video.FileSize ) / ( 1024F * 1024F ) );
       addKeyValueField( R.id.video_properties_layout, R.string.key_file_size, fileSizeInMB );
-      addKeyValueField( R.id.video_properties_layout, R.string.key_duration, video.Duration );
+
+
+      String durationString = FormatUtils.FormatTimeForDisplay( Long.parseLong( video.Duration ) );
+
+      addKeyValueField( R.id.video_properties_layout, R.string.key_duration, durationString );
       addKeyValueField( R.id.video_properties_layout, R.string.key_overall_bit_rate, video.OverallBitRate );
       addKeyValueField( R.id.video_properties_layout, R.string.key_encoded_date, video.EncodedDate );
       addKeyValueField( R.id.video_properties_layout, R.string.key_tagged_date, video.TaggedDate );
