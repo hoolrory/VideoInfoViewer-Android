@@ -18,6 +18,7 @@
     <string name="key_format_profile">Format Profile:</string>
     <string name="key_codec_id">Codec ID:</string>
     <string name="key_file_size">File Size:</string>
+    <string name="key_mimetype">MimeType:</string>
     <string name="key_duration">Duration:</string>
     <string name="key_resolution">Resolution:</string>
     <string name="key_bitrate">Bitrate:</string>

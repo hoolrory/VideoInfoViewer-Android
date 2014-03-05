@@ -181,6 +181,9 @@ public class VideoActivity extends Activity {
       addKeyValueField( R.id.video_properties_layout, R.string.key_file_name, video.FileName );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_file_path, video.FilePath );
       addKeyValueField( R.id.video_properties_layout, R.string.key_resolution, String.format( "%dx%d", video.VideoWidth, video.VideoHeight ) );
+
+      addKeyValueField( R.id.video_properties_layout, R.string.key_mimetype, video.MimeType );
+
       addKeyValueField( R.id.video_properties_layout, R.string.key_format, video.Format );
       addKeyValueField( R.id.video_properties_layout, R.string.key_format_profile, video.FormatProfile );
       addKeyValueField( R.id.video_properties_layout, R.string.key_codec_id, video.CodecID );
