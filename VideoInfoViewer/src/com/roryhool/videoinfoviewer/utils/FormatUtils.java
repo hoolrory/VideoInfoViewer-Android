@@ -27,4 +27,9 @@ public class FormatUtils {
 
       return String.format( Locale.US, "%.2f MB", fileSize / ( 1024F * 1024F ) );
    }
+
+   public static String FormatBpsForDisplay( long parseLong ) {
+
+      return String.format( Locale.US, "%d kbps", parseLong / 1024 );
+   }
 }

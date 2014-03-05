@@ -188,11 +188,12 @@ public class VideoActivity extends Activity {
       String fileSizeString = FormatUtils.FormatFileSizeForDisplay( Float.parseFloat( video.FileSize ) );
       addKeyValueField( R.id.video_properties_layout, R.string.key_file_size, fileSizeString );
 
-
       String durationString = FormatUtils.FormatTimeForDisplay( Long.parseLong( video.Duration ) );
-
       addKeyValueField( R.id.video_properties_layout, R.string.key_duration, durationString );
-      addKeyValueField( R.id.video_properties_layout, R.string.key_overall_bit_rate, video.OverallBitRate );
+
+      String kbps = FormatUtils.FormatBpsForDisplay( Long.parseLong( video.BitRate ) );
+      addKeyValueField( R.id.video_properties_layout, R.string.key_bitrate, kbps );
+
       addKeyValueField( R.id.video_properties_layout, R.string.key_encoded_date, video.EncodedDate );
       addKeyValueField( R.id.video_properties_layout, R.string.key_tagged_date, video.TaggedDate );
    }

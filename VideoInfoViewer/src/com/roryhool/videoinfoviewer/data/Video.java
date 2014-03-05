@@ -36,8 +36,8 @@ public class Video implements Comparable<Video> {
    @SerializedName( "Duration" )
    public String Duration;
 
-   @SerializedName( "OverallBitRate" )
-   public String OverallBitRate;
+   @SerializedName( "BitRate" )
+   public String BitRate;
 
    @SerializedName( "EncodedDate" )
    public String EncodedDate;
@@ -81,7 +81,7 @@ public class Video implements Comparable<Video> {
       video.Format = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_TITLE );
       video.FileSize = Long.toString( file.length() );
       video.Duration = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DURATION );
-      video.OverallBitRate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_BITRATE );
+      video.BitRate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_BITRATE );
       video.EncodedDate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DATE );
       video.TaggedDate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DATE );
       video.VideoWidth = Integer.parseInt( retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH ) );
