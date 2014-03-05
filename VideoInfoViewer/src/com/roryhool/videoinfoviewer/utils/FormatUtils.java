@@ -1,8 +1,32 @@
 package com.roryhool.videoinfoviewer.utils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class FormatUtils {
+
+   public static String ZULU_DATE_FORMAT = "yyyyMMdd'T'HHmmss.SSS'Z'";
+
+   public static String DISPLAY_DATE_FORMAT = "yyyy-MM-dd-yy HH:mm aa";
+
+   public static String FormatZuluDateTimeForDisplay( String zuluTime ) {
+      DateFormat zuluFormat = new SimpleDateFormat( ZULU_DATE_FORMAT, Locale.US );
+      zuluFormat.setTimeZone( java.util.TimeZone.getTimeZone( "Zulu" ) );
+      
+      DateFormat displayFormat = new SimpleDateFormat( DISPLAY_DATE_FORMAT, Locale.US );
+      String dateString = zuluTime;
+      try {
+         Date date = zuluFormat.parse( zuluTime );
+         dateString = displayFormat.format( date );
+      } catch ( ParseException e ) {
+         e.printStackTrace();
+      }
+      
+      return dateString;
+   }
 
    public static String FormatTimeForDisplay( long ms ) {
 
