@@ -22,8 +22,7 @@
     <string name="key_duration">Duration:</string>
     <string name="key_resolution">Resolution:</string>
     <string name="key_bitrate">Bitrate:</string>
-    <string name="key_encoded_date">Encoded Date:</string>
-    <string name="key_tagged_date">Tagged Date:</string>
+    <string name="key_date">Date:</string>
     
     <string name="play_description">Play and pause button</string>
     <string name="fullscreen_description">Fullscreen button</string>

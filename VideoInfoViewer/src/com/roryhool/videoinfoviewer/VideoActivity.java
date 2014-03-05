@@ -197,8 +197,7 @@ public class VideoActivity extends Activity {
       String kbps = FormatUtils.FormatBpsForDisplay( Long.parseLong( video.BitRate ) );
       addKeyValueField( R.id.video_properties_layout, R.string.key_bitrate, kbps );
 
-      addKeyValueField( R.id.video_properties_layout, R.string.key_encoded_date, video.EncodedDate );
-      addKeyValueField( R.id.video_properties_layout, R.string.key_tagged_date, video.TaggedDate );
+      addKeyValueField( R.id.video_properties_layout, R.string.key_date, video.Date );
    }
 
    public class RetrieveVideoDetailsTask extends AsyncTask<Uri, Void, Video> {
