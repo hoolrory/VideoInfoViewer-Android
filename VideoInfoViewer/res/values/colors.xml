@@ -27,4 +27,5 @@
     <color name="black">#000000</color>
     
     <color name="white">#FFFFFF</color>
+    <color name="white_grey">#F0F0F0</color>
 </resources>

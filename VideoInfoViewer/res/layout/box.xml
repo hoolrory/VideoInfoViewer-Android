@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/box_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >"
+    
+    <ToggleButton
+        android:id="@+id/box_expand_button"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/expand_background_selector"
+        android:textOn=""
+        android:textOff="" />
+    
+    <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="48dip">
+        
+	    <ImageView
+	        android:id="@+id/box_icon"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="4dip"
+               android:layout_marginRight="4dip"
+	        android:src="@drawable/ic_expand"
+	        android:layout_alignParentLeft="true"
+               android:layout_centerVertical="true"
+	        android:clickable="false" />
+	    
+	    <com.roryhool.videoinfoviewer.views.RobotoTextView
+	        android:id="@+id/box_type"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        style="@style/CardTitle_T1"
+	        android:paddingLeft="0dp"
+	        android:paddingBottom="0dp"
+	        android:layout_toRightOf="@+id/box_icon"
+               android:layout_centerVertical="true"
+	        android:clickable="false" />
+    
+    </RelativeLayout>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/grey_lighter"
+        android:layout_alignBottom="@+id/box_expand_button"
+        android:clickable="false" />
+    
+    <View 
+        android:layout_width="2px"
+        android:layout_height="match_parent"
+        android:background="@color/grey_lighter"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/child_boxes"
+        android:clickable="false" />"
+    
+    <LinearLayout
+        android:id="@+id/child_boxes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true"
+        android:layout_below="@+id/box_expand_button" />
+    
+</RelativeLayout>

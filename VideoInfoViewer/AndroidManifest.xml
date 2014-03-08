@@ -46,6 +46,11 @@
 		      </intent-filter>
 		</activity>
 		
+        <activity
+           android:name="com.roryhool.videoinfoviewer.AtomActivity_"
+           android:label="@string/view_video_info"
+           android:configChanges="orientation|screenSize"/>
+		   
         <activity 
 			android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />

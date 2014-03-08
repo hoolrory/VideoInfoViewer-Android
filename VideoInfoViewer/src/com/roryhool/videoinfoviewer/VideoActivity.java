@@ -18,6 +18,9 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
@@ -39,6 +42,9 @@ public class VideoActivity extends Activity {
    @ViewById( R.id.video_player )
    VideoPlayerView mVideoPlayer;
    
+   @ViewById( R.id.view_atom_button )
+   Button mButton;
+
    Uri mVideoUri;
 
    RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
@@ -73,6 +79,20 @@ public class VideoActivity extends Activity {
       }
 
       mVideoPlayer.setVideoUri( mVideoUri );
+
+      mButton.setOnClickListener( new OnClickListener() {
+
+         @Override
+         public void onClick( View view ) {
+
+            Intent intent = new Intent( VideoActivity.this, AtomActivity_.class );
+
+            Gson gson = new Gson();
+            intent.putExtra( VideoActivity.EXTRA_VIDEO_JSON, gson.toJson( mVideo ) );
+            startActivity( intent );
+         }
+
+      } );
    }
 
    @Override

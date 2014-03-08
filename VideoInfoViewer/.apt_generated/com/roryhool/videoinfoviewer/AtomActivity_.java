@@ -9,18 +9,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import com.roryhool.videoinfoviewer.R.id;
 import com.roryhool.videoinfoviewer.R.layout;
-import com.roryhool.videoinfoviewer.views.VideoPlayerView;
+import com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment;
+import org.androidannotations.api.SdkVersionHelper;
 import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
-public final class VideoActivity_
-    extends VideoActivity
+public final class AtomActivity_
+    extends AtomActivity
     implements HasViews, OnViewChangedListener
 {
 
@@ -32,12 +31,11 @@ public final class VideoActivity_
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
         OnViewChangedNotifier.replaceNotifier(previousNotifier);
-        setContentView(layout.activity_video);
+        setContentView(layout.activity_atom);
     }
 
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN, android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
@@ -59,22 +57,33 @@ public final class VideoActivity_
         onViewChangedNotifier_.notifyViewChanged(this);
     }
 
-    public static VideoActivity_.IntentBuilder_ intent(Context context) {
-        return new VideoActivity_.IntentBuilder_(context);
+    public static AtomActivity_.IntentBuilder_ intent(Context context) {
+        return new AtomActivity_.IntentBuilder_(context);
     }
 
-    public static VideoActivity_.IntentBuilder_ intent(android.app.Fragment fragment) {
-        return new VideoActivity_.IntentBuilder_(fragment);
+    public static AtomActivity_.IntentBuilder_ intent(android.app.Fragment fragment) {
+        return new AtomActivity_.IntentBuilder_(fragment);
     }
 
-    public static VideoActivity_.IntentBuilder_ intent(android.support.v4.app.Fragment supportFragment) {
-        return new VideoActivity_.IntentBuilder_(supportFragment);
+    public static AtomActivity_.IntentBuilder_ intent(android.support.v4.app.Fragment supportFragment) {
+        return new AtomActivity_.IntentBuilder_(supportFragment);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (((SdkVersionHelper.getSdkInt()< 5)&&(keyCode == KeyEvent.KEYCODE_BACK))&&(event.getRepeatCount() == 0)) {
+            onBackPressed();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private android.support.v4.app.Fragment findSupportFragmentById(int id) {
+        return getSupportFragmentManager().findFragmentById(id);
     }
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        mButton = ((Button) hasViews.findViewById(id.view_atom_button));
-        mVideoPlayer = ((VideoPlayerView) hasViews.findViewById(id.video_player));
+        mAtomFragment = ((AtomStructureFragment) findSupportFragmentById(com.roryhool.videoinfoviewer.R.id.atom_fragment));
     }
 
     public static class IntentBuilder_ {
@@ -86,26 +95,26 @@ public final class VideoActivity_
 
         public IntentBuilder_(Context context) {
             context_ = context;
-            intent_ = new Intent(context, VideoActivity_.class);
+            intent_ = new Intent(context, AtomActivity_.class);
         }
 
         public IntentBuilder_(android.app.Fragment fragment) {
             fragment_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, VideoActivity_.class);
+            intent_ = new Intent(context_, AtomActivity_.class);
         }
 
         public IntentBuilder_(android.support.v4.app.Fragment fragment) {
             fragmentSupport_ = fragment;
             context_ = fragment.getActivity();
-            intent_ = new Intent(context_, VideoActivity_.class);
+            intent_ = new Intent(context_, AtomActivity_.class);
         }
 
         public Intent get() {
             return intent_;
         }
 
-        public VideoActivity_.IntentBuilder_ flags(int flags) {
+        public AtomActivity_.IntentBuilder_ flags(int flags) {
             intent_.setFlags(flags);
             return this;
         }

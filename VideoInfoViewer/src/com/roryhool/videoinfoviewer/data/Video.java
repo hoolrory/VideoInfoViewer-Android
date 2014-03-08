@@ -2,15 +2,12 @@ package com.roryhool.videoinfoviewer.data;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.util.Log;
 
-import com.coremedia.iso.IsoFile;
-import com.coremedia.iso.boxes.Box;
 import com.google.gson.annotations.SerializedName;
 
 public class Video implements Comparable<Video> {
@@ -94,41 +91,6 @@ public class Video implements Comparable<Video> {
          bitmap.compress( Bitmap.CompressFormat.PNG, 90, out );
          out.close();
       } catch ( Exception e ) {
-         e.printStackTrace();
-      }
-
-      /*
-      retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_MIMETYPE );
-      retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH );
-      retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT );
-      */
-
-      IsoFile isoFile = null;
-      try {
-         isoFile = new IsoFile( filePath );
-      } catch ( IOException e ) {
-         e.printStackTrace();
-      }
-
-      if ( isoFile != null ) {
-         // MovieHeaderBox movieBox = isoFile.getMovieBox().getMovieHeaderBox();
-         // double lengthInSeconds = (double) movieBox.getDuration() / movieBox.getTimescale();
-         // addKeyValueField( R.id.video_properties_layout, R.string.key_duration, Double.toString( ( lengthInSeconds ) ) );
-         Log.d( "This", "Logging boxes" );
-         for ( Box box : isoFile.getBoxes() ) {
-            Log.d( "This", String.format( "Box - %s with class %s", box.getType(), box.getClass().toString() ) );
-
-         }
-         for ( Box box : isoFile.getMovieBox().getBoxes() ) {
-            Log.d( "This", String.format( "Movie Box - %s with class %s", box.getType(), box.getClass().toString() ) );
-
-         }
-      }
-
-      try {
-         isoFile.close();
-      } catch ( IOException e ) {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
 
