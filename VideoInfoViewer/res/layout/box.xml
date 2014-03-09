@@ -22,24 +22,52 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginLeft="4dip"
-               android:layout_marginRight="4dip"
+            android:layout_marginRight="4dip"
 	        android:src="@drawable/ic_expand"
 	        android:layout_alignParentLeft="true"
-               android:layout_centerVertical="true"
+            android:layout_centerVertical="true"
 	        android:clickable="false" />
 	    
 	    <com.roryhool.videoinfoviewer.views.RobotoTextView
 	        android:id="@+id/box_type"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        style="@style/CardTitle_T1"
+	        style="@style/CardTitle_T3"
 	        android:paddingLeft="0dp"
 	        android:paddingBottom="0dp"
+	        android:paddingTop="4dp"
 	        android:layout_toRightOf="@+id/box_icon"
-               android:layout_centerVertical="true"
 	        android:clickable="false" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:id="@+id/box_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardTitle_T4"
+            android:paddingLeft="0dp"
+            android:paddingBottom="0dp"
+            android:layout_toRightOf="@+id/box_icon"
+            android:layout_below="@+id/box_type"
+            android:clickable="false" />
     
     </RelativeLayout>
+    
+    <ImageButton
+	    android:id="@+id/box_info_button"
+	    android:layout_width="48dip"
+	    android:layout_height="48dip"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignParentTop="true"
+	    android:background="@drawable/info_button_selector"
+	    android:src="@drawable/ic_menu_info_details" />
+    
+    <View 
+        android:layout_width="2px"
+        android:layout_height="match_parent"
+        android:background="@color/grey_lighter"
+        android:layout_toLeftOf="@+id/box_info_button"
+        android:layout_above="@+id/child_boxes"
+        android:clickable="false" />
     
     <View 
         android:layout_width="match_parent"

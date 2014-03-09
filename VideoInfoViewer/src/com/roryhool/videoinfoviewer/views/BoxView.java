@@ -16,6 +16,7 @@ import android.widget.ToggleButton;
 import com.coremedia.iso.boxes.Box;
 import com.googlecode.mp4parser.AbstractContainerBox;
 import com.roryhool.videoinfoviewer.R;
+import com.roryhool.videoinfoviewer.utils.AtomHelper;
 
 public class BoxView extends FrameLayout {
 
@@ -24,13 +25,16 @@ public class BoxView extends FrameLayout {
 
       if ( box instanceof AbstractContainerBox ) {
          Log.d( "this", "box is instance of AbstractContainerBox" );
+
          AbstractContainerBox containerBox = (AbstractContainerBox) box;
          for ( Box childBox : containerBox.getBoxes() ) {
             Log.d( "this", "adding child " + childBox.getType() );
             BoxView childView = BoxView.CreateBoxViewAndChildren( context, childBox );
-            childView.setVisibility( View.GONE );
+            // childView.setVisibility( View.GONE );
             boxView.addChildBoxView( childView );
          }
+      } else {
+         boxView.hideExpandButton();
       }
       return boxView;
    }
@@ -40,6 +44,8 @@ public class BoxView extends FrameLayout {
    RelativeLayout mBoxLayout;
 
    TextView mTypeView;
+
+   TextView mDescriptionView;
 
    ToggleButton mExpandButton;
 
@@ -53,6 +59,7 @@ public class BoxView extends FrameLayout {
       addView( View.inflate( context, R.layout.box, null ) );
 
       mTypeView = (TextView) findViewById( R.id.box_type );
+      mDescriptionView = (TextView) findViewById( R.id.box_description );
       mExpandButton = (ToggleButton) findViewById( R.id.box_expand_button );
       mBoxIcon = (ImageView) findViewById( R.id.box_icon );
       mChildBoxes = (LinearLayout) findViewById( R.id.child_boxes );
@@ -64,10 +71,16 @@ public class BoxView extends FrameLayout {
    private void loadBox( Box box ) {
       mBox = box;
       mTypeView.setText( box.getType() );
+      mDescriptionView.setText( AtomHelper.GetNameForType( box.getType() ) );
    }
-
+   
    private void addChildBoxView( BoxView childView ) {
       mChildBoxes.addView( childView );
+   }
+
+   private void hideExpandButton() {
+      mExpandButton.setClickable( false );
+      mBoxIcon.setVisibility( View.INVISIBLE );
    }
    
    private OnCheckedChangeListener mExpandClickListener = new OnCheckedChangeListener() {
