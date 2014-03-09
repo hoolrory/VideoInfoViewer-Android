@@ -21,7 +21,8 @@ import com.roryhool.videoinfoviewer.utils.AtomHelper;
 public class BoxView extends FrameLayout {
 
    public static BoxView CreateBoxViewAndChildren( Context context, Box box ) {
-      BoxView boxView = new BoxView( context, box );
+      BoxView boxView = new BoxView( context );
+      boxView.loadBox( box );
 
       if ( box instanceof AbstractContainerBox ) {
          Log.d( "this", "box is instance of AbstractContainerBox" );
@@ -53,7 +54,7 @@ public class BoxView extends FrameLayout {
 
    LinearLayout mChildBoxes;
 
-   public BoxView( Context context, Box box ) {
+   public BoxView( Context context ) {
       super( context );
 
       addView( View.inflate( context, R.layout.box, null ) );
@@ -65,10 +66,9 @@ public class BoxView extends FrameLayout {
       mChildBoxes = (LinearLayout) findViewById( R.id.child_boxes );
 
       mExpandButton.setOnCheckedChangeListener( mExpandClickListener );
-      loadBox( box );
    }
 
-   private void loadBox( Box box ) {
+   public void loadBox( Box box ) {
       mBox = box;
       mTypeView.setText( box.getType() );
       mDescriptionView.setText( AtomHelper.GetNameForType( box.getType() ) );
