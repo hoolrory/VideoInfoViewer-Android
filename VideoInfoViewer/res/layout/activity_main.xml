@@ -4,25 +4,32 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="#F0F0F0" >
-        
-    <LinearLayout
-        android:id="@+id/video_properties_card"
-        style="@style/CardLinearLayout">
-        
-        <com.roryhool.videoinfoviewer.views.RobotoTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/recent_videos"
-            style="@style/CardTitle_T1" />
-	        
-	    <ListView
-	        android:id="@+id/recentVideosList"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-            android:layout_weight="1"
-	        android:divider="@null" />
     
-    </LinearLayout>
+    <FrameLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_above="@+id/adFrame" >
+	    
+	    <LinearLayout
+	        android:id="@+id/video_properties_card"
+	        style="@style/CardLinearLayout">
+	        
+	        <com.roryhool.videoinfoviewer.views.RobotoTextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/recent_videos"
+	            style="@style/CardTitle_T1" />
+		        
+		    <ListView
+		        android:id="@+id/recentVideosList"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+	            android:layout_weight="1"
+		        android:divider="@null" />
+	    
+	    </LinearLayout>
+    
+    </FrameLayout>
     
     <FrameLayout
 	    android:id="@+id/adFrame"
