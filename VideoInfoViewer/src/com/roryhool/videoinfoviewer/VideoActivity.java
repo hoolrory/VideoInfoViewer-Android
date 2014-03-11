@@ -51,10 +51,17 @@ public class VideoActivity extends Activity {
 
    Video mVideo;
 
+   boolean mLoaded = false;
+
    @Override
    public void onStart() {
       super.onStart();
-      
+
+      if ( mLoaded ) {
+         return;
+      }
+      mLoaded = true;
+
       Bundle extras = getIntent().getExtras();
 
       Video video = null;
