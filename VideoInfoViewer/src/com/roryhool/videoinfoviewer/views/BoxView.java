@@ -7,6 +7,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,9 +21,14 @@ import com.roryhool.videoinfoviewer.utils.AtomHelper;
 
 public class BoxView extends FrameLayout {
 
-   public static BoxView CreateBoxViewAndChildren( Context context, Box box ) {
+   public interface BoxViewOnClickListener {
+      public void onClickInfo( Box box );
+   }
+
+   public static BoxView CreateBoxViewAndChildren( Context context, BoxViewOnClickListener listener, Box box ) {
       BoxView boxView = new BoxView( context );
       boxView.loadBox( box );
+      boxView.setBoxViewOnClickListener( listener );
 
       if ( box instanceof AbstractContainerBox ) {
          Log.d( "this", "box is instance of AbstractContainerBox" );
@@ -30,7 +36,7 @@ public class BoxView extends FrameLayout {
          AbstractContainerBox containerBox = (AbstractContainerBox) box;
          for ( Box childBox : containerBox.getBoxes() ) {
             Log.d( "this", "adding child " + childBox.getType() );
-            BoxView childView = BoxView.CreateBoxViewAndChildren( context, childBox );
+            BoxView childView = BoxView.CreateBoxViewAndChildren( context, listener, childBox );
             // childView.setVisibility( View.GONE );
             boxView.addChildBoxView( childView );
          }
@@ -54,6 +60,10 @@ public class BoxView extends FrameLayout {
 
    LinearLayout mChildBoxes;
 
+   BoxViewOnClickListener mListener;
+
+   ImageButton mInfoButton;
+
    public BoxView( Context context ) {
       super( context );
 
@@ -64,8 +74,10 @@ public class BoxView extends FrameLayout {
       mExpandButton = (ToggleButton) findViewById( R.id.box_expand_button );
       mBoxIcon = (ImageView) findViewById( R.id.box_icon );
       mChildBoxes = (LinearLayout) findViewById( R.id.child_boxes );
+      mInfoButton = (ImageButton) findViewById( R.id.box_info_button );
 
       mExpandButton.setOnCheckedChangeListener( mExpandClickListener );
+      mInfoButton.setOnClickListener( mInfoButtonClickListener );
    }
 
    public void loadBox( Box box ) {
@@ -73,7 +85,11 @@ public class BoxView extends FrameLayout {
       mTypeView.setText( box.getType() );
       mDescriptionView.setText( AtomHelper.GetNameForType( box.getType() ) );
    }
-   
+
+   private void setBoxViewOnClickListener( BoxViewOnClickListener listener ) {
+      mListener = listener;
+   }
+
    private void addChildBoxView( BoxView childView ) {
       mChildBoxes.addView( childView );
    }
@@ -102,7 +118,16 @@ public class BoxView extends FrameLayout {
             childView.setVisibility( visibility );
          }
       }
-      
+   };
+
+   OnClickListener mInfoButtonClickListener = new OnClickListener() {
+
+      @Override
+      public void onClick( View view ) {
+         if ( mListener != null ) {
+            mListener.onClickInfo( mBox );
+         }
+      }
    };
 
 }

@@ -1,14 +1,57 @@
 package com.roryhool.videoinfoviewer.utils;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+
+import android.util.Log;
+
+import com.coremedia.iso.boxes.Box;
 
 public class AtomHelper {
 
    public static HashMap<String, String> sTypeToNameMap = new HashMap<String, String>();
 
+   public static HashMap<String, String> GetBoxProperties( Box box ) {
+      HashMap<String, String> properties = new HashMap<String, String>();
+      
+      Log.d( "this", "Printing box type " + box.getType() );
+      for (Field field : box.getClass().getDeclaredFields()) {
+         //field.setAccessible(true); // if you want to modify private fields
+         
+         Log.d( "this", String.format( "------ Printing name %s, type %s", field.getName(), field.getType().getSimpleName() ) );
+         /*System.out.println(field.getName()
+                  + " - " + field.getType()
+                  + " - " + field.get(obj));*/
+     }
+
+      return properties;
+   }
    public static String GetNameForType( String type ) {
       return sTypeToNameMap.get( type );
    }
+
+   private static final Collection<String> skipList = Arrays.asList(
+           "class",
+           "boxes",
+           "deadBytes",
+           "type",
+           "userType",
+           "size",
+           "displayName",
+           "contentSize",
+           "header",
+           "version",
+           "flags",
+           "isoFile",
+           "parent",
+           "data",
+           "omaDrmData",
+           "content",
+           "tracks",
+           "sampleSizeAtIndex",
+           "numOfBytesToFirstChild");
 
    static {
       sTypeToNameMap.put( "©cmt", "iTunes Comment" );

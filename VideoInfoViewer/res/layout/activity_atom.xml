@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     tools:context=".AtomActivity"
     android:background="#F0F0F0" >
-        
-    <fragment 
-        android:name="com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment"
-        android:id="@+id/atom_fragment"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent" />
+    
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    </FrameLayout>
     
 </RelativeLayout>

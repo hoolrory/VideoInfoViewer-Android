@@ -12,15 +12,13 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import com.roryhool.videoinfoviewer.R.layout;
-import com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment;
 import org.androidannotations.api.SdkVersionHelper;
 import org.androidannotations.api.view.HasViews;
-import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
 public final class AtomActivity_
     extends AtomActivity
-    implements HasViews, OnViewChangedListener
+    implements HasViews
 {
 
     private final OnViewChangedNotifier onViewChangedNotifier_ = new OnViewChangedNotifier();
@@ -35,7 +33,6 @@ public final class AtomActivity_
     }
 
     private void init_(Bundle savedInstanceState) {
-        OnViewChangedNotifier.registerOnViewChangedListener(this);
         getWindow().setFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN, android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
@@ -75,15 +72,6 @@ public final class AtomActivity_
             onBackPressed();
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    private android.support.v4.app.Fragment findSupportFragmentById(int id) {
-        return getSupportFragmentManager().findFragmentById(id);
-    }
-
-    @Override
-    public void onViewChanged(HasViews hasViews) {
-        mAtomFragment = ((AtomStructureFragment) findSupportFragmentById(com.roryhool.videoinfoviewer.R.id.atom_fragment));
     }
 
     public static class IntentBuilder_ {

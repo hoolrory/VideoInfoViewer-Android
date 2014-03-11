@@ -25,8 +25,15 @@ import com.coremedia.iso.boxes.mdat.MediaDataBox;
 import com.roryhool.videoinfoviewer.R;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.views.BoxView;
+import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 
 public class AtomStructureFragment extends Fragment {
+
+   BoxViewOnClickListener mBoxViewOnClickListener;
+
+   Video mVideo;
+
+   boolean mLoaded;
 
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
@@ -34,8 +41,18 @@ public class AtomStructureFragment extends Fragment {
       return inflater.inflate( R.layout.fragment_atom_structure, container, false );
    }
 
-   public void LoadVideo( Video video ) {
-      new RetrieveAtomStructureTask().execute( video );
+   @Override
+   public void onStart() {
+      super.onStart();
+
+      if ( !mLoaded ) {
+         mLoaded = true;
+         new RetrieveAtomStructureTask().execute( mVideo );
+      }
+   }
+
+   public void setVideo( Video video ) {
+      mVideo = video;
    }
 
    public class RetrieveAtomStructureTask extends AsyncTask<Video, Void, List<BoxView>> {
@@ -63,6 +80,10 @@ public class AtomStructureFragment extends Fragment {
       }
    }
 
+   public void setBoxViewOnClickListener( BoxViewOnClickListener listener ) {
+      mBoxViewOnClickListener = listener;
+   }
+
    private List<BoxView> LoadBoxStructure( Video video ) {
       
       List<BoxView> views = new ArrayList<BoxView>();
@@ -81,7 +102,7 @@ public class AtomStructureFragment extends Fragment {
       Log.d( "This", "Logging boxes" );
       for ( Box box : isoFile.getBoxes() ) {
 
-         BoxView view = BoxView.CreateBoxViewAndChildren( getActivity(), box );
+         BoxView view = BoxView.CreateBoxViewAndChildren( getActivity(), mBoxViewOnClickListener, box );
 
          views.add( view );
 
