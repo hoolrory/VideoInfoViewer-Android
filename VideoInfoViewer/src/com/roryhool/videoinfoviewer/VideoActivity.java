@@ -21,8 +21,12 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
@@ -44,6 +48,11 @@ public class VideoActivity extends Activity {
    
    @ViewById( R.id.view_atom_button )
    Button mButton;
+
+   @ViewById( R.id.adFrame )
+   FrameLayout mAdFrame;
+
+   AdView mAdView;
 
    Uri mVideoUri;
 
@@ -100,6 +109,8 @@ public class VideoActivity extends Activity {
          }
 
       } );
+
+      setupAds();
    }
 
    @Override
@@ -119,6 +130,32 @@ public class VideoActivity extends Activity {
    @Override
    public void onConfigurationChanged( Configuration newConfig ) {
       super.onConfigurationChanged( newConfig );
+   }
+
+   private void setupAds() {
+
+      String admobAdUnitId = getString( R.string.video_activity_admob_ad_unit_id );
+
+      if ( admobAdUnitId != null && !admobAdUnitId.equals( ( "" ) ) ) {
+         mAdView = new AdView( this );
+         mAdView.setAdSize( AdSize.BANNER );
+         mAdView.setAdUnitId( admobAdUnitId );
+
+         mAdFrame.addView( mAdView );
+
+         String[] testDeviceIds = getResources().getStringArray( R.array.admob_test_device_ids );
+
+         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+         adRequestBuilder.addTestDevice( AdRequest.DEVICE_ID_EMULATOR );
+
+         for ( int i = 0; i < testDeviceIds.length; i++ ) {
+            adRequestBuilder.addTestDevice( testDeviceIds[i] );
+         }
+
+         AdRequest adRequest = adRequestBuilder.build();
+         mAdView.loadAd( adRequest );
+      }
+
    }
 
    private void addKeyValueField( int linearLayoutId, int keyStringId, String value ) {

@@ -94,8 +94,6 @@ public class MainActivity extends Activity {
          AdRequest adRequest = adRequestBuilder.build();
          mAdView.loadAd( adRequest );
       }
-
-      
    }
 
    private void launchVideoChooser() {

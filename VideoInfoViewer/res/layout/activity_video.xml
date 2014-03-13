@@ -1,62 +1,76 @@
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     
-	<RelativeLayout
+	<ScrollView
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    tools:context=".MainActivity"
-	    android:background="#F0F0F0" >
+	    android:layout_height="match_parent"
+	    android:layout_above="@+id/adFrame">    
 	    
-	    <com.roryhool.videoinfoviewer.views.VideoPlayerView
-	        android:id="@+id/video_player"
-	        android:layout_width="match_parent"
-	        android:layout_height="180dp" />
-	    
-	    <LinearLayout
-	        android:id="@+id/video_properties_card"
-	        style="@style/CardLinearLayout"
-	        android:layout_below="@+id/video_player">
-	        
-	        <com.roryhool.videoinfoviewer.views.RobotoTextView
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="@string/video_properties"
-	            style="@style/CardTitle_T2" />
-	        
-	        <LinearLayout
-	            android:id="@+id/video_properties_layout"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:orientation="horizontal">
+		<RelativeLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    tools:context=".MainActivity"
+		    android:background="#F0F0F0" >
+		    
+		    <com.roryhool.videoinfoviewer.views.VideoPlayerView
+		        android:id="@+id/video_player"
+		        android:layout_width="match_parent"
+		        android:layout_height="180dp" />
+		    
+		    <LinearLayout
+		        android:id="@+id/video_properties_card"
+		        style="@style/CardLinearLayout"
+		        android:layout_below="@+id/video_player">
 		        
-	            <LinearLayout
-		            android:id="@+id/video_properties_key_layout"
+		        <com.roryhool.videoinfoviewer.views.RobotoTextView
 		            android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:orientation="vertical"
-	                android:layout_gravity="right"
-	                android:paddingRight="8dp"
-	                android:paddingLeft="8dp" />
-	            
-	            <LinearLayout
-	                android:id="@+id/video_properties_value_layout"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:orientation="vertical" />
-	        
-	        </LinearLayout>
-	        
-	    </LinearLayout>
-	    
-	    <Button
-	        android:id="@+id/view_atom_button"
-	        android:layout_width="match_parent"
-	        android:layout_height="48dip"
-	        android:layout_below="@+id/video_properties_card"
-	        android:text="View Atom Structure" />
-	
-	</RelativeLayout>
-</ScrollView>
+		            android:layout_height="wrap_content"
+		            android:text="@string/video_properties"
+		            style="@style/CardTitle_T2" />
+		        
+		        <LinearLayout
+		            android:id="@+id/video_properties_layout"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:orientation="horizontal">
+			        
+		            <LinearLayout
+			            android:id="@+id/video_properties_key_layout"
+			            android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:orientation="vertical"
+		                android:layout_gravity="right"
+		                android:paddingRight="8dp"
+		                android:paddingLeft="8dp" />
+		            
+		            <LinearLayout
+		                android:id="@+id/video_properties_value_layout"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:orientation="vertical" />
+		        
+		        </LinearLayout>
+		        
+		    </LinearLayout>
+		    
+		    <Button
+		        android:id="@+id/view_atom_button"
+		        android:layout_width="match_parent"
+		        android:layout_height="48dip"
+		        android:layout_below="@+id/video_properties_card"
+		        android:text="View Atom Structure" />
+		
+		</RelativeLayout>
+		
+	</ScrollView>
+
+    <FrameLayout
+        android:id="@+id/adFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+    
+</RelativeLayout>
