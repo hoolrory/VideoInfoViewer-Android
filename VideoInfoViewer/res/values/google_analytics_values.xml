@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- NOTE: Git ignores any changes to this file -->
+    
+    <!-- If this value is not filled in, analytics events will not be logged. -->
+    
+    <string name="ga_tracking_id"></string>
+    
+</resources>
