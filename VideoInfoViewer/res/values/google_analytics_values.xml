@@ -5,6 +5,12 @@
     
     <!-- If this value is not filled in, analytics events will not be logged. -->
     
-    <string name="ga_tracking_id"></string>
+    <string name="ga_trackingId"></string>
+
+	<!--Enable automatic activity tracking-->
+	<bool name="ga_autoActivityTracking">true</bool>
+	
+	<!--Enable automatic exception tracking-->
+	<bool name="ga_reportUncaughtExceptions">true</bool>
     
 </resources>
