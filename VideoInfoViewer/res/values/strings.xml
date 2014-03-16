@@ -27,4 +27,10 @@
     <string name="play_description">Play and pause button</string>
     <string name="fullscreen_description">Fullscreen button</string>
     
+    <string name="view_atom_structure">View Atom Structure</string>
+    
+    <string name="expand_box_icon_description">Expand Box Description</string>
+    
+    <string name="box_info_button_description">View Detailed Box Information</string>
+    
 </resources>

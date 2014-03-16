@@ -61,7 +61,7 @@
 		        android:layout_width="match_parent"
 		        android:layout_height="48dip"
 		        android:layout_below="@+id/video_properties_card"
-		        android:text="View Atom Structure" />
+		        android:text="@string/view_atom_structure" />
 		
 		</RelativeLayout>
 		
