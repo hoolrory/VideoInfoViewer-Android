@@ -35,7 +35,7 @@ public class BoxView extends FrameLayout {
 
          AbstractContainerBox containerBox = (AbstractContainerBox) box;
          for ( Box childBox : containerBox.getBoxes() ) {
-            Log.d( "this", "adding child " + childBox.getType() );
+            Log.d( "this", "adding child " + childBox.getType() + " - " + childBox.getClass().getName() );
             BoxView childView = BoxView.CreateBoxViewAndChildren( context, listener, childBox );
             // childView.setVisibility( View.GONE );
             boxView.addChildBoxView( childView );

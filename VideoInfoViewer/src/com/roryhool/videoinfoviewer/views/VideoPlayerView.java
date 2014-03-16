@@ -25,7 +25,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.roryhool.videoinfoviewer.R;
-import com.roryhool.videoinfoviewer.ResizeAnimation;
+import com.roryhool.videoinfoviewer.animation.ResizeAnimation;
 
 public class VideoPlayerView extends FrameLayout implements SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener {
 
