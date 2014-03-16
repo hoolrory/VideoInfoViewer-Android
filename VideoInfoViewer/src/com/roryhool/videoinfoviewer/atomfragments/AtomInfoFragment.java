@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 
 import com.coremedia.iso.boxes.Box;
 import com.roryhool.videoinfoviewer.R;
-import com.roryhool.videoinfoviewer.utils.AtomHelper;
 import com.roryhool.videoinfoviewer.views.BoxInfoView;
 
 public class AtomInfoFragment extends Fragment {
@@ -62,8 +61,6 @@ public class AtomInfoFragment extends Fragment {
    }
 
    private BoxInfoView LoadBoxInfo( Box box ) {
-      
-      AtomHelper.GetBoxProperties( box );
 
       BoxInfoView view = new BoxInfoView( getActivity() );
 
