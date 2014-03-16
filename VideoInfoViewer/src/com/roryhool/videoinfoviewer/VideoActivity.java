@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -111,6 +112,8 @@ public class VideoActivity extends Activity {
       } );
 
       setupAds();
+
+      EasyTracker.getInstance( this ).activityStart( this );
    }
 
    @Override
@@ -118,6 +121,13 @@ public class VideoActivity extends Activity {
       super.onPause();
 
       mVideoPlayer.pause();
+   }
+
+   @Override
+   public void onStop() {
+      super.onStart();
+
+      EasyTracker.getInstance( this ).activityStop( this );
    }
 
    @Override

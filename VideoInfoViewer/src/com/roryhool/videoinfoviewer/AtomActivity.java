@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.coremedia.iso.boxes.Box;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.gson.Gson;
 import com.roryhool.videoinfoviewer.atomfragments.AtomInfoFragment;
 import com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment;
@@ -65,6 +66,20 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
          transaction.replace( R.id.fragment_container, mAtomInfoFragment );
          transaction.commit();
       }
+   }
+
+   @Override
+   public void onStart() {
+      super.onStart();
+
+      EasyTracker.getInstance( this ).activityStart( this );
+   }
+
+   @Override
+   public void onStop() {
+      super.onStop();
+
+      EasyTracker.getInstance( this ).activityStop( this );
    }
 
    @Override

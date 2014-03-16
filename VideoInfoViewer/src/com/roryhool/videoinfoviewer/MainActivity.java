@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -52,6 +53,15 @@ public class MainActivity extends Activity {
       mRecentVideosList.setOnItemClickListener( new OnVideoItemClickListener() );
 
       setupAds();
+
+      EasyTracker.getInstance( this ).activityStart( this );
+   }
+
+   @Override
+   public void onStop() {
+      super.onStop();
+
+      EasyTracker.getInstance( this ).activityStop( this );
    }
 
    @Override
