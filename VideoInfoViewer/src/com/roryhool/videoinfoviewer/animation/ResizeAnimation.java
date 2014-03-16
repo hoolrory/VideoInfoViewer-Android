@@ -1,4 +1,4 @@
-package com.roryhool.videoinfoviewer;
+package com.roryhool.videoinfoviewer.animation;
 
 import android.view.View;
 import android.view.animation.Animation;
