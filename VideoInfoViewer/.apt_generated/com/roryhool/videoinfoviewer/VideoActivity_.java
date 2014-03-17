@@ -75,8 +75,8 @@ public final class VideoActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         mAdFrame = ((FrameLayout) hasViews.findViewById(id.adFrame));
-        mVideoPlayer = ((VideoPlayerView) hasViews.findViewById(id.video_player));
         mButton = ((Button) hasViews.findViewById(id.view_atom_button));
+        mVideoPlayer = ((VideoPlayerView) hasViews.findViewById(id.video_player));
     }
 
     public static class IntentBuilder_ {
