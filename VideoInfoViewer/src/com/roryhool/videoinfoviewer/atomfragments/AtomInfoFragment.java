@@ -63,6 +63,7 @@ public class AtomInfoFragment extends Fragment {
    private BoxInfoView LoadBoxInfo( Box box ) {
 
       BoxInfoView view = new BoxInfoView( getActivity() );
+      view.LoadBox( box );
 
       return view;
    }
