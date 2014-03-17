@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crittercism.app.Crittercism;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -48,6 +49,13 @@ public class MainActivity extends Activity {
    @Override
    public void onStart() {
       super.onStart();
+
+      String crittercismAppId = getString( R.string.crittercism_app_id );
+
+      if ( crittercismAppId != null && !crittercismAppId.isEmpty() ) {
+         Crittercism.initialize( getApplicationContext(), crittercismAppId );
+      }
+
       mAdapter = new RecentVideosAdapter( this, R.layout.recent_video_layout, RecentVideosManager.Instance( this ).getRecentVideos() );
       mRecentVideosList.setAdapter( mAdapter );
       mRecentVideosList.setOnItemClickListener( new OnVideoItemClickListener() );
