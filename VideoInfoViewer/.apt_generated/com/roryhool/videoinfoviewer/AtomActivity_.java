@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import com.roryhool.videoinfoviewer.R.layout;
 import org.androidannotations.api.SdkVersionHelper;
 import org.androidannotations.api.view.HasViews;
@@ -33,7 +34,6 @@ public final class AtomActivity_
     }
 
     private void init_(Bundle savedInstanceState) {
-        getWindow().setFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN, android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
@@ -43,7 +43,7 @@ public final class AtomActivity_
     }
 
     @Override
-    public void setContentView(View view, android.view.ViewGroup.LayoutParams params) {
+    public void setContentView(View view, LayoutParams params) {
         super.setContentView(view, params);
         onViewChangedNotifier_.notifyViewChanged(this);
     }

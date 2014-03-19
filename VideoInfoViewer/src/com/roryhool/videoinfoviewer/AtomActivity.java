@@ -1,7 +1,6 @@
 package com.roryhool.videoinfoviewer;
 
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Fullscreen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.IsoFileCache;
 import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 
-@Fullscreen
 @EActivity( R.layout.activity_atom )
 public class AtomActivity extends FragmentActivity implements BoxViewOnClickListener {
 

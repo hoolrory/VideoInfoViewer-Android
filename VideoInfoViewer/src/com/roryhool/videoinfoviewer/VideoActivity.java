@@ -3,7 +3,6 @@ package com.roryhool.videoinfoviewer;
 import java.io.File;
 
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
@@ -37,7 +36,6 @@ import com.roryhool.videoinfoviewer.views.RobotoTextView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView;
 
 @SuppressWarnings( "deprecation" )
-@Fullscreen
 @EActivity( R.layout.activity_video )
 @NoTitle
 public class VideoActivity extends Activity {

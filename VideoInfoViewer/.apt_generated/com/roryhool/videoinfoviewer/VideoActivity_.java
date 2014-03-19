@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -39,7 +40,6 @@ public final class VideoActivity_
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN, android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
@@ -49,7 +49,7 @@ public final class VideoActivity_
     }
 
     @Override
-    public void setContentView(View view, android.view.ViewGroup.LayoutParams params) {
+    public void setContentView(View view, LayoutParams params) {
         super.setContentView(view, params);
         onViewChangedNotifier_.notifyViewChanged(this);
     }
@@ -75,8 +75,8 @@ public final class VideoActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         mVideoPlayer = ((VideoPlayerView) hasViews.findViewById(id.video_player));
-        mButton = ((Button) hasViews.findViewById(id.view_atom_button));
         mAdFrame = ((FrameLayout) hasViews.findViewById(id.adFrame));
+        mButton = ((Button) hasViews.findViewById(id.view_atom_button));
     }
 
     public static class IntentBuilder_ {
