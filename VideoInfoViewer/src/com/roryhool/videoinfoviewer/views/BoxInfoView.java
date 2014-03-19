@@ -2,6 +2,8 @@ package com.roryhool.videoinfoviewer.views;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -493,6 +495,10 @@ public class BoxInfoView extends FrameLayout {
             result += getDisplayForObject( array[i] );
          }
          return result;
+      } else if ( object instanceof Date ) {
+
+         Date date = (Date) object;
+         return new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss", Locale.US ).format( date );
       }
 
 
