@@ -11,7 +11,9 @@ import android.content.Context;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -200,12 +202,13 @@ public class BoxInfoView extends FrameLayout {
       addTextView( "Modification Time:", box.getModificationTime() );
       addTextView( "Poster Time:", box.getPosterTime() );
       addTextView( "Current Time:", box.getCurrentTime() );
-      addTextView( "Matrix:", box.getMatrix() );
       addTextView( "Preview Duration:", box.getPreviewDuration() );
       addTextView( "Preview Time:", box.getPreviewTime() );
       addTextView( "Selection Duration:", box.getSelectionDuration() );
       addTextView( "Selection Time:", box.getSelectionTime() );
       addTextView( "Next Track Id:", box.getNextTrackId() );
+
+      addMatrixView( "Matrix:", box.getMatrix() );
    }
 
    public void LoadBox( TrackBox box ) {
@@ -216,14 +219,14 @@ public class BoxInfoView extends FrameLayout {
       addTextView( "Creation Time:", box.getCreationTime() );
       addTextView( "Duration:", box.getDuration() );
       addTextView( "Layer:", box.getLayer() );
-      addTextView( "Matrix:", box.getMatrix() );
       addTextView( "Modification Time:", box.getModificationTime() );
       addTextView( "Track ID:", box.getTrackId() );
       addTextView( "Volume:", box.getVolume() );
       addTextView( "Width:", box.getWidth() );
       addTextView( "Height:", box.getHeight() );
       addTextView( "Alternate Group:", box.getAlternateGroup() );
-      addTextView( "Matrix:", box.getMatrix() );
+
+      addMatrixView( "Matrix:", box.getMatrix() );
    }
 
    public void LoadBox( MediaBox box ) {
@@ -423,6 +426,47 @@ public class BoxInfoView extends FrameLayout {
 
       mBaseLayout.addView( layout );
 
+   }
+
+   private void addMatrixView( String key, Matrix matrix ) {
+
+      ByteBuffer bb = ByteBuffer.allocate( Double.SIZE * 9 );
+      matrix.getContent( bb );
+      bb.rewind();
+
+      double a = IsoTypeReader.readFixedPoint1616( bb );
+      double b = IsoTypeReader.readFixedPoint1616( bb );
+      double u = IsoTypeReader.readFixedPoint0230( bb );
+      double c = IsoTypeReader.readFixedPoint1616( bb );
+      double d = IsoTypeReader.readFixedPoint1616( bb );
+      double v = IsoTypeReader.readFixedPoint0230( bb );
+      double tx = IsoTypeReader.readFixedPoint1616( bb );
+      double ty = IsoTypeReader.readFixedPoint1616( bb );
+      double w = IsoTypeReader.readFixedPoint0230( bb );
+
+      Double[] matrixArray = new Double[9];
+      matrixArray[0] = a;
+      matrixArray[1] = b;
+      matrixArray[2] = u;
+      matrixArray[3] = c;
+      matrixArray[4] = d;
+      matrixArray[5] = v;
+      matrixArray[6] = tx;
+      matrixArray[7] = ty;
+      matrixArray[8] = w;
+
+      RelativeLayout layout = (RelativeLayout) View.inflate( getContext(), R.layout.matrix_layout, null );
+
+      TextView textView = (TextView) layout.findViewById( R.id.matrix_title );
+      textView.setText( "Matrix:" );
+      
+      GridView gridView = (GridView) layout.findViewById( R.id.matrix_grid );
+
+      ArrayAdapter<Double> adapter = new ArrayAdapter<Double>( getContext(), R.layout.matrix_item_layout, matrixArray );
+
+      gridView.setAdapter( adapter );
+
+      mBaseLayout.addView( layout );
    }
 
    private void addFieldView( Box box, Field field ) throws IllegalAccessException, IllegalArgumentException, InstantiationException {

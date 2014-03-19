@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true" />"
+    
+    <com.roryhool.videoinfoviewer.views.RobotoTextView
+	    android:id="@+id/matrix_title"
+	    style="@style/CardKey"
+	    android:layout_height="17sp"
+	    android:layout_marginRight="2dp"
+	    android:layout_toLeftOf="@+id/divider" />
+    
+    <GridView
+        android:id="@+id/matrix_grid"
+	    android:layout_width="150dp"
+	    android:layout_height="42sp"
+	    android:numColumns="3"
+	    android:layout_below="@+id/matrix_title"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
