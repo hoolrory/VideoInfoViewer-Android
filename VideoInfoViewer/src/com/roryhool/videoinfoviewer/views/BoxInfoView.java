@@ -282,9 +282,9 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( SampleDescriptionBox box ) {
+      addTextView( "Version:", box.getVersion() );
       addTextView( "Flags:", box.getFlags() );
       addTextView( "Size:", box.getSize() );
-      addTextView( "Version:", box.getVersion() );
    }
 
    public void LoadBox( VisualSampleEntry box ) {
@@ -387,9 +387,9 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( MetaBox box ) {
+      addTextView( "Version:", box.getVersion() );
       addTextView( "Flags:", box.getFlags() );
       addTextView( "Size:", box.getSize() );
-      addTextView( "Version:", box.getVersion() );
    }
 
    public void LoadBox( AppleItemListBox box ) {
