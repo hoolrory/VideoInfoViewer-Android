@@ -19,9 +19,13 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
@@ -34,6 +38,7 @@ import com.roryhool.videoinfoviewer.utils.FormatUtils;
 import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
 import com.roryhool.videoinfoviewer.views.RobotoTextView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView;
+import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 
 @SuppressWarnings( "deprecation" )
 @EActivity( R.layout.activity_video )
@@ -41,6 +46,12 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView;
 public class VideoActivity extends Activity {
    
    public static final String EXTRA_VIDEO_JSON = "EXTRA_VIDEO_JSON";
+
+   @ViewById( R.id.root_layout )
+   RelativeLayout mRootLayout;
+
+   @ViewById( R.id.scroll_view )
+   ScrollView mScrollView;
 
    @ViewById( R.id.video_player )
    VideoPlayerView mVideoPlayer;
@@ -94,6 +105,8 @@ public class VideoActivity extends Activity {
       }
 
       mVideoPlayer.setVideoUri( mVideoUri );
+      mVideoPlayer.addFullscreenListener( mOnFullscreenListener );
+      mVideoPlayer.setFullscreenFillView( mRootLayout );
 
       mButton.setOnClickListener( new OnClickListener() {
 
@@ -138,6 +151,8 @@ public class VideoActivity extends Activity {
    @Override
    public void onConfigurationChanged( Configuration newConfig ) {
       super.onConfigurationChanged( newConfig );
+
+      mVideoPlayer.handleResize();
    }
 
    private void setupAds() {
@@ -272,6 +287,41 @@ public class VideoActivity extends Activity {
       String dateString = FormatUtils.FormatZuluDateTimeForDisplay( video.Date );
       addKeyValueField( R.id.video_properties_layout, R.string.key_date, dateString );
    }
+
+   OnFullscreenListener mOnFullscreenListener = new OnFullscreenListener() {
+
+      @Override
+      public void onFullscreenChanged( boolean fullscreen ) {
+
+         if ( fullscreen ) {
+            // TODO: need to make this smooth
+            // getWindow().addFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
+            // getWindow().clearFlags( WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN );
+            // TranslateAnimation animate = new TranslateAnimation( 0, 0, 0, view.getHeight() );
+
+            TranslateAnimation animate = new TranslateAnimation( 0, 0, 0, mAdFrame.getHeight() );
+            animate.setDuration( 500 );
+            animate.setFillAfter( true );
+            mAdFrame.startAnimation( animate );
+            mAdFrame.setVisibility( View.GONE );
+            mAdView.setEnabled( false );
+            mAdView.setVisibility( View.INVISIBLE );
+            // TODO: need to subclass this to disable scrolling
+            mScrollView.scrollTo( 0, 0 );
+         } else {
+            getWindow().addFlags( WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN );
+            getWindow().clearFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
+            TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
+            animate.setDuration( 500 );
+            animate.setFillAfter( true );
+            mAdFrame.startAnimation( animate );
+            mAdFrame.setVisibility( View.GONE );
+            mAdFrame.setEnabled( true );
+            mAdView.setVisibility( View.VISIBLE );
+         }
+      }
+
+   };
 
    public class RetrieveVideoDetailsTask extends AsyncTask<Uri, Void, Video> {
 

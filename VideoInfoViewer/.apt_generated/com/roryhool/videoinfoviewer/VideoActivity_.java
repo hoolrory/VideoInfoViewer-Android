@@ -14,6 +14,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import com.roryhool.videoinfoviewer.R.id;
 import com.roryhool.videoinfoviewer.R.layout;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView;
@@ -74,9 +76,11 @@ public final class VideoActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        mVideoPlayer = ((VideoPlayerView) hasViews.findViewById(id.video_player));
         mAdFrame = ((FrameLayout) hasViews.findViewById(id.adFrame));
+        mVideoPlayer = ((VideoPlayerView) hasViews.findViewById(id.video_player));
         mButton = ((Button) hasViews.findViewById(id.view_atom_button));
+        mScrollView = ((ScrollView) hasViews.findViewById(id.scroll_view));
+        mRootLayout = ((RelativeLayout) hasViews.findViewById(id.root_layout));
     }
 
     public static class IntentBuilder_ {

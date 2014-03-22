@@ -1,8 +1,12 @@
 package com.roryhool.videoinfoviewer.views;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -13,9 +17,12 @@ import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView.SurfaceTextureListener;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
@@ -28,6 +35,10 @@ import com.roryhool.videoinfoviewer.R;
 import com.roryhool.videoinfoviewer.animation.ResizeAnimation;
 
 public class VideoPlayerView extends FrameLayout implements SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener {
+
+   public interface OnFullscreenListener {
+      public void onFullscreenChanged( boolean fullscreen );
+   }
 
    ScaledTextureView mVideoTextureView;
 
@@ -44,6 +55,12 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    Uri mVideoUri;
 
    boolean mControlsShowing = true;
+
+   boolean mFullscreen = false;
+
+   List<OnFullscreenListener> mFullscreenListeners = new ArrayList<OnFullscreenListener>();
+
+   View mFullscreenFillView;
 
    public VideoPlayerView( Context context ) {
       super( context );
@@ -84,6 +101,14 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       mVideoUri = videoUri;
    }
    
+   public void addFullscreenListener( OnFullscreenListener listener ) {
+      mFullscreenListeners.add( listener );
+   }
+
+   public void setFullscreenFillView( View view ) {
+      mFullscreenFillView = view;
+   }
+
    OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
 
       boolean mResumePlaying = false;
@@ -159,15 +184,74 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
          int currentHeight = getHeight();
          int targetHeight = getContext().getResources().getDimensionPixelSize( R.dimen.video_player_size );
 
-         if ( currentHeight == targetHeight ) {
-            View parentView = (View) getParent();
-            targetHeight = parentView.getHeight();
+         mFullscreen = currentHeight == targetHeight;
+         fullscreenChanged( mFullscreen );
+
+         if ( mFullscreen ) {
+
+            WindowManager wm = (WindowManager) getContext().getSystemService( Context.WINDOW_SERVICE );
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize( size );
+            int width = size.x;
+            int height = size.y;
+
+            View fullscreenTargetView = mFullscreenFillView;
+
+            if ( fullscreenTargetView == null ) {
+               fullscreenTargetView = (View) getParent();
+            }
+            targetHeight = height;
          }
          animation = new ResizeAnimation( VideoPlayerView.this, currentHeight, targetHeight, true );
          animation.setDuration( 200 );
          startAnimation( animation );
       }
    };
+
+   private void fullscreenChanged( boolean fullscreen ) {
+      for ( OnFullscreenListener listener : mFullscreenListeners ) {
+         if ( listener != null ) {
+            listener.onFullscreenChanged( fullscreen );
+         }
+      }
+   }
+
+   public void handleResize() {
+
+      Log.d( "this", "XAJM - handleResize" );
+      int currentHeight = getHeight();
+      int targetHeight = getContext().getResources().getDimensionPixelSize( R.dimen.video_player_size );
+
+      if ( mFullscreen ) {
+
+         View fullscreenTargetView = mFullscreenFillView;
+
+         if ( fullscreenTargetView == null ) {
+            fullscreenTargetView = (View) getParent();
+         }
+         // targetHeight = fullscreenTargetView.getHeight();
+
+         WindowManager wm = (WindowManager) getContext().getSystemService( Context.WINDOW_SERVICE );
+         Display display = wm.getDefaultDisplay();
+         Point size = new Point();
+         display.getSize( size );
+         int width = size.x;
+         int height = size.y;
+
+         targetHeight = height;
+
+         Log.d( "this", String.format( Locale.US, "XAJM - handleResize fullscreen, going from %d to %d", currentHeight, targetHeight ) );
+         ResizeAnimation animation = new ResizeAnimation( VideoPlayerView.this, currentHeight, targetHeight, true );
+         animation.setDuration( 200 );
+         startAnimation( animation );
+      } else {
+         Log.d( "this", "XAJM - handleResize not fullscreen" );
+         ResizeAnimation animation = new ResizeAnimation( VideoPlayerView.this, currentHeight, targetHeight, true );
+         animation.setDuration( 200 );
+         startAnimation( animation );
+      }
+   }
 
    public void play() {
       if ( mMediaPlayer != null ) {
