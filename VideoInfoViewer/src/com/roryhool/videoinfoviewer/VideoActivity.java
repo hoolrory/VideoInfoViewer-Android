@@ -304,8 +304,10 @@ public class VideoActivity extends Activity {
             animate.setFillAfter( true );
             mAdFrame.startAnimation( animate );
             mAdFrame.setVisibility( View.GONE );
-            mAdView.setEnabled( false );
-            mAdView.setVisibility( View.INVISIBLE );
+            if ( mAdView != null ) {
+            	mAdView.setEnabled( false );
+            	mAdView.setVisibility( View.INVISIBLE );
+            }
             // TODO: need to subclass this to disable scrolling
             mScrollView.scrollTo( 0, 0 );
          } else {
@@ -317,7 +319,9 @@ public class VideoActivity extends Activity {
             mAdFrame.startAnimation( animate );
             mAdFrame.setVisibility( View.GONE );
             mAdFrame.setEnabled( true );
-            mAdView.setVisibility( View.VISIBLE );
+            if ( mAdView != null ) {
+            	mAdView.setVisibility( View.VISIBLE );
+            }
          }
       }
 
