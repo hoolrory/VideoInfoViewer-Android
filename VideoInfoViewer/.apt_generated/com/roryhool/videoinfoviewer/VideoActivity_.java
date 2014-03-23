@@ -77,10 +77,10 @@ public final class VideoActivity_
     @Override
     public void onViewChanged(HasViews hasViews) {
         mAdFrame = ((FrameLayout) hasViews.findViewById(id.adFrame));
-        mVideoPlayer = ((VideoPlayerView) hasViews.findViewById(id.video_player));
         mButton = ((Button) hasViews.findViewById(id.view_atom_button));
-        mScrollView = ((ScrollView) hasViews.findViewById(id.scroll_view));
+        mVideoPlayer = ((VideoPlayerView) hasViews.findViewById(id.video_player));
         mRootLayout = ((RelativeLayout) hasViews.findViewById(id.root_layout));
+        mScrollView = ((ScrollView) hasViews.findViewById(id.scroll_view));
     }
 
     public static class IntentBuilder_ {
