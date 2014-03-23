@@ -2,10 +2,6 @@ package com.roryhool.videoinfoviewer;
 
 import java.io.File;
 
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.NoTitle;
-import org.androidannotations.annotations.ViewById;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -19,6 +15,7 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -40,26 +37,18 @@ import com.roryhool.videoinfoviewer.views.RobotoTextView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 
-@SuppressWarnings( "deprecation" )
-@EActivity( R.layout.activity_video )
-@NoTitle
 public class VideoActivity extends Activity {
    
    public static final String EXTRA_VIDEO_JSON = "EXTRA_VIDEO_JSON";
 
-   @ViewById( R.id.root_layout )
    RelativeLayout mRootLayout;
 
-   @ViewById( R.id.scroll_view )
    ScrollView mScrollView;
 
-   @ViewById( R.id.video_player )
    VideoPlayerView mVideoPlayer;
    
-   @ViewById( R.id.view_atom_button )
    Button mButton;
 
-   @ViewById( R.id.adFrame )
    FrameLayout mAdFrame;
 
    AdView mAdView;
@@ -71,6 +60,19 @@ public class VideoActivity extends Activity {
    Video mVideo;
 
    boolean mLoaded = false;
+   
+   @Override
+   public void onCreate( Bundle savedInstanceState ) {
+	   super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+       setContentView(R.layout.activity_video);
+       
+       mRootLayout = (RelativeLayout) findViewById(R.id.root_layout);
+       mScrollView = (ScrollView) findViewById(R.id.scroll_view);
+       mVideoPlayer = (VideoPlayerView) findViewById(R.id.video_player);
+       mButton = (Button) findViewById(R.id.view_atom_button);
+       mAdFrame = (FrameLayout) findViewById(R.id.adFrame);
+   }
 
    @Override
    public void onStart() {

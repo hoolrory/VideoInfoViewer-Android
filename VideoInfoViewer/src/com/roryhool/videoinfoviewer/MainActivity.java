@@ -126,7 +126,7 @@ public class MainActivity extends Activity {
    @Override
    public void onActivityResult( int requestCode, int resultCode, Intent data ) {
       if ( requestCode == SELECT_VIDEO_CODE && data != null ) {
-         Intent intent = new Intent( this, VideoActivity_.class );
+         Intent intent = new Intent( this, VideoActivity.class );
          intent.setData( data.getData() );
          startActivity(intent);
       }
@@ -167,7 +167,7 @@ public class MainActivity extends Activity {
       @Override
       public void onItemClick( AdapterView<?> parent, View view, int position, long id ) {
          Video video = mAdapter.getItem( position );
-         Intent intent = new Intent( MainActivity.this, VideoActivity_.class );
+         Intent intent = new Intent( MainActivity.this, VideoActivity.class );
 
          Gson gson = new Gson();
          intent.putExtra( VideoActivity.EXTRA_VIDEO_JSON, gson.toJson( video ) );
