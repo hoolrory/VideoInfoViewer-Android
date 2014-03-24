@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
@@ -33,6 +32,7 @@ import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
 import com.roryhool.videoinfoviewer.utils.FormatUtils;
 import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
+import com.roryhool.videoinfoviewer.views.DisableableScrollView;
 import com.roryhool.videoinfoviewer.views.RobotoTextView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
@@ -43,7 +43,7 @@ public class VideoActivity extends Activity {
 
    RelativeLayout mRootLayout;
 
-   ScrollView mScrollView;
+   DisableableScrollView mScrollView;
 
    VideoPlayerView mVideoPlayer;
    
@@ -63,15 +63,16 @@ public class VideoActivity extends Activity {
    
    @Override
    public void onCreate( Bundle savedInstanceState ) {
-	   super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-       setContentView(R.layout.activity_video);
+      super.onCreate( savedInstanceState );
+      requestWindowFeature( Window.FEATURE_NO_TITLE );
+      setContentView( R.layout.activity_video );
        
-       mRootLayout = (RelativeLayout) findViewById(R.id.root_layout);
-       mScrollView = (ScrollView) findViewById(R.id.scroll_view);
-       mVideoPlayer = (VideoPlayerView) findViewById(R.id.video_player);
-       mButton = (Button) findViewById(R.id.view_atom_button);
-       mAdFrame = (FrameLayout) findViewById(R.id.adFrame);
+      mRootLayout = (RelativeLayout) findViewById( R.id.root_layout );
+
+      mScrollView = (DisableableScrollView) findViewById( R.id.scroll_view );
+      mVideoPlayer = (VideoPlayerView) findViewById( R.id.video_player );
+      mButton = (Button) findViewById( R.id.view_atom_button );
+      mAdFrame = (FrameLayout) findViewById( R.id.adFrame );
    }
 
    @Override
@@ -312,6 +313,7 @@ public class VideoActivity extends Activity {
             }
             // TODO: need to subclass this to disable scrolling
             mScrollView.scrollTo( 0, 0 );
+            mScrollView.setEnabled( false );
          } else {
             getWindow().addFlags( WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN );
             getWindow().clearFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
@@ -324,6 +326,7 @@ public class VideoActivity extends Activity {
             if ( mAdView != null ) {
             	mAdView.setVisibility( View.VISIBLE );
             }
+            mScrollView.setEnabled( true );
          }
       }
 

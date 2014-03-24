@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     
-	<ScrollView
+	<com.roryhool.videoinfoviewer.views.DisableableScrollView
 	    android:id="@+id/scroll_view"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
@@ -67,12 +67,12 @@
 		
 		</RelativeLayout>
 		
-	</ScrollView>
+	</com.roryhool.videoinfoviewer.views.DisableableScrollView>
 
-    <FrameLayout
-        android:id="@+id/adFrame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+	<FrameLayout
+		android:id="@+id/adFrame"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true" />
     
 </RelativeLayout>
