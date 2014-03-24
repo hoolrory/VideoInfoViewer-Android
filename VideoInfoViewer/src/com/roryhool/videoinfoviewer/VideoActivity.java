@@ -64,6 +64,8 @@ public class VideoActivity extends Activity {
    @Override
    public void onCreate( Bundle savedInstanceState ) {
       super.onCreate( savedInstanceState );
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); 
       requestWindowFeature( Window.FEATURE_NO_TITLE );
       setContentView( R.layout.activity_video );
        
@@ -297,10 +299,7 @@ public class VideoActivity extends Activity {
       public void onFullscreenChanged( boolean fullscreen ) {
 
          if ( fullscreen ) {
-            // TODO: need to make this smooth
-            // getWindow().addFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
-            // getWindow().clearFlags( WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN );
-            // TranslateAnimation animate = new TranslateAnimation( 0, 0, 0, view.getHeight() );
+            getWindow().addFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
 
             TranslateAnimation animate = new TranslateAnimation( 0, 0, 0, mAdFrame.getHeight() );
             animate.setDuration( 500 );
@@ -311,11 +310,10 @@ public class VideoActivity extends Activity {
             	mAdView.setEnabled( false );
             	mAdView.setVisibility( View.INVISIBLE );
             }
-            // TODO: need to subclass this to disable scrolling
+
             mScrollView.scrollTo( 0, 0 );
             mScrollView.setEnabled( false );
          } else {
-            getWindow().addFlags( WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN );
             getWindow().clearFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
             TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
             animate.setDuration( 500 );
@@ -326,6 +324,7 @@ public class VideoActivity extends Activity {
             if ( mAdView != null ) {
             	mAdView.setVisibility( View.VISIBLE );
             }
+
             mScrollView.setEnabled( true );
          }
       }
