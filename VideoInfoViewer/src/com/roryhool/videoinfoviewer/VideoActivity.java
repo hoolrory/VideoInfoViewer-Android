@@ -32,6 +32,7 @@ import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
 import com.roryhool.videoinfoviewer.utils.FormatUtils;
 import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
+import com.roryhool.videoinfoviewer.utils.ViewUtils;
 import com.roryhool.videoinfoviewer.views.DisableableScrollView;
 import com.roryhool.videoinfoviewer.views.RobotoTextView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView;
@@ -300,6 +301,7 @@ public class VideoActivity extends Activity {
 
          if ( fullscreen ) {
             getWindow().addFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
+            mVideoPlayer.setPadding( 0, 0, 0, 0 );
 
             TranslateAnimation animate = new TranslateAnimation( 0, 0, 0, mAdFrame.getHeight() );
             animate.setDuration( 500 );
@@ -315,6 +317,8 @@ public class VideoActivity extends Activity {
             mScrollView.setEnabled( false );
          } else {
             getWindow().clearFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
+            mVideoPlayer.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
+
             TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
             animate.setDuration( 500 );
             animate.setFillAfter( true );
