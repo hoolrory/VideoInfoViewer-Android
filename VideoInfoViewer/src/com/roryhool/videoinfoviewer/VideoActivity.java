@@ -15,8 +15,6 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -62,14 +60,14 @@ public class VideoActivity extends Activity {
 
    boolean mLoaded = false;
    
+   int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
    @Override
    public void onCreate( Bundle savedInstanceState ) {
       super.onCreate( savedInstanceState );
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-      getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); 
-      requestWindowFeature( Window.FEATURE_NO_TITLE );
+
       setContentView( R.layout.activity_video );
-       
+      getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
       mRootLayout = (RelativeLayout) findViewById( R.id.root_layout );
 
       mScrollView = (DisableableScrollView) findViewById( R.id.scroll_view );
@@ -300,36 +298,44 @@ public class VideoActivity extends Activity {
       public void onFullscreenChanged( boolean fullscreen ) {
 
          if ( fullscreen ) {
-            getWindow().addFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
+            getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility | View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_FULLSCREEN );
+
             mVideoPlayer.setPadding( 0, 0, 0, 0 );
 
             TranslateAnimation animate = new TranslateAnimation( 0, 0, 0, mAdFrame.getHeight() );
             animate.setDuration( 500 );
             animate.setFillAfter( true );
+
             mAdFrame.startAnimation( animate );
             mAdFrame.setVisibility( View.GONE );
             if ( mAdView != null ) {
             	mAdView.setEnabled( false );
-            	mAdView.setVisibility( View.INVISIBLE );
+               mAdView.setVisibility( View.INVISIBLE );
             }
 
             mScrollView.scrollTo( 0, 0 );
             mScrollView.setEnabled( false );
+
+            getActionBar().hide();
          } else {
-            getWindow().clearFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN );
-            mVideoPlayer.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
+            getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
+
+            mVideoPlayer.setPadding( 0, ViewUtils.GetActionBarHeight( VideoActivity.this ), 0, 0 );
 
             TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
             animate.setDuration( 500 );
             animate.setFillAfter( true );
+
             mAdFrame.startAnimation( animate );
-            mAdFrame.setVisibility( View.GONE );
+            mAdFrame.setVisibility( View.VISIBLE );
             mAdFrame.setEnabled( true );
             if ( mAdView != null ) {
             	mAdView.setVisibility( View.VISIBLE );
             }
 
             mScrollView.setEnabled( true );
+
+            getActionBar().show();
          }
       }
 

@@ -34,7 +34,8 @@
         <activity
 		   android:name="com.roryhool.videoinfoviewer.VideoActivity"
 		   android:label="@string/view_video_info"
-		   android:configChanges="orientation|screenSize">
+		   android:configChanges="orientation|screenSize"
+		   android:theme="@style/ActionBarOverlayTheme">
 		
 		      <intent-filter>
 				<action android:name="android.intent.action.VIEW" />
