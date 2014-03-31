@@ -168,7 +168,7 @@ public class MainActivity extends Activity {
          Video video = mAdapter.getItem( position );
          Intent intent = new Intent( MainActivity.this, VideoActivity.class );
 
-         intent.putExtra( VideoActivity.EXTRA_VIDEO_CACHE_ID, video.CacheId );
+         intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, video.CacheId );
          startActivity( intent );
       }
       

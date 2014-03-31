@@ -44,10 +44,6 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 
 public class VideoActivity extends Activity {
-   
-   public static final String EXTRA_VIDEO_JSON = "EXTRA_VIDEO_JSON";
-
-   public static final String EXTRA_VIDEO_CACHE_ID = "EXTRA_VIDEO_CACHE_ID";
 
    SearchView mSearchView;
 
@@ -107,8 +103,8 @@ public class VideoActivity extends Activity {
       Video video = null;
 
       if ( extras != null ) {
-         if ( extras.containsKey( EXTRA_VIDEO_CACHE_ID ) ) {
-            int cacheId = extras.getInt( EXTRA_VIDEO_CACHE_ID );
+         if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
+            int cacheId = extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID );
             video = RecentVideosManager.Instance( this ).getRecentVideoById( cacheId );
          }
       }
@@ -135,7 +131,7 @@ public class VideoActivity extends Activity {
 
             Intent intent = new Intent( VideoActivity.this, AtomActivity_.class );
 
-            intent.putExtra( VideoActivity.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
+            intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
             startActivity( intent );
          }
 

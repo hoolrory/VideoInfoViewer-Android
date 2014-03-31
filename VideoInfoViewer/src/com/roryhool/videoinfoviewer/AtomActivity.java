@@ -19,11 +19,6 @@ import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 @EActivity( R.layout.activity_atom )
 public class AtomActivity extends FragmentActivity implements BoxViewOnClickListener {
 
-   public static final String EXTRA_VIDEO_JSON = "EXTRA_VIDEO_JSON";
-   public static final String EXTRA_VIDEO_CACHE_ID = "EXTRA_VIDEO_CACHE_ID";
-
-   public static final String EXTRA_BOX_ID = "EXTRA_BOX_ID";
-
    // @FragmentById( R.id.atom_fragment )
    AtomStructureFragment mAtomStructureFragment;
 
@@ -43,9 +38,9 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
          return;
       }
 
-      if ( extras.containsKey( EXTRA_VIDEO_CACHE_ID ) ) {
+      if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
 
-         mVideo = RecentVideosManager.Instance( this ).getRecentVideoById( extras.getInt( EXTRA_VIDEO_CACHE_ID ) );
+         mVideo = RecentVideosManager.Instance( this ).getRecentVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
 
          mAtomStructureFragment = new AtomStructureFragment();
          mAtomStructureFragment.setBoxViewOnClickListener( this );
@@ -54,8 +49,8 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
          FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
          transaction.replace( R.id.fragment_container, mAtomStructureFragment );
          transaction.commit();
-      } else if ( extras.containsKey( EXTRA_BOX_ID ) ) {
-         int boxId = extras.getInt( EXTRA_BOX_ID );
+      } else if ( extras.containsKey( Extras.EXTRA_BOX_ID ) ) {
+         int boxId = extras.getInt( Extras.EXTRA_BOX_ID );
          mBox = IsoFileCache.Instance().getBox( boxId );
 
          mAtomInfoFragment = new AtomInfoFragment();
@@ -85,7 +80,7 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
    public void onClickInfo( Box box ) {
       Intent intent = new Intent( this, AtomActivity_.class );
 
-      intent.putExtra( AtomActivity.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( box ) );
+      intent.putExtra( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( box ) );
       startActivity( intent );
    }
 
