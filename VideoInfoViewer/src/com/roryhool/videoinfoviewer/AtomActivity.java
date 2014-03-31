@@ -1,7 +1,5 @@
 package com.roryhool.videoinfoviewer;
 
-import org.androidannotations.annotations.EActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -16,10 +14,8 @@ import com.roryhool.videoinfoviewer.utils.IsoFileCache;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
 import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 
-@EActivity( R.layout.activity_atom )
 public class AtomActivity extends FragmentActivity implements BoxViewOnClickListener {
 
-   // @FragmentById( R.id.atom_fragment )
    AtomStructureFragment mAtomStructureFragment;
 
    AtomInfoFragment mAtomInfoFragment;
@@ -31,6 +27,8 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
    @Override
    public void onCreate( Bundle bundle ) {
       super.onCreate( bundle );
+
+      setContentView( R.layout.activity_atom );
 
       Bundle extras = getIntent().getExtras();
 
@@ -78,7 +76,7 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
 
    @Override
    public void onClickInfo( Box box ) {
-      Intent intent = new Intent( this, AtomActivity_.class );
+      Intent intent = new Intent( this, AtomActivity.class );
 
       intent.putExtra( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( box ) );
       startActivity( intent );

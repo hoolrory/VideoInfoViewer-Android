@@ -129,7 +129,7 @@ public class VideoActivity extends Activity {
          @Override
          public void onClick( View view ) {
 
-            Intent intent = new Intent( VideoActivity.this, AtomActivity_.class );
+            Intent intent = new Intent( VideoActivity.this, AtomActivity.class );
 
             intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
             startActivity( intent );

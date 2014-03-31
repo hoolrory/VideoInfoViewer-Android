@@ -61,7 +61,7 @@
         </activity>
 		
         <activity
-           android:name="com.roryhool.videoinfoviewer.AtomActivity_"
+           android:name="com.roryhool.videoinfoviewer.AtomActivity"
            android:label="@string/view_video_info"
            android:configChanges="orientation|screenSize"/>
 		   
