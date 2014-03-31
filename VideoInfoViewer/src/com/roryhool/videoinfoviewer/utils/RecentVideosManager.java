@@ -17,6 +17,8 @@ public class RecentVideosManager {
    private String RECENT_VIDEO_PREFS = "RECENT_VIDEO_PREFS";
    private String RECENT_VIDEO_KEY = "RECENT_VIDEO_KEY";
 
+   private int CurrentCacheId = 0;
+
    private int MAX_VIDEOS = 5;
 
    private static RecentVideosManager mInstance = null;
@@ -50,8 +52,22 @@ public class RecentVideosManager {
             break;
          }
       }
+      if ( video.CacheId == -1 ) {
+         video.CacheId = CurrentCacheId;
+         CurrentCacheId += 1;
+      }
       mVideoList.add( 0, video );
       saveVideos();
+   }
+
+   public Video getRecentVideoById( int id ) {
+      for ( Video video : mVideoList ) {
+         if ( video.CacheId == id ) {
+            return video;
+         }
+      }
+
+      return null;
    }
 
    @SuppressWarnings( "unchecked" )
@@ -69,6 +85,11 @@ public class RecentVideosManager {
       Gson gson = new Gson();
       mVideoList = (ArrayList<Video>) gson.fromJson( json, listOfVideoObject );
 
+      for ( Video video : mVideoList ) {
+         video.CacheId = CurrentCacheId;
+         CurrentCacheId += 1;
+      }
+
       Log.d( "Test", "From json " + json + " got list of length " + mVideoList.size() );
    }
 
@@ -77,7 +98,6 @@ public class RecentVideosManager {
       Gson gson = new Gson();
       
       String json = gson.toJson( mVideoList );
-      Log.d( "Test", "Saving videos to " + json );
       SharedPreferences settings = mContext.getSharedPreferences( RECENT_VIDEO_PREFS, Context.MODE_PRIVATE );
       SharedPreferences.Editor editor = settings.edit();
       editor.putString( RECENT_VIDEO_KEY, json );

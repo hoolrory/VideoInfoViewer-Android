@@ -33,7 +33,6 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.gson.Gson;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
 import com.roryhool.videoinfoviewer.utils.FormatUtils;
@@ -47,6 +46,8 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 public class VideoActivity extends Activity {
    
    public static final String EXTRA_VIDEO_JSON = "EXTRA_VIDEO_JSON";
+
+   public static final String EXTRA_VIDEO_CACHE_ID = "EXTRA_VIDEO_CACHE_ID";
 
    SearchView mSearchView;
 
@@ -106,10 +107,9 @@ public class VideoActivity extends Activity {
       Video video = null;
 
       if ( extras != null ) {
-         if ( extras.containsKey( EXTRA_VIDEO_JSON ) ) {
-            String videoJSON = extras.getString( EXTRA_VIDEO_JSON );
-            Gson gson = new Gson();
-            video = gson.fromJson( videoJSON, Video.class );
+         if ( extras.containsKey( EXTRA_VIDEO_CACHE_ID ) ) {
+            int cacheId = extras.getInt( EXTRA_VIDEO_CACHE_ID );
+            video = RecentVideosManager.Instance( this ).getRecentVideoById( cacheId );
          }
       }
 
@@ -135,8 +135,7 @@ public class VideoActivity extends Activity {
 
             Intent intent = new Intent( VideoActivity.this, AtomActivity_.class );
 
-            Gson gson = new Gson();
-            intent.putExtra( VideoActivity.EXTRA_VIDEO_JSON, gson.toJson( mVideo ) );
+            intent.putExtra( VideoActivity.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
             startActivity( intent );
          }
 

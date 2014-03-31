@@ -71,8 +71,8 @@ public final class MainActivity_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        mRecentVideosList = ((ListView) hasViews.findViewById(id.recentVideosList));
         mAdFrame = ((FrameLayout) hasViews.findViewById(id.adFrame));
+        mRecentVideosList = ((ListView) hasViews.findViewById(id.recentVideosList));
     }
 
     public static class IntentBuilder_ {

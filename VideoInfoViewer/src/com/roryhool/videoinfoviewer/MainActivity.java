@@ -26,7 +26,6 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.gson.Gson;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
 
@@ -169,8 +168,7 @@ public class MainActivity extends Activity {
          Video video = mAdapter.getItem( position );
          Intent intent = new Intent( MainActivity.this, VideoActivity.class );
 
-         Gson gson = new Gson();
-         intent.putExtra( VideoActivity.EXTRA_VIDEO_JSON, gson.toJson( video ) );
+         intent.putExtra( VideoActivity.EXTRA_VIDEO_CACHE_ID, video.CacheId );
          startActivity( intent );
       }
       

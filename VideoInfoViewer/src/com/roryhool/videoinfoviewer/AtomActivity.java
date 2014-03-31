@@ -9,17 +9,18 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.coremedia.iso.boxes.Box;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.google.gson.Gson;
 import com.roryhool.videoinfoviewer.atomfragments.AtomInfoFragment;
 import com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.IsoFileCache;
+import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
 import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 
 @EActivity( R.layout.activity_atom )
 public class AtomActivity extends FragmentActivity implements BoxViewOnClickListener {
 
    public static final String EXTRA_VIDEO_JSON = "EXTRA_VIDEO_JSON";
+   public static final String EXTRA_VIDEO_CACHE_ID = "EXTRA_VIDEO_CACHE_ID";
 
    public static final String EXTRA_BOX_ID = "EXTRA_BOX_ID";
 
@@ -42,9 +43,9 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
          return;
       }
 
-      if ( extras.containsKey( EXTRA_VIDEO_JSON ) ) {
-         String videoJSON = extras.getString( EXTRA_VIDEO_JSON );
-         mVideo = new Gson().fromJson( videoJSON, Video.class );
+      if ( extras.containsKey( EXTRA_VIDEO_CACHE_ID ) ) {
+
+         mVideo = RecentVideosManager.Instance( this ).getRecentVideoById( extras.getInt( EXTRA_VIDEO_CACHE_ID ) );
 
          mAtomStructureFragment = new AtomStructureFragment();
          mAtomStructureFragment.setBoxViewOnClickListener( this );

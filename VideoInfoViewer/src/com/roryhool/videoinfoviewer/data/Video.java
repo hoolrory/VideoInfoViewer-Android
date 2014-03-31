@@ -51,6 +51,8 @@ public class Video implements Comparable<Video> {
    @SerializedName( "VideoHeight" )
    public int VideoHeight;
 
+   public int CacheId = -1;
+
    @Override
    public int compareTo( Video video ) {
       Log.d( "this", "Comparing path " + video.FilePath + " to " + FilePath );
