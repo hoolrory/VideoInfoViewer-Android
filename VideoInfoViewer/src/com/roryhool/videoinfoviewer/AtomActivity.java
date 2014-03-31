@@ -40,7 +40,7 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
 
       if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
 
-         mVideo = VideoCache.Instance( this ).getRecentVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
+         mVideo = VideoCache.Instance( this ).getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
 
          mAtomStructureFragment = new AtomStructureFragment();
          mAtomStructureFragment.setBoxViewOnClickListener( this );

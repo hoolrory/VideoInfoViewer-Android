@@ -103,7 +103,7 @@ public class VideoActivity extends Activity {
       if ( extras != null ) {
          if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
             int cacheId = extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID );
-            video = VideoCache.Instance( this ).getRecentVideoById( cacheId );
+            video = VideoCache.Instance( this ).getVideoById( cacheId );
          }
       }
 
@@ -327,7 +327,7 @@ public class VideoActivity extends Activity {
 
       mSearchFragment.setVideo( video );
 
-      VideoCache.Instance( VideoActivity.this ).addRecentVideo( mVideo );
+      VideoCache.Instance( VideoActivity.this ).addVideo( mVideo );
 
       addKeyValueField( R.id.video_properties_layout, R.string.key_file_name, video.FileName );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_file_path, video.FilePath );

@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
          Crittercism.initialize( getApplicationContext(), crittercismAppId );
       }
 
-      mAdapter = new RecentVideosAdapter( this, R.layout.recent_video_layout, VideoCache.Instance( this ).getRecentVideos() );
+      mAdapter = new RecentVideosAdapter( this, R.layout.recent_video_layout, VideoCache.Instance( this ).getVideos() );
       mRecentVideosList.setAdapter( mAdapter );
       mRecentVideosList.setOnItemClickListener( new OnVideoItemClickListener() );
 

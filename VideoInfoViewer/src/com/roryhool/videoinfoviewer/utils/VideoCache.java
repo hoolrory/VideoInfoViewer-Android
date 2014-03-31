@@ -40,12 +40,12 @@ public class VideoCache {
    }
 
    @SuppressWarnings( "unchecked" )
-   public List<Video> getRecentVideos() {
+   public List<Video> getVideos() {
       ArrayList<Video> clone = (ArrayList<Video>) mVideoList.clone();
       return clone.subList( 0, Math.min( MAX_VIDEOS, mVideoList.size() ) );
    }
 
-   public void addRecentVideo( Video video ) {
+   public void addVideo( Video video ) {
       for ( Video existingVideo : mVideoList ) {
          if ( video.compareTo( existingVideo ) == 0 ) {
             mVideoList.remove( existingVideo );
@@ -60,7 +60,7 @@ public class VideoCache {
       saveVideos();
    }
 
-   public Video getRecentVideoById( int id ) {
+   public Video getVideoById( int id ) {
       for ( Video video : mVideoList ) {
          if ( video.CacheId == id ) {
             return video;
