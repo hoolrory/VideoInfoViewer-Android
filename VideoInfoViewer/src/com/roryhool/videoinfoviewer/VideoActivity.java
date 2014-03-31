@@ -380,7 +380,7 @@ public class VideoActivity extends Activity {
          } else {
             getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
 
-            mVideoPlayer.setPadding( 0, ViewUtils.GetActionBarHeight( VideoActivity.this ), 0, 0 );
+            mVideoPlayer.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ) + ViewUtils.GetActionBarHeight( VideoActivity.this ), 0, 0 );
 
             TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
             animate.setDuration( 500 );
