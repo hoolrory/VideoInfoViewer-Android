@@ -3,6 +3,10 @@ package com.roryhool.videoinfoviewer;
 import java.io.File;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -11,8 +15,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
@@ -20,6 +27,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
@@ -39,6 +47,8 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 public class VideoActivity extends Activity {
    
    public static final String EXTRA_VIDEO_JSON = "EXTRA_VIDEO_JSON";
+
+   SearchView mSearchView;
 
    RelativeLayout mRootLayout;
 
@@ -61,6 +71,10 @@ public class VideoActivity extends Activity {
    boolean mLoaded = false;
    
    int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+   
+   SearchFragment mSearchFragment;
+
+   int mFragmentId;
 
    @Override
    public void onCreate( Bundle savedInstanceState ) {
@@ -74,6 +88,8 @@ public class VideoActivity extends Activity {
       mVideoPlayer = (VideoPlayerView) findViewById( R.id.video_player );
       mButton = (Button) findViewById( R.id.view_atom_button );
       mAdFrame = (FrameLayout) findViewById( R.id.adFrame );
+
+      mSearchFragment = new SearchFragment();
    }
 
    @Override
@@ -148,7 +164,59 @@ public class VideoActivity extends Activity {
    @Override
    public boolean onCreateOptionsMenu( Menu menu ) {
       // Inflate the menu; this adds items to the action bar if it is present.
-      getMenuInflater().inflate( R.menu.main, menu );
+      getMenuInflater().inflate( R.menu.video, menu );
+
+      // Associate searchable configuration with the SearchView
+      SearchManager searchManager = (SearchManager) getSystemService( Context.SEARCH_SERVICE );
+
+      MenuItem searchMenuItem = menu.findItem( R.id.search );
+
+      searchMenuItem.setOnActionExpandListener( new OnActionExpandListener() {
+
+         @Override
+         public boolean onMenuItemActionExpand( MenuItem item ) {
+            // TODO Auto-generated method stub
+            return true;
+         }
+
+         @Override
+         public boolean onMenuItemActionCollapse( MenuItem item ) {
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction fragTransaction = manager.beginTransaction();
+            fragTransaction.remove( mSearchFragment );
+            fragTransaction.commit();
+
+            return true;
+         }
+
+      } );
+      mSearchView = (SearchView) searchMenuItem.getActionView();
+      mSearchView.setOnQueryTextListener( mSearchFragment );
+
+      /*
+       * mSearchView.setOnCloseListener( new OnCloseListener() {
+       * 
+       * @Override public boolean onClose() {
+       * 
+       * FragmentManager manager = getFragmentManager(); FragmentTransaction fragTransaction = manager.beginTransaction(); fragTransaction.remove( mSearchFragment ); fragTransaction.commit();
+       * 
+       * Log.d( "this", "KAJM - SearchView onClose" ); return false; }
+       * 
+       * } );
+       */
+
+      mSearchView.setOnSearchClickListener( new View.OnClickListener() {
+
+         @Override
+         public void onClick( View v ) {
+            Log.d( "this", "KAJM - SearchView onClick" );
+            FragmentManager manager = getFragmentManager();
+            FragmentTransaction fragTransaction = manager.beginTransaction();
+            fragTransaction.add( R.id.fragment_frame, mSearchFragment );
+            fragTransaction.commit();
+         }
+      } );
+
       return true;
    }
 
@@ -266,6 +334,8 @@ public class VideoActivity extends Activity {
    private void LoadVideo( Video video ) {
 
       mVideo = video;
+
+      mSearchFragment.setVideo( video );
 
       RecentVideosManager.Instance( VideoActivity.this ).addRecentVideo( mVideo );
 

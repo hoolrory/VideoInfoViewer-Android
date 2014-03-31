@@ -33,4 +33,7 @@
     
     <string name="box_info_button_description">View Detailed Box Information</string>
     
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search for property</string>
+    
 </resources>
