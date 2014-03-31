@@ -85,6 +85,8 @@ public class VideoActivity extends Activity {
       mAdFrame = (FrameLayout) findViewById( R.id.adFrame );
 
       mSearchFragment = new SearchFragment();
+
+      mVideoPlayer.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ) + ViewUtils.GetActionBarHeight( VideoActivity.this ), 0, 0 );
    }
 
    @Override
