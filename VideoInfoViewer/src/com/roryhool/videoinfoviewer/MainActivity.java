@@ -2,13 +2,11 @@ package com.roryhool.videoinfoviewer;
 
 import java.util.List;
 
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,21 +27,29 @@ import com.google.android.gms.ads.AdView;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
 
-@EActivity( R.layout.activity_main )
 public class MainActivity extends Activity {
 
 
    private int SELECT_VIDEO_CODE = 100;
 
-   @ViewById( R.id.recentVideosList )
    ListView mRecentVideosList;
 
-   @ViewById( R.id.adFrame )
    FrameLayout mAdFrame;
 
    RecentVideosAdapter mAdapter;
 
    private AdView mAdView;
+
+   @Override
+   public void onCreate( Bundle savedInstanceState ) {
+      super.onCreate( savedInstanceState );
+
+      setContentView( R.layout.activity_main );
+
+      mRecentVideosList = (ListView) findViewById( R.id.recentVideosList );
+
+      mAdFrame = (FrameLayout) findViewById( R.id.adFrame );
+   }
 
    @Override
    public void onStart() {
