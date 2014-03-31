@@ -5,8 +5,6 @@ import java.io.File;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -36,7 +34,7 @@ import com.google.android.gms.ads.AdView;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
 import com.roryhool.videoinfoviewer.utils.FormatUtils;
-import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
+import com.roryhool.videoinfoviewer.utils.VideoCache;
 import com.roryhool.videoinfoviewer.utils.ViewUtils;
 import com.roryhool.videoinfoviewer.views.DisableableScrollView;
 import com.roryhool.videoinfoviewer.views.RobotoTextView;
@@ -105,7 +103,7 @@ public class VideoActivity extends Activity {
       if ( extras != null ) {
          if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
             int cacheId = extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID );
-            video = RecentVideosManager.Instance( this ).getRecentVideoById( cacheId );
+            video = VideoCache.Instance( this ).getRecentVideoById( cacheId );
          }
       }
 
@@ -158,11 +156,8 @@ public class VideoActivity extends Activity {
 
    @Override
    public boolean onCreateOptionsMenu( Menu menu ) {
-      // Inflate the menu; this adds items to the action bar if it is present.
-      getMenuInflater().inflate( R.menu.video, menu );
 
-      // Associate searchable configuration with the SearchView
-      SearchManager searchManager = (SearchManager) getSystemService( Context.SEARCH_SERVICE );
+      getMenuInflater().inflate( R.menu.video, menu );
 
       MenuItem searchMenuItem = menu.findItem( R.id.search );
 
@@ -332,7 +327,7 @@ public class VideoActivity extends Activity {
 
       mSearchFragment.setVideo( video );
 
-      RecentVideosManager.Instance( VideoActivity.this ).addRecentVideo( mVideo );
+      VideoCache.Instance( VideoActivity.this ).addRecentVideo( mVideo );
 
       addKeyValueField( R.id.video_properties_layout, R.string.key_file_name, video.FileName );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_file_path, video.FilePath );

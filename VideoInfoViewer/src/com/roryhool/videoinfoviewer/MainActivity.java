@@ -27,7 +27,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.roryhool.videoinfoviewer.data.Video;
-import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
+import com.roryhool.videoinfoviewer.utils.VideoCache;
 
 @EActivity( R.layout.activity_main )
 public class MainActivity extends Activity {
@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
          Crittercism.initialize( getApplicationContext(), crittercismAppId );
       }
 
-      mAdapter = new RecentVideosAdapter( this, R.layout.recent_video_layout, RecentVideosManager.Instance( this ).getRecentVideos() );
+      mAdapter = new RecentVideosAdapter( this, R.layout.recent_video_layout, VideoCache.Instance( this ).getRecentVideos() );
       mRecentVideosList.setAdapter( mAdapter );
       mRecentVideosList.setOnItemClickListener( new OnVideoItemClickListener() );
 

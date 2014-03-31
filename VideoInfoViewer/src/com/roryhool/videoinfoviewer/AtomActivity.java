@@ -13,7 +13,7 @@ import com.roryhool.videoinfoviewer.atomfragments.AtomInfoFragment;
 import com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.IsoFileCache;
-import com.roryhool.videoinfoviewer.utils.RecentVideosManager;
+import com.roryhool.videoinfoviewer.utils.VideoCache;
 import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 
 @EActivity( R.layout.activity_atom )
@@ -40,7 +40,7 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
 
       if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
 
-         mVideo = RecentVideosManager.Instance( this ).getRecentVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
+         mVideo = VideoCache.Instance( this ).getRecentVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
 
          mAtomStructureFragment = new AtomStructureFragment();
          mAtomStructureFragment.setBoxViewOnClickListener( this );

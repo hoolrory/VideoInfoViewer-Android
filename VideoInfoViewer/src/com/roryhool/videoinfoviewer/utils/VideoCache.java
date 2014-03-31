@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.roryhool.videoinfoviewer.data.Video;
 
-public class RecentVideosManager {
+public class VideoCache {
 
    private String RECENT_VIDEO_PREFS = "RECENT_VIDEO_PREFS";
    private String RECENT_VIDEO_KEY = "RECENT_VIDEO_KEY";
@@ -21,11 +21,11 @@ public class RecentVideosManager {
 
    private int MAX_VIDEOS = 5;
 
-   private static RecentVideosManager mInstance = null;
+   private static VideoCache mInstance = null;
 
-   public static RecentVideosManager Instance( Context context ) {
+   public static VideoCache Instance( Context context ) {
       if ( mInstance == null ) {
-         mInstance = new RecentVideosManager( context );
+         mInstance = new VideoCache( context );
       }
       return mInstance;
    }
@@ -34,7 +34,7 @@ public class RecentVideosManager {
 
    ArrayList<Video> mVideoList = new ArrayList<Video>();
 
-   public RecentVideosManager( Context context ) {
+   public VideoCache( Context context ) {
       mContext = context;
       initiateArray();
    }
