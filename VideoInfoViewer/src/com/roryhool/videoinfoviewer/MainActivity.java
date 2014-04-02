@@ -3,6 +3,8 @@ package com.roryhool.videoinfoviewer;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -89,6 +91,9 @@ public class MainActivity extends Activity {
       case R.id.action_select_video:
          launchVideoChooser();
          return true;
+      case R.id.action_credits:
+         launchCredits();
+         return true;
       default:
          return super.onOptionsItemSelected( item );
       }
@@ -117,6 +122,14 @@ public class MainActivity extends Activity {
          AdRequest adRequest = adRequestBuilder.build();
          mAdView.loadAd( adRequest );
       }
+   }
+
+   private void launchCredits() {
+      FragmentManager manager = getFragmentManager();
+      FragmentTransaction fragTransaction = manager.beginTransaction();
+      fragTransaction.add( R.id.fragment_frame, new CreditsFragment() );
+      fragTransaction.addToBackStack( "Credits" );
+      fragTransaction.commit();
    }
 
    private void launchVideoChooser() {
