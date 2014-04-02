@@ -42,4 +42,6 @@
     
     <string name="gson_title"> - Gson</string>
     
+    <string name="icon_credit">Icon provided by <a href="http://dribbble.com/sok">Simeon K.</a></string>
+    
 </resources>

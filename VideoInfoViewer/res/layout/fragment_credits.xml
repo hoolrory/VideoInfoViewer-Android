@@ -11,6 +11,19 @@
         android:orientation="vertical">
         
         <com.roryhool.videoinfoviewer.views.RobotoTextView 
+            android:id="@+id/icon_credit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/icon_credit"
+            style="@style/CardTitle_T2" />
+
+       <View
+           android:layout_width="match_parent"
+           android:layout_height="2px"
+           android:layout_margin="10dip"
+           android:background="@color/grey_lighter" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/apache_license_title"

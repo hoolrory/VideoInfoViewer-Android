@@ -21,6 +21,7 @@ import java.io.InputStream;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +46,11 @@ public class CreditsFragment extends Fragment {
          TextView textView = (TextView) view.findViewById( R.id.apache_license );
          textView.setText( str );
       } catch ( IOException e ) {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
+
+      TextView textView = (TextView) view.findViewById( R.id.icon_credit );
+      textView.setMovementMethod( LinkMovementMethod.getInstance() );
 
       return view;
    }
