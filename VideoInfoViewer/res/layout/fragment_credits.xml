@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/icon_credit"
+            android:layout_marginTop="10dip"
             style="@style/CardTitle_T2" />
 
        <View
@@ -30,6 +31,7 @@
             style="@style/CardTitle_T2" />
         
         <com.roryhool.videoinfoviewer.views.RobotoTextView 
+            android:id="@+id/mp4parser_credit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mp4parser_title"
@@ -37,6 +39,7 @@
             style="@style/CardTitle_T2" />
         
         <com.roryhool.videoinfoviewer.views.RobotoTextView 
+            android:id="@+id/gson_credit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/gson_title"

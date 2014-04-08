@@ -49,8 +49,14 @@ public class CreditsFragment extends Fragment {
          e.printStackTrace();
       }
 
-      TextView textView = (TextView) view.findViewById( R.id.icon_credit );
-      textView.setMovementMethod( LinkMovementMethod.getInstance() );
+      TextView iconCreditText = (TextView) view.findViewById( R.id.icon_credit );
+      iconCreditText.setMovementMethod( LinkMovementMethod.getInstance() );
+
+      TextView mp4parserCreditText = (TextView) view.findViewById( R.id.mp4parser_credit );
+      mp4parserCreditText.setMovementMethod( LinkMovementMethod.getInstance() );
+
+      TextView gsonCreditText = (TextView) view.findViewById( R.id.gson_credit );
+      gsonCreditText.setMovementMethod( LinkMovementMethod.getInstance() );
 
       return view;
    }
