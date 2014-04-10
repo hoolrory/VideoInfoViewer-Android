@@ -191,38 +191,38 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( AbstractFullBox box ) {
-      addTextView( "Version:", box.getVersion() );
-      addTextView( "Flag:", box.getFlags() );
+      addViewForValue( "Version:", box.getVersion() );
+      addViewForValue( "Flag:", box.getFlags() );
    }
 
    public void LoadBox( FileTypeBox box ) {
       Log.d( "this", "load FileTypeBox" );
-      addTextView( "Major Brand:", box.getMajorBrand() );
-      addTextView( "Version:", box.getMinorVersion() );
-      addTextView( "Compatible Brands:", box.getCompatibleBrands() );
+      addViewForValue( "Major Brand:", box.getMajorBrand() );
+      addViewForValue( "Version:", box.getMinorVersion() );
+      addViewForValue( "Compatible Brands:", box.getCompatibleBrands() );
    }
 
    public void LoadBox( MovieBox box ) {
 
-      addTextView( "Track Count:", box.getTrackCount() );
-      addTextView( "Track Numbers:", box.getTrackNumbers() );
+      addViewForValue( "Track Count:", box.getTrackCount() );
+      addViewForValue( "Track Numbers:", box.getTrackNumbers() );
    }
 
    public void LoadBox( MovieHeaderBox box ) {
 
-      addTextView( "Timescale:", box.getTimescale() );
-      addTextView( "Duration:", box.getDuration() );
-      addTextView( "Rate:", box.getRate() );
-      addTextView( "Volume:", box.getVolume() );
-      addTextView( "Creation Time:", box.getCreationTime() );
-      addTextView( "Modification Time:", box.getModificationTime() );
-      addTextView( "Poster Time:", box.getPosterTime() );
-      addTextView( "Current Time:", box.getCurrentTime() );
-      addTextView( "Preview Duration:", box.getPreviewDuration() );
-      addTextView( "Preview Time:", box.getPreviewTime() );
-      addTextView( "Selection Duration:", box.getSelectionDuration() );
-      addTextView( "Selection Time:", box.getSelectionTime() );
-      addTextView( "Next Track Id:", box.getNextTrackId() );
+      addViewForValue( "Timescale:", box.getTimescale() );
+      addViewForValue( "Duration:", box.getDuration() );
+      addViewForValue( "Rate:", box.getRate() );
+      addViewForValue( "Volume:", box.getVolume() );
+      addViewForValue( "Creation Time:", box.getCreationTime() );
+      addViewForValue( "Modification Time:", box.getModificationTime() );
+      addViewForValue( "Poster Time:", box.getPosterTime() );
+      addViewForValue( "Current Time:", box.getCurrentTime() );
+      addViewForValue( "Preview Duration:", box.getPreviewDuration() );
+      addViewForValue( "Preview Time:", box.getPreviewTime() );
+      addViewForValue( "Selection Duration:", box.getSelectionDuration() );
+      addViewForValue( "Selection Time:", box.getSelectionTime() );
+      addViewForValue( "Next Track Id:", box.getNextTrackId() );
 
       addMatrixView( "Matrix:", box.getMatrix() );
    }
@@ -232,15 +232,15 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( TrackHeaderBox box ) {
-      addTextView( "Creation Time:", box.getCreationTime() );
-      addTextView( "Duration:", box.getDuration() );
-      addTextView( "Layer:", box.getLayer() );
-      addTextView( "Modification Time:", box.getModificationTime() );
-      addTextView( "Track ID:", box.getTrackId() );
-      addTextView( "Volume:", box.getVolume() );
-      addTextView( "Width:", box.getWidth() );
-      addTextView( "Height:", box.getHeight() );
-      addTextView( "Alternate Group:", box.getAlternateGroup() );
+      addViewForValue( "Creation Time:", box.getCreationTime() );
+      addViewForValue( "Duration:", box.getDuration() );
+      addViewForValue( "Layer:", box.getLayer() );
+      addViewForValue( "Modification Time:", box.getModificationTime() );
+      addViewForValue( "Track ID:", box.getTrackId() );
+      addViewForValue( "Volume:", box.getVolume() );
+      addViewForValue( "Width:", box.getWidth() );
+      addViewForValue( "Height:", box.getHeight() );
+      addViewForValue( "Alternate Group:", box.getAlternateGroup() );
 
       addMatrixView( "Matrix:", box.getMatrix() );
    }
@@ -249,27 +249,27 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( MediaHeaderBox box ) {
-      addTextView( "Creation Time:", box.getCreationTime() );
-      addTextView( "Duration:", box.getDuration() );
-      addTextView( "Language:", box.getLanguage() );
-      addTextView( "Modification Time:", box.getModificationTime() );
-      addTextView( "Timescale:", box.getTimescale() );
+      addViewForValue( "Creation Time:", box.getCreationTime() );
+      addViewForValue( "Duration:", box.getDuration() );
+      addViewForValue( "Language:", box.getLanguage() );
+      addViewForValue( "Modification Time:", box.getModificationTime() );
+      addViewForValue( "Timescale:", box.getTimescale() );
    }
 
    public void LoadBox( EditListBox box ) {
-      addTextView( "Entry Count", box.getEntries().size() );
+      addViewForValue( "Entry Count:", box.getEntries().size() );
 
       for ( EditListBox.Entry entry : box.getEntries() ) {
-         addTextView( "Segment Duration:", entry.getSegmentDuration() );
-         addTextView( "Media Time:", entry.getMediaTime() );
-         addTextView( "Media Rate:", entry.getMediaRate() );
+         addViewForValue( "Segment Duration:", entry.getSegmentDuration() );
+         addViewForValue( "Media Time:", entry.getMediaTime() );
+         addViewForValue( "Media Rate:", entry.getMediaRate() );
       }
    }
 
    public void LoadBox( HandlerBox box ) {
-      addTextView( "Handler Type:", box.getHandlerType() );
-      addTextView( "Human Readable Track Type:", box.getHumanReadableTrackType() );
-      addTextView( "Name:", box.getName() );
+      addViewForValue( "Handler Type:", box.getHandlerType() );
+      addViewForValue( "Human Readable Track Type:", box.getHumanReadableTrackType() );
+      addViewForValue( "Name:", box.getName() );
    }
 
    public void LoadBox( MediaInformationBox box ) {
@@ -277,12 +277,12 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( VideoMediaHeaderBox box ) {
-      addTextView( "Graphics Mode:", box.getGraphicsmode() );
-      addTextView( "Op Color:", box.getOpcolor() );
+      addViewForValue( "Graphics Mode:", box.getGraphicsmode() );
+      addViewForValue( "Op Color:", box.getOpcolor() );
    }
 
    public void LoadBox( SoundMediaHeaderBox box ) {
-      addTextView( "Balance:", box.getBalance() );
+      addViewForValue( "Balance:", box.getBalance() );
    }
 
    public void LoadBox( DataInformationBox box ) {
@@ -290,9 +290,9 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( DataReferenceBox box ) {
-      addTextView( "Version:", box.getVersion() );
-      addTextView( "Flags:", box.getFlags() );
-      addTextView( "Size:", box.getSize() );
+      addViewForValue( "Version:", box.getVersion() );
+      addViewForValue( "Flags:", box.getFlags() );
+      addViewForValue( "Size:", box.getSize() );
    }
 
    public void LoadBox( DataEntryUrlBox box ) {
@@ -303,101 +303,101 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( SampleDescriptionBox box ) {
-      addTextView( "Version:", box.getVersion() );
-      addTextView( "Flags:", box.getFlags() );
-      addTextView( "Size:", box.getSize() );
+      addViewForValue( "Version:", box.getVersion() );
+      addViewForValue( "Flags:", box.getFlags() );
+      addViewForValue( "Size:", box.getSize() );
    }
 
    public void LoadBox( VisualSampleEntry box ) {
-      addTextView( "Compressor Name:", box.getCompressorname() );
-      addTextView( "Depth:", box.getDepth() );
-      addTextView( "Frame Count:", box.getFrameCount() );
-      addTextView( "Size:", box.getSize() );
-      addTextView( "Width:", box.getWidth() );
-      addTextView( "Height:", box.getHeight() );
-      addTextView( "Horizontal Resolution:", box.getHorizresolution() );
-      addTextView( "Vertical Resolution:", box.getVertresolution() );
+      addViewForValue( "Compressor Name:", box.getCompressorname() );
+      addViewForValue( "Depth:", box.getDepth() );
+      addViewForValue( "Frame Count:", box.getFrameCount() );
+      addViewForValue( "Size:", box.getSize() );
+      addViewForValue( "Width:", box.getWidth() );
+      addViewForValue( "Height:", box.getHeight() );
+      addViewForValue( "Horizontal Resolution:", box.getHorizresolution() );
+      addViewForValue( "Vertical Resolution:", box.getVertresolution() );
    }
 
    public void LoadBox( AudioSampleEntry box ) {
-      addTextView( "Bytes Per Frame:", box.getBytesPerFrame() );
-      addTextView( "Bytes Per Packet:", box.getBytesPerPacket() );
-      addTextView( "Bytes Per Sample:", box.getBytesPerSample() );
-      addTextView( "Channel Count:", box.getChannelCount() );
-      addTextView( "Compression Id:", box.getCompressionId() );
-      addTextView( "Packet Size:", box.getPacketSize() );
-      addTextView( "Reserved 1:", box.getReserved1() );
-      addTextView( "Reserved 2:", box.getReserved2() );
-      addTextView( "Sample Rate:", box.getSampleRate() );
-      addTextView( "Sample Size:", box.getSampleSize() );
-      addTextView( "Samples Per Packet:", box.getSamplesPerPacket() );
-      addTextView( "Size:", box.getSize() );
-      addTextView( "Sound Version:", box.getSoundVersion() );
-      addTextView( "Sound Version 2 Data:", box.getSoundVersion2Data() );
+      addViewForValue( "Bytes Per Frame:", box.getBytesPerFrame() );
+      addViewForValue( "Bytes Per Packet:", box.getBytesPerPacket() );
+      addViewForValue( "Bytes Per Sample:", box.getBytesPerSample() );
+      addViewForValue( "Channel Count:", box.getChannelCount() );
+      addViewForValue( "Compression Id:", box.getCompressionId() );
+      addViewForValue( "Packet Size:", box.getPacketSize() );
+      addViewForValue( "Reserved 1:", box.getReserved1() );
+      addViewForValue( "Reserved 2:", box.getReserved2() );
+      addViewForValue( "Sample Rate:", box.getSampleRate() );
+      addViewForValue( "Sample Size:", box.getSampleSize() );
+      addViewForValue( "Samples Per Packet:", box.getSamplesPerPacket() );
+      addViewForValue( "Size:", box.getSize() );
+      addViewForValue( "Sound Version:", box.getSoundVersion() );
+      addViewForValue( "Sound Version 2 Data:", box.getSoundVersion2Data() );
    }
 
    public void LoadBox( AvcConfigurationBox box ) {
 
       AVCDecoderConfigurationRecord record = box.getavcDecoderConfigurationRecord();
-      addTextView( "Record Content Size:", record.getContentSize() );
-      addTextView( "Record Picture Parameter Sets:", record.getPictureParameterSetsAsStrings() );
-      addTextView( "Record PPS:", record.getPPS() );
-      addTextView( "Record Sequence Parameter Sets Exts:", record.getSequenceParameterSetExtsAsStrings() );
-      addTextView( "Record Sequence Parameter Sets:", record.getSequenceParameterSetsAsStrings() );
-      addTextView( "Record SPS:", record.getSPS() );
+      addViewForValue( "Record Content Size:", record.getContentSize() );
+      addViewForValue( "Record Picture Parameter Sets:", record.getPictureParameterSetsAsStrings() );
+      addViewForValue( "Record PPS:", record.getPPS() );
+      addViewForValue( "Record Sequence Parameter Sets Exts:", record.getSequenceParameterSetExtsAsStrings() );
+      addViewForValue( "Record Sequence Parameter Sets:", record.getSequenceParameterSetsAsStrings() );
+      addViewForValue( "Record SPS:", record.getSPS() );
 
-      addTextView( "AVC Level:", box.getAvcLevelIndication() );
-      addTextView( "AVC Profile:", box.getAvcProfileIndication() );
-      addTextView( "Bit Depth Chroma Minus 8:", box.getBitDepthChromaMinus8() );
-      addTextView( "Bit Depth Luma Minus 8:", box.getBitDepthLumaMinus8() );
-      addTextView( "Chroma Format:", box.getChromaFormat() );
-      addTextView( "Configuration Version:", box.getConfigurationVersion() );
-      addTextView( "Content Size:", box.getContentSize() );
-      addTextView( "Length Size Minus One", box.getLengthSizeMinusOne() );
-      addTextView( "Picture Parameter Sets:", box.getPictureParameterSets() );
-      addTextView( "PPS:", box.getPPS() );
-      addTextView( "Profile Compatibility:", box.getProfileCompatibility() );
-      addTextView( "Sequence Parameter Set Exts:", box.getSequenceParameterSetExts() );
-      addTextView( "Sequence Parameter Sets:", box.getSequenceParameterSets() );
-      addTextView( "SPS:", box.getSPS() );
+      addViewForValue( "AVC Level:", box.getAvcLevelIndication() );
+      addViewForValue( "AVC Profile:", box.getAvcProfileIndication() );
+      addViewForValue( "Bit Depth Chroma Minus 8:", box.getBitDepthChromaMinus8() );
+      addViewForValue( "Bit Depth Luma Minus 8:", box.getBitDepthLumaMinus8() );
+      addViewForValue( "Chroma Format:", box.getChromaFormat() );
+      addViewForValue( "Configuration Version:", box.getConfigurationVersion() );
+      addViewForValue( "Content Size:", box.getContentSize() );
+      addViewForValue( "Length Size Minus One", box.getLengthSizeMinusOne() );
+      addViewForValue( "Picture Parameter Sets:", box.getPictureParameterSets() );
+      addViewForValue( "PPS:", box.getPPS() );
+      addViewForValue( "Profile Compatibility:", box.getProfileCompatibility() );
+      addViewForValue( "Sequence Parameter Set Exts:", box.getSequenceParameterSetExts() );
+      addViewForValue( "Sequence Parameter Sets:", box.getSequenceParameterSets() );
+      addViewForValue( "SPS:", box.getSPS() );
    }
 
    public void LoadBox( BitRateBox box ) {
-      addTextView( "Average BitRate:", box.getAvgBitrate() );
-      addTextView( "Buffer Size Db:", box.getBufferSizeDb() );
-      addTextView( "Max Birate:", box.getMaxBitrate() );
+      addViewForValue( "Average BitRate:", box.getAvgBitrate() );
+      addViewForValue( "Buffer Size Db:", box.getBufferSizeDb() );
+      addViewForValue( "Max Birate:", box.getMaxBitrate() );
    }
 
    public void LoadBox( ESDescriptorBox box ) {
-      // addTextView( "", box.getEsDescriptor());
-      // addTextView( "", box.getDescriptor());
-      addTextView( "Descriptor As String:", box.getDescriptorAsString() );
+      // addViewForValue( "", box.getEsDescriptor());
+      // addViewForValue( "", box.getDescriptor());
+      addViewForValue( "Descriptor As String:", box.getDescriptorAsString() );
    }
 
    public void LoadBox( TimeToSampleBox box ) {
-      addTextView( "Entries:", box.getEntries() );
+      addViewForValue( "Entries:", box.getEntries() );
    }
 
    public void LoadBox( CompositionTimeToSample box ) {
-      addTextView( "Entries:", box.getEntries() );
+      addViewForValue( "Entries:", box.getEntries() );
    }
 
    public void LoadBox( SyncSampleBox box ) {
-      addTextView( "Sample Number:", box.getSampleNumber() );
+      addViewForValue( "Sample Number:", box.getSampleNumber() );
    }
 
    public void LoadBox( SampleToChunkBox box ) {
-      addTextView( "Entries:", box.getEntries() );
+      addViewForValue( "Entries:", box.getEntries() );
    }
 
    public void LoadBox( SampleSizeBox box ) {
-      addTextView( "Sample Count:", box.getSampleCount() );
-      addTextView( "Sample Size:", box.getSampleSize() );
-      addTextView( "Sample Sizes:", box.getSampleSizes() );
+      addViewForValue( "Sample Count:", box.getSampleCount() );
+      addViewForValue( "Sample Size:", box.getSampleSize() );
+      addViewForValue( "Sample Sizes:", box.getSampleSizes() );
    }
 
    public void LoadBox( StaticChunkOffsetBox box ) {
-      addTextView( "Chunk Offsets:", box.getChunkOffsets() );
+      addViewForValue( "Chunk Offsets:", box.getChunkOffsets() );
    }
 
    public void LoadBox( UnknownBox box ) {
@@ -408,19 +408,30 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( MetaBox box ) {
-      addTextView( "Version:", box.getVersion() );
-      addTextView( "Flags:", box.getFlags() );
-      addTextView( "Size:", box.getSize() );
+      addViewForValue( "Version:", box.getVersion() );
+      addViewForValue( "Flags:", box.getFlags() );
+      addViewForValue( "Size:", box.getSize() );
    }
 
    public void LoadBox( AppleItemListBox box ) {
    }
 
    public void LoadBox( MediaDataBox box ) {
-      addTextView( "Offset:", box.getOffset() );
-      addTextView( "Parent:", box.getParent() );
-      addTextView( "Size:", box.getSize() );
-      addTextView( "Type:", box.getType() );
+      addViewForValue( "Offset:", box.getOffset() );
+      addViewForValue( "Parent:", box.getParent() );
+      addViewForValue( "Size:", box.getSize() );
+      addViewForValue( "Type:", box.getType() );
+   }
+
+   private void addViewForValue( String key, Object value ) {
+
+      if ( value instanceof String[] ) {
+         addStringArrayView( key, (String[]) value );
+      } else if ( value instanceof Matrix ) {
+         addMatrixView( key, (Matrix) value );
+      } else {
+         addTextView( key, value );
+      }
    }
 
    private void addTextView( String key, Object value ) {
@@ -442,6 +453,23 @@ public class BoxInfoView extends FrameLayout {
 
       mBaseLayout.addView( layout );
 
+   }
+
+   private void addStringArrayView( String key, String[] array ) {
+
+      RelativeLayout layout = (RelativeLayout) View.inflate( getContext(), R.layout.string_array_layout, null );
+
+      TextView textView = (TextView) layout.findViewById( R.id.array_title );
+      textView.setText( key );
+
+      LinearLayout stringLayout = (LinearLayout) layout.findViewById( R.id.string_layout );
+
+      for ( String string : array ) {
+         RobotoTextView valueText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         valueText.setText( string );
+         stringLayout.addView( valueText );
+      }
+      mBaseLayout.addView( layout );
    }
 
    private void addMatrixView( String key, Matrix matrix ) {
@@ -486,9 +514,10 @@ public class BoxInfoView extends FrameLayout {
    }
 
    private void addFieldView( Box box, Field field ) throws IllegalAccessException, IllegalArgumentException, InstantiationException {
-      TextView view = new TextView( getContext() );
-
+      
       Object object = field.get( box );
+
+      TextView view = new TextView( getContext() );
       view.setText( String.format( Locale.US, "%s - %s", field.getName(), getDisplayForObject( object ) ) );
 
       mBaseLayout.addView( view );
@@ -505,6 +534,8 @@ public class BoxInfoView extends FrameLayout {
          return String.format( Locale.US, "%.2f", (Float) object );
       } else if ( object instanceof Double ) {
          return String.format( Locale.US, "%.2f", (Double) object );
+      } else if ( object instanceof Byte ) {
+         return String.format( Locale.US, "%02X", (Byte) object );
       } else if (object instanceof List ) {
          
          String result = "";
@@ -559,6 +590,28 @@ public class BoxInfoView extends FrameLayout {
 
          Date date = (Date) object;
          return new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss", Locale.US ).format( date );
+      } else if ( object instanceof Object[] ) {
+
+         String result = "";
+         Object[] array = (Object[]) object;
+         for ( int i = 0; i < array.length; i++ ) {
+            if ( i != 0 ) {
+               result += ", ";
+            }
+            result += getDisplayForObject( array[i] );
+         }
+         return result;
+      } else if ( object instanceof byte[] ) {
+
+         String result = "";
+         byte[] array = (byte[]) object;
+         for ( int i = 0; i < array.length; i++ ) {
+            if ( i != 0 ) {
+               result += ", ";
+            }
+            result += getDisplayForObject( array[i] );
+         }
+         return result;
       }
 
 
