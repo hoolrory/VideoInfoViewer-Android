@@ -343,6 +343,11 @@ public class VideoActivity extends Activity {
 
       mVideo = video;
 
+      findViewById( R.id.loading_progress ).setVisibility( View.GONE );
+
+      findViewById( R.id.video_properties_card ).setVisibility( View.VISIBLE );
+      findViewById( R.id.view_atom_button ).setVisibility( View.VISIBLE );
+
       mSearchFragment.setVideo( video );
 
       VideoCache.Instance( VideoActivity.this ).addVideo( mVideo );

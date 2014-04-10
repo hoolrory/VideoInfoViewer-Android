@@ -16,10 +16,10 @@
 
 package com.roryhool.videoinfoviewer.atomfragments;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -80,6 +80,10 @@ public class AtomStructureFragment extends Fragment {
       @Override
       protected void onPostExecute( List<BoxView> boxViews ) {
 
+         Activity activity = getActivity();
+         if ( activity != null ) {
+            activity.findViewById( R.id.loading_progress ).setVisibility( View.GONE );
+         }
          for ( BoxView boxView : boxViews ) {
 
             LinearLayout layout = (LinearLayout) getActivity().findViewById( R.id.atom_layout );
