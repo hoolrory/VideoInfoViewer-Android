@@ -270,7 +270,7 @@ public class VideoActivity extends Activity {
       RobotoTextView keyView = new RobotoTextView( new ContextThemeWrapper( this, R.style.CardKey ) );
       // FontManager.get( this ).setRobotoBold( keyView );
 
-      RobotoTextView valueView = new RobotoTextView( new ContextThemeWrapper( this, R.style.CardValue ) );
+      RobotoTextView valueView = new RobotoTextView( new ContextThemeWrapper( this, R.style.CardValueOneLine ) );
       FontManager.get( this ).setRobotoLight( valueView );
       
       keyView.setText( keyStringId );
