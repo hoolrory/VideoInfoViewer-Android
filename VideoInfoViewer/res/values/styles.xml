@@ -84,6 +84,27 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:ellipsize">marquee</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:textColor">@color/grey_dark</item>
+    </style>
+
+    <style name="CardValue" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">14sp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textColor">@color/grey_dark</item>
+    </style>
+
+    <style name="CardKeyOneLine" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">14sp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:ellipsize">marquee</item>
         <item name="android:maxLines">1</item>
         <item name="android:lines">1</item>
         <item name="android:paddingBottom">2dp</item>
@@ -91,7 +112,7 @@
         <item name="android:textColor">@color/grey_dark</item>
     </style>
 
-    <style name="CardValue" parent="@android:style/Widget.TextView">
+    <style name="CardValueOneLine" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">14sp</item>
         <item name="android:textSize">12sp</item>
