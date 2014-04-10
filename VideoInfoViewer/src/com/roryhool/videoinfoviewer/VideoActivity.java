@@ -17,6 +17,7 @@
 package com.roryhool.videoinfoviewer;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -43,6 +44,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
+import com.coremedia.iso.IsoFile;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -76,6 +78,8 @@ public class VideoActivity extends Activity {
    Uri mVideoUri;
 
    RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
+
+   RetrieveIsoFileTask mRetrieveIsoFileTask;
 
    Video mVideo;
 
@@ -343,6 +347,13 @@ public class VideoActivity extends Activity {
 
       mVideo = video;
 
+      if ( mVideo.getIsoFile() == null ) {
+
+         mRetrieveIsoFileTask = new RetrieveIsoFileTask();
+         mRetrieveIsoFileTask.execute( mVideo );
+         return;
+      }
+
       findViewById( R.id.loading_progress ).setVisibility( View.GONE );
 
       findViewById( R.id.video_properties_card ).setVisibility( View.VISIBLE );
@@ -423,6 +434,32 @@ public class VideoActivity extends Activity {
       }
 
    };
+
+   public class RetrieveIsoFileTask extends AsyncTask<Video, Void, IsoFile> {
+
+      @Override
+      protected void onPreExecute() {
+
+      }
+
+      @Override
+      protected IsoFile doInBackground( Video... videos ) {
+
+         IsoFile isoFile = null;
+         try {
+            isoFile = new IsoFile( mVideo.FilePath );
+         } catch ( IOException e ) {
+            e.printStackTrace();
+         }
+         return isoFile;
+      }
+
+      @Override
+      protected void onPostExecute( IsoFile isoFile ) {
+         mVideo.setIsoFile( isoFile );
+         LoadVideo( mVideo );
+      }
+   }
 
    public class RetrieveVideoDetailsTask extends AsyncTask<Uri, Void, Video> {
 

@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.util.Log;
 
+import com.coremedia.iso.IsoFile;
 import com.google.gson.annotations.SerializedName;
 
 public class Video implements Comparable<Video> {
@@ -63,11 +64,13 @@ public class Video implements Comparable<Video> {
 
    @SerializedName( "VideoWidth" )
    public int VideoWidth;
-   
+
    @SerializedName( "VideoHeight" )
    public int VideoHeight;
 
-   public int CacheId = -1;
+   public transient int CacheId = -1;
+
+   private transient IsoFile mIsoFile;
 
    @Override
    public int compareTo( Video video ) {
@@ -113,5 +116,13 @@ public class Video implements Comparable<Video> {
       }
 
       return video;
+   }
+
+   public IsoFile getIsoFile() {
+      return mIsoFile;
+   }
+
+   public void setIsoFile( IsoFile isoFile ) {
+      mIsoFile = isoFile;
    }
 }

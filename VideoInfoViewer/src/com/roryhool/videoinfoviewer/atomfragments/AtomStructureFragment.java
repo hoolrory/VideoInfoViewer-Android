@@ -100,13 +100,11 @@ public class AtomStructureFragment extends Fragment {
       
       List<BoxView> views = new ArrayList<BoxView>();
 
-      IsoFile isoFile = null;
-      try {
-         isoFile = new IsoFile( video.FilePath );
-      } catch ( IOException e ) {
-         e.printStackTrace();
-      }
+      /*
+       * IsoFile isoFile = null; try { isoFile = new IsoFile( video.FilePath ); } catch ( IOException e ) { e.printStackTrace(); }
+       */
 
+      IsoFile isoFile = video.getIsoFile();
       if ( isoFile == null ) {
          return views;
       }
