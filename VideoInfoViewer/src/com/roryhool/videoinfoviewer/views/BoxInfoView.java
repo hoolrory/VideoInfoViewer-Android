@@ -40,6 +40,7 @@ import com.coremedia.iso.boxes.CompositionTimeToSample;
 import com.coremedia.iso.boxes.DataEntryUrlBox;
 import com.coremedia.iso.boxes.DataInformationBox;
 import com.coremedia.iso.boxes.DataReferenceBox;
+import com.coremedia.iso.boxes.EditBox;
 import com.coremedia.iso.boxes.EditListBox;
 import com.coremedia.iso.boxes.FileTypeBox;
 import com.coremedia.iso.boxes.HandlerBox;
@@ -49,6 +50,7 @@ import com.coremedia.iso.boxes.MediaInformationBox;
 import com.coremedia.iso.boxes.MetaBox;
 import com.coremedia.iso.boxes.MovieBox;
 import com.coremedia.iso.boxes.MovieHeaderBox;
+import com.coremedia.iso.boxes.SampleDependencyTypeBox;
 import com.coremedia.iso.boxes.SampleDescriptionBox;
 import com.coremedia.iso.boxes.SampleSizeBox;
 import com.coremedia.iso.boxes.SampleTableBox;
@@ -167,6 +169,12 @@ public class BoxInfoView extends FrameLayout {
          LoadSpecificBox( (AppleItemListBox) box );
       } else if ( box instanceof MediaDataBox ) {
          LoadSpecificBox( (MediaDataBox) box );
+      } else if ( box instanceof EditBox ) {
+         LoadSpecificBox( (EditBox) box );
+      } else if ( box instanceof EditListBox ) {
+         LoadSpecificBox( (EditListBox) box );
+      } else if ( box instanceof SampleDependencyTypeBox ) {
+         LoadSpecificBox( (SampleDependencyTypeBox) box );
       } else {
 
       }
@@ -358,11 +366,19 @@ public class BoxInfoView extends FrameLayout {
    }
 
    private void LoadSpecificBox( TimeToSampleBox box ) {
-      addViewForValue( "Entries:", box.getEntries() );
+      addViewForValue( "Entries:", box.getEntries().size() );
+
+      for ( TimeToSampleBox.Entry entry : box.getEntries() ) {
+
+      }
    }
 
    private void LoadSpecificBox( CompositionTimeToSample box ) {
-      addViewForValue( "Entries:", box.getEntries() );
+      addViewForValue( "Entries:", box.getEntries().size() );
+
+      for ( CompositionTimeToSample.Entry entry : box.getEntries() ) {
+
+      }
    }
 
    private void LoadSpecificBox( SyncSampleBox box ) {
@@ -370,7 +386,11 @@ public class BoxInfoView extends FrameLayout {
    }
 
    private void LoadSpecificBox( SampleToChunkBox box ) {
-      addViewForValue( "Entries:", box.getEntries() );
+      addViewForValue( "Entries:", box.getEntries().size() );
+
+      for ( SampleToChunkBox.Entry entry : box.getEntries() ) {
+
+      }
    }
 
    private void LoadSpecificBox( SampleSizeBox box ) {
@@ -404,6 +424,22 @@ public class BoxInfoView extends FrameLayout {
       addViewForValue( "Parent:", box.getParent() );
       addViewForValue( "Size:", box.getSize() );
       addViewForValue( "Type:", box.getType() );
+   }
+
+   private void LoadSpecificBox( EditBox box ) {
+      addViewForValue( "Offset:", box.getOffset() );
+      addViewForValue( "Parent:", box.getParent() );
+      addViewForValue( "Size:", box.getSize() );
+      addViewForValue( "Type:", box.getType() );
+   }
+
+   private void LoadSpecificBox( SampleDependencyTypeBox box ) {
+
+      addViewForValue( "Entries:", box.getEntries().size() );
+
+      for ( SampleDependencyTypeBox.Entry entry : box.getEntries() ) {
+
+      }
    }
 
    private void addViewForValue( String key, Object value ) {
