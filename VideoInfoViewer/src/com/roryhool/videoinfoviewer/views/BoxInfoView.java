@@ -101,73 +101,73 @@ public class BoxInfoView extends FrameLayout {
       mBoxDescriptionText.setText( AtomHelper.GetNameForType( box.getType() ) );
 
       if ( box instanceof AbstractFullBox ) {
-         LoadBox( (AbstractFullBox) box );
+         LoadSpecificBox( (AbstractFullBox) box );
       }
 
       if ( box instanceof FileTypeBox ) {
-         LoadBox( (FileTypeBox) box );
+         LoadSpecificBox( (FileTypeBox) box );
       } else if ( box instanceof MovieBox ) {
-         LoadBox( (MovieBox) box );
+         LoadSpecificBox( (MovieBox) box );
       } else if ( box instanceof MovieHeaderBox ) {
-         LoadBox( (MovieHeaderBox) box );
+         LoadSpecificBox( (MovieHeaderBox) box );
       } else if ( box instanceof TrackBox ) {
-         LoadBox( (TrackBox) box );
+         LoadSpecificBox( (TrackBox) box );
       } else if ( box instanceof TrackHeaderBox ) {
-         LoadBox( (TrackHeaderBox) box );
+         LoadSpecificBox( (TrackHeaderBox) box );
       } else if ( box instanceof MediaBox ) {
-         LoadBox( (MediaBox) box );
+         LoadSpecificBox( (MediaBox) box );
       } else if ( box instanceof MediaHeaderBox ) {
-         LoadBox( (MediaHeaderBox) box );
+         LoadSpecificBox( (MediaHeaderBox) box );
       } else if ( box instanceof HandlerBox ) {
-         LoadBox( (HandlerBox) box );
+         LoadSpecificBox( (HandlerBox) box );
       } else if ( box instanceof MediaInformationBox ) {
-         LoadBox( (MediaInformationBox) box );
+         LoadSpecificBox( (MediaInformationBox) box );
       } else if ( box instanceof VideoMediaHeaderBox ) {
-         LoadBox( (VideoMediaHeaderBox) box );
+         LoadSpecificBox( (VideoMediaHeaderBox) box );
       } else if ( box instanceof SoundMediaHeaderBox ) {
-         LoadBox( (SoundMediaHeaderBox) box );
+         LoadSpecificBox( (SoundMediaHeaderBox) box );
       } else if ( box instanceof DataInformationBox ) {
-         LoadBox( (DataInformationBox) box );
+         LoadSpecificBox( (DataInformationBox) box );
       } else if ( box instanceof DataReferenceBox ) {
-         LoadBox( (DataReferenceBox) box );
+         LoadSpecificBox( (DataReferenceBox) box );
       } else if ( box instanceof DataEntryUrlBox ) {
-         LoadBox( (DataEntryUrlBox) box );
+         LoadSpecificBox( (DataEntryUrlBox) box );
       } else if ( box instanceof SampleTableBox ) {
-         LoadBox( (SampleTableBox) box );
+         LoadSpecificBox( (SampleTableBox) box );
       } else if ( box instanceof SampleDescriptionBox ) {
-         LoadBox( (SampleDescriptionBox) box );
+         LoadSpecificBox( (SampleDescriptionBox) box );
       } else if ( box instanceof VisualSampleEntry ) {
-         LoadBox( (VisualSampleEntry) box );
+         LoadSpecificBox( (VisualSampleEntry) box );
       } else if ( box instanceof AudioSampleEntry ) {
-         LoadBox( (AudioSampleEntry) box );
+         LoadSpecificBox( (AudioSampleEntry) box );
       } else if ( box instanceof AvcConfigurationBox ) {
-         LoadBox( (AvcConfigurationBox) box );
+         LoadSpecificBox( (AvcConfigurationBox) box );
       } else if ( box instanceof BitRateBox ) {
-         LoadBox( (BitRateBox) box );
+         LoadSpecificBox( (BitRateBox) box );
       } else if ( box instanceof ESDescriptorBox ) {
-         LoadBox( (ESDescriptorBox) box );
+         LoadSpecificBox( (ESDescriptorBox) box );
       } else if ( box instanceof TimeToSampleBox ) {
-         LoadBox( (TimeToSampleBox) box );
+         LoadSpecificBox( (TimeToSampleBox) box );
       } else if ( box instanceof CompositionTimeToSample ) {
-         LoadBox( (CompositionTimeToSample) box );
+         LoadSpecificBox( (CompositionTimeToSample) box );
       } else if ( box instanceof SyncSampleBox ) {
-         LoadBox( (SyncSampleBox) box );
+         LoadSpecificBox( (SyncSampleBox) box );
       } else if ( box instanceof SampleToChunkBox ) {
-         LoadBox( (SampleToChunkBox) box );
+         LoadSpecificBox( (SampleToChunkBox) box );
       } else if ( box instanceof SampleSizeBox ) {
-         LoadBox( (SampleSizeBox) box );
+         LoadSpecificBox( (SampleSizeBox) box );
       } else if ( box instanceof StaticChunkOffsetBox ) {
-         LoadBox( (StaticChunkOffsetBox) box );
+         LoadSpecificBox( (StaticChunkOffsetBox) box );
       } else if ( box instanceof UnknownBox ) {
-         LoadBox( (UnknownBox) box );
+         LoadSpecificBox( (UnknownBox) box );
       } else if ( box instanceof UserDataBox ) {
-         LoadBox( (UserDataBox) box );
+         LoadSpecificBox( (UserDataBox) box );
       } else if ( box instanceof MetaBox ) {
-         LoadBox( (MetaBox) box );
+         LoadSpecificBox( (MetaBox) box );
       } else if ( box instanceof AppleItemListBox ) {
-         LoadBox( (AppleItemListBox) box );
+         LoadSpecificBox( (AppleItemListBox) box );
       } else if ( box instanceof MediaDataBox ) {
-         LoadBox( (MediaDataBox) box );
+         LoadSpecificBox( (MediaDataBox) box );
       } else {
 
       }
@@ -190,25 +190,25 @@ public class BoxInfoView extends FrameLayout {
       }
    }
 
-   public void LoadBox( AbstractFullBox box ) {
+   private void LoadSpecificBox( AbstractFullBox box ) {
       addViewForValue( "Version:", box.getVersion() );
       addViewForValue( "Flag:", box.getFlags() );
    }
 
-   public void LoadBox( FileTypeBox box ) {
+   private void LoadSpecificBox( FileTypeBox box ) {
       Log.d( "this", "load FileTypeBox" );
       addViewForValue( "Major Brand:", box.getMajorBrand() );
       addViewForValue( "Version:", box.getMinorVersion() );
       addViewForValue( "Compatible Brands:", box.getCompatibleBrands() );
    }
 
-   public void LoadBox( MovieBox box ) {
+   private void LoadSpecificBox( MovieBox box ) {
 
       addViewForValue( "Track Count:", box.getTrackCount() );
       addViewForValue( "Track Numbers:", box.getTrackNumbers() );
    }
 
-   public void LoadBox( MovieHeaderBox box ) {
+   private void LoadSpecificBox( MovieHeaderBox box ) {
 
       addViewForValue( "Timescale:", box.getTimescale() );
       addViewForValue( "Duration:", box.getDuration() );
@@ -227,11 +227,11 @@ public class BoxInfoView extends FrameLayout {
       addMatrixView( "Matrix:", box.getMatrix() );
    }
 
-   public void LoadBox( TrackBox box ) {
+   private void LoadSpecificBox( TrackBox box ) {
 
    }
 
-   public void LoadBox( TrackHeaderBox box ) {
+   private void LoadSpecificBox( TrackHeaderBox box ) {
       addViewForValue( "Creation Time:", box.getCreationTime() );
       addViewForValue( "Duration:", box.getDuration() );
       addViewForValue( "Layer:", box.getLayer() );
@@ -245,10 +245,10 @@ public class BoxInfoView extends FrameLayout {
       addMatrixView( "Matrix:", box.getMatrix() );
    }
 
-   public void LoadBox( MediaBox box ) {
+   private void LoadSpecificBox( MediaBox box ) {
    }
 
-   public void LoadBox( MediaHeaderBox box ) {
+   private void LoadSpecificBox( MediaHeaderBox box ) {
       addViewForValue( "Creation Time:", box.getCreationTime() );
       addViewForValue( "Duration:", box.getDuration() );
       addViewForValue( "Language:", box.getLanguage() );
@@ -256,7 +256,7 @@ public class BoxInfoView extends FrameLayout {
       addViewForValue( "Timescale:", box.getTimescale() );
    }
 
-   public void LoadBox( EditListBox box ) {
+   private void LoadSpecificBox( EditListBox box ) {
       addViewForValue( "Entry Count:", box.getEntries().size() );
 
       for ( EditListBox.Entry entry : box.getEntries() ) {
@@ -266,49 +266,49 @@ public class BoxInfoView extends FrameLayout {
       }
    }
 
-   public void LoadBox( HandlerBox box ) {
+   private void LoadSpecificBox( HandlerBox box ) {
       addViewForValue( "Handler Type:", box.getHandlerType() );
       addViewForValue( "Human Readable Track Type:", box.getHumanReadableTrackType() );
       addViewForValue( "Name:", box.getName() );
    }
 
-   public void LoadBox( MediaInformationBox box ) {
+   private void LoadSpecificBox( MediaInformationBox box ) {
 
    }
 
-   public void LoadBox( VideoMediaHeaderBox box ) {
+   private void LoadSpecificBox( VideoMediaHeaderBox box ) {
       addViewForValue( "Graphics Mode:", box.getGraphicsmode() );
       addViewForValue( "Op Color:", box.getOpcolor() );
    }
 
-   public void LoadBox( SoundMediaHeaderBox box ) {
+   private void LoadSpecificBox( SoundMediaHeaderBox box ) {
       addViewForValue( "Balance:", box.getBalance() );
    }
 
-   public void LoadBox( DataInformationBox box ) {
+   private void LoadSpecificBox( DataInformationBox box ) {
 
    }
 
-   public void LoadBox( DataReferenceBox box ) {
+   private void LoadSpecificBox( DataReferenceBox box ) {
       addViewForValue( "Version:", box.getVersion() );
       addViewForValue( "Flags:", box.getFlags() );
       addViewForValue( "Size:", box.getSize() );
    }
 
-   public void LoadBox( DataEntryUrlBox box ) {
+   private void LoadSpecificBox( DataEntryUrlBox box ) {
    }
 
-   public void LoadBox( SampleTableBox box ) {
+   private void LoadSpecificBox( SampleTableBox box ) {
 
    }
 
-   public void LoadBox( SampleDescriptionBox box ) {
+   private void LoadSpecificBox( SampleDescriptionBox box ) {
       addViewForValue( "Version:", box.getVersion() );
       addViewForValue( "Flags:", box.getFlags() );
       addViewForValue( "Size:", box.getSize() );
    }
 
-   public void LoadBox( VisualSampleEntry box ) {
+   private void LoadSpecificBox( VisualSampleEntry box ) {
       addViewForValue( "Compressor Name:", box.getCompressorname() );
       addViewForValue( "Depth:", box.getDepth() );
       addViewForValue( "Frame Count:", box.getFrameCount() );
@@ -319,7 +319,7 @@ public class BoxInfoView extends FrameLayout {
       addViewForValue( "Vertical Resolution:", box.getVertresolution() );
    }
 
-   public void LoadBox( AudioSampleEntry box ) {
+   private void LoadSpecificBox( AudioSampleEntry box ) {
       addViewForValue( "Bytes Per Frame:", box.getBytesPerFrame() );
       addViewForValue( "Bytes Per Packet:", box.getBytesPerPacket() );
       addViewForValue( "Bytes Per Sample:", box.getBytesPerSample() );
@@ -336,7 +336,7 @@ public class BoxInfoView extends FrameLayout {
       addViewForValue( "Sound Version 2 Data:", box.getSoundVersion2Data() );
    }
 
-   public void LoadBox( AvcConfigurationBox box ) {
+   private void LoadSpecificBox( AvcConfigurationBox box ) {
 
       AVCDecoderConfigurationRecord record = box.getavcDecoderConfigurationRecord();
       addViewForValue( "Record Content Size:", record.getContentSize() );
@@ -362,61 +362,61 @@ public class BoxInfoView extends FrameLayout {
       addViewForValue( "SPS:", box.getSPS() );
    }
 
-   public void LoadBox( BitRateBox box ) {
+   private void LoadSpecificBox( BitRateBox box ) {
       addViewForValue( "Average BitRate:", box.getAvgBitrate() );
       addViewForValue( "Buffer Size Db:", box.getBufferSizeDb() );
       addViewForValue( "Max Birate:", box.getMaxBitrate() );
    }
 
-   public void LoadBox( ESDescriptorBox box ) {
+   private void LoadSpecificBox( ESDescriptorBox box ) {
       // addViewForValue( "", box.getEsDescriptor());
       // addViewForValue( "", box.getDescriptor());
       addViewForValue( "Descriptor As String:", box.getDescriptorAsString() );
    }
 
-   public void LoadBox( TimeToSampleBox box ) {
+   private void LoadSpecificBox( TimeToSampleBox box ) {
       addViewForValue( "Entries:", box.getEntries() );
    }
 
-   public void LoadBox( CompositionTimeToSample box ) {
+   private void LoadSpecificBox( CompositionTimeToSample box ) {
       addViewForValue( "Entries:", box.getEntries() );
    }
 
-   public void LoadBox( SyncSampleBox box ) {
+   private void LoadSpecificBox( SyncSampleBox box ) {
       addViewForValue( "Sample Number:", box.getSampleNumber() );
    }
 
-   public void LoadBox( SampleToChunkBox box ) {
+   private void LoadSpecificBox( SampleToChunkBox box ) {
       addViewForValue( "Entries:", box.getEntries() );
    }
 
-   public void LoadBox( SampleSizeBox box ) {
+   private void LoadSpecificBox( SampleSizeBox box ) {
       addViewForValue( "Sample Count:", box.getSampleCount() );
       addViewForValue( "Sample Size:", box.getSampleSize() );
       addViewForValue( "Sample Sizes:", box.getSampleSizes() );
    }
 
-   public void LoadBox( StaticChunkOffsetBox box ) {
+   private void LoadSpecificBox( StaticChunkOffsetBox box ) {
       addViewForValue( "Chunk Offsets:", box.getChunkOffsets() );
    }
 
-   public void LoadBox( UnknownBox box ) {
+   private void LoadSpecificBox( UnknownBox box ) {
    }
 
-   public void LoadBox( UserDataBox box ) {
+   private void LoadSpecificBox( UserDataBox box ) {
 
    }
 
-   public void LoadBox( MetaBox box ) {
+   private void LoadSpecificBox( MetaBox box ) {
       addViewForValue( "Version:", box.getVersion() );
       addViewForValue( "Flags:", box.getFlags() );
       addViewForValue( "Size:", box.getSize() );
    }
 
-   public void LoadBox( AppleItemListBox box ) {
+   private void LoadSpecificBox( AppleItemListBox box ) {
    }
 
-   public void LoadBox( MediaDataBox box ) {
+   private void LoadSpecificBox( MediaDataBox box ) {
       addViewForValue( "Offset:", box.getOffset() );
       addViewForValue( "Parent:", box.getParent() );
       addViewForValue( "Size:", box.getSize() );
