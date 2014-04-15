@@ -16,7 +16,6 @@
 
 package com.roryhool.videoinfoviewer.views;
 
-import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -173,22 +172,6 @@ public class BoxInfoView extends FrameLayout {
       }
    }
 
-   public void LoadGenericBox( Box box ) {
-      mBox = box;
-
-      Log.d( "this", "Printing box type " + mBox.getType() );
-      for ( Field field : mBox.getClass().getDeclaredFields() ) {
-         field.setAccessible( true );
-         try {
-            addFieldView( mBox, field );
-         } catch ( Exception e ) {
-            e.printStackTrace();
-            Log.d( "this", e.toString() );
-         }
-
-         Log.d( "this", String.format( "------ Printing name %s, type %s", field.getName(), field.getType().getSimpleName() ) );
-      }
-   }
 
    private void LoadSpecificBox( AbstractFullBox box ) {
       addViewForValue( "Version:", box.getVersion() );
@@ -511,16 +494,6 @@ public class BoxInfoView extends FrameLayout {
       gridView.setAdapter( adapter );
 
       mBaseLayout.addView( layout );
-   }
-
-   private void addFieldView( Box box, Field field ) throws IllegalAccessException, IllegalArgumentException, InstantiationException {
-      
-      Object object = field.get( box );
-
-      TextView view = new TextView( getContext() );
-      view.setText( String.format( Locale.US, "%s - %s", field.getName(), getDisplayForObject( object ) ) );
-
-      mBaseLayout.addView( view );
    }
 
    private String getDisplayForObject(Object object) {
