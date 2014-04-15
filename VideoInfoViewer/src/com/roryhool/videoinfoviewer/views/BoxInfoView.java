@@ -96,6 +96,189 @@ public class BoxInfoView extends FrameLayout {
       mBaseLayout = (LinearLayout) findViewById( R.id.box_layout );
    }
 
+   private void addViewForValue( String key, Object value ) {
+
+      if ( value instanceof String[] ) {
+         addStringArrayView( key, (String[]) value );
+      } else if ( value instanceof Matrix ) {
+         addMatrixView( key, (Matrix) value );
+      } else {
+         addTextView( key, value );
+      }
+   }
+
+   private void addTextView( String key, Object value ) {
+
+      RelativeLayout layout = (RelativeLayout) View.inflate( getContext(), R.layout.fifty_fifty_layout, null );
+
+      LinearLayout leftLayout = (LinearLayout) layout.findViewById( R.id.left_layout );
+      LinearLayout rightLayout = (LinearLayout) layout.findViewById( R.id.right_layout );
+
+      Log.d( "this", String.format( Locale.US, "Adding view %s - %s", key, getDisplayForObject( value ) ) );
+      RobotoTextView keyText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardKey ) );
+      keyText.setText( key );
+
+      RobotoTextView valueText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+      valueText.setText( getDisplayForObject( value ) );
+
+      leftLayout.addView( keyText );
+      rightLayout.addView( valueText );
+
+      mBaseLayout.addView( layout );
+   }
+
+   private void addStringArrayView( String key, String[] array ) {
+
+      RelativeLayout layout = (RelativeLayout) View.inflate( getContext(), R.layout.string_array_layout, null );
+
+      TextView textView = (TextView) layout.findViewById( R.id.array_title );
+      textView.setText( key );
+
+      LinearLayout stringLayout = (LinearLayout) layout.findViewById( R.id.string_layout );
+
+      for ( String string : array ) {
+         RobotoTextView valueText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         valueText.setText( string );
+         stringLayout.addView( valueText );
+      }
+      mBaseLayout.addView( layout );
+   }
+
+   private void addMatrixView( String key, Matrix matrix ) {
+
+      ByteBuffer bb = ByteBuffer.allocate( Double.SIZE * 9 );
+      matrix.getContent( bb );
+      bb.rewind();
+
+      double a = IsoTypeReader.readFixedPoint1616( bb );
+      double b = IsoTypeReader.readFixedPoint1616( bb );
+      double u = IsoTypeReader.readFixedPoint0230( bb );
+      double c = IsoTypeReader.readFixedPoint1616( bb );
+      double d = IsoTypeReader.readFixedPoint1616( bb );
+      double v = IsoTypeReader.readFixedPoint0230( bb );
+      double tx = IsoTypeReader.readFixedPoint1616( bb );
+      double ty = IsoTypeReader.readFixedPoint1616( bb );
+      double w = IsoTypeReader.readFixedPoint0230( bb );
+
+      Double[] matrixArray = new Double[9];
+      matrixArray[0] = a;
+      matrixArray[1] = b;
+      matrixArray[2] = u;
+      matrixArray[3] = c;
+      matrixArray[4] = d;
+      matrixArray[5] = v;
+      matrixArray[6] = tx;
+      matrixArray[7] = ty;
+      matrixArray[8] = w;
+
+      RelativeLayout layout = (RelativeLayout) View.inflate( getContext(), R.layout.matrix_layout, null );
+
+      TextView textView = (TextView) layout.findViewById( R.id.matrix_title );
+      textView.setText( "Matrix:" );
+
+      GridView gridView = (GridView) layout.findViewById( R.id.matrix_grid );
+
+      ArrayAdapter<Double> adapter = new ArrayAdapter<Double>( getContext(), R.layout.matrix_item_layout, matrixArray );
+
+      gridView.setAdapter( adapter );
+
+      mBaseLayout.addView( layout );
+   }
+
+   private String getDisplayForObject( Object object ) {
+      if ( object instanceof String ) {
+         return (String) object;
+      } else if ( object instanceof Long ) {
+         return String.format( Locale.US, "%d", (Long) object );
+      } else if ( object instanceof Integer ) {
+         return String.format( Locale.US, "%d", (Integer) object );
+      } else if ( object instanceof Float ) {
+         return String.format( Locale.US, "%.2f", (Float) object );
+      } else if ( object instanceof Double ) {
+         return String.format( Locale.US, "%.2f", (Double) object );
+      } else if ( object instanceof Byte ) {
+         return String.format( Locale.US, "%02X", (Byte) object );
+      } else if ( object instanceof List ) {
+
+         String result = "";
+         List<?> list = (List<?>) object;
+         for ( int i = 0; i < list.size(); i++ ) {
+            if ( i != 0 ) {
+               result += ", ";
+            }
+            result += getDisplayForObject( list.get( i ) );
+         }
+         return result;
+      } else if ( object instanceof Matrix ) {
+         Matrix matrix = (Matrix) object;
+         ByteBuffer bb = ByteBuffer.allocate( Double.SIZE * 9 );
+         matrix.getContent( bb );
+         bb.rewind();
+
+         double a = IsoTypeReader.readFixedPoint1616( bb );
+         double b = IsoTypeReader.readFixedPoint1616( bb );
+         double u = IsoTypeReader.readFixedPoint0230( bb );
+         double c = IsoTypeReader.readFixedPoint1616( bb );
+         double d = IsoTypeReader.readFixedPoint1616( bb );
+         double v = IsoTypeReader.readFixedPoint0230( bb );
+         double tx = IsoTypeReader.readFixedPoint1616( bb );
+         double ty = IsoTypeReader.readFixedPoint1616( bb );
+         double w = IsoTypeReader.readFixedPoint0230( bb );
+
+         return String.format( Locale.US, "%s - [%.2f, %.2f, %.2f, \r\n%.2f, %.2f, %.2f, %.2f, %.2f, %.2f]", matrix.toString(), a, b, u, c, d, v, tx, ty, w );
+      } else if ( object instanceof int[] ) {
+
+         String result = "";
+         int[] array = (int[]) object;
+         for ( int i = 0; i < array.length; i++ ) {
+            if ( i != 0 ) {
+               result += ", ";
+            }
+            result += getDisplayForObject( array[i] );
+         }
+         return result;
+      } else if ( object instanceof long[] ) {
+
+         String result = "";
+         long[] array = (long[]) object;
+         for ( int i = 0; i < array.length; i++ ) {
+            if ( i != 0 ) {
+               result += ", ";
+            }
+            result += getDisplayForObject( array[i] );
+         }
+         return result;
+      } else if ( object instanceof Date ) {
+
+         Date date = (Date) object;
+         return new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss", Locale.US ).format( date );
+      } else if ( object instanceof Object[] ) {
+
+         String result = "";
+         Object[] array = (Object[]) object;
+         for ( int i = 0; i < array.length; i++ ) {
+            if ( i != 0 ) {
+               result += ", ";
+            }
+            result += getDisplayForObject( array[i] );
+         }
+         return result;
+      } else if ( object instanceof byte[] ) {
+
+         String result = "";
+         byte[] array = (byte[]) object;
+         for ( int i = 0; i < array.length; i++ ) {
+            if ( i != 0 ) {
+               result += ", ";
+            }
+            result += getDisplayForObject( array[i] );
+         }
+         return result;
+      }
+
+      return String.format( Locale.US, "Unknown type: '%s'", object.getClass().getSimpleName() );
+   }
+
    public void LoadBox( Box box ) {
       
       mBoxTypeText.setText( box.getType() );
@@ -179,7 +362,6 @@ public class BoxInfoView extends FrameLayout {
 
       }
    }
-
 
    private void LoadSpecificBox( AbstractFullBox box ) {
       addViewForValue( "Version:", box.getVersion() );
@@ -440,190 +622,5 @@ public class BoxInfoView extends FrameLayout {
       for ( SampleDependencyTypeBox.Entry entry : box.getEntries() ) {
 
       }
-   }
-
-   private void addViewForValue( String key, Object value ) {
-
-      if ( value instanceof String[] ) {
-         addStringArrayView( key, (String[]) value );
-      } else if ( value instanceof Matrix ) {
-         addMatrixView( key, (Matrix) value );
-      } else {
-         addTextView( key, value );
-      }
-   }
-
-   private void addTextView( String key, Object value ) {
-
-      RelativeLayout layout = (RelativeLayout) View.inflate( getContext(), R.layout.fifty_fifty_layout, null );
-
-      LinearLayout leftLayout = (LinearLayout) layout.findViewById( R.id.left_layout );
-      LinearLayout rightLayout = (LinearLayout) layout.findViewById( R.id.right_layout );
-
-      Log.d( "this", String.format( Locale.US, "Adding view %s - %s", key, getDisplayForObject( value ) ) );
-      RobotoTextView keyText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardKey ) );
-      keyText.setText( key );
-      
-      RobotoTextView valueText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
-      valueText.setText( getDisplayForObject( value ) );
-      
-      leftLayout.addView( keyText );
-      rightLayout.addView( valueText );
-
-      mBaseLayout.addView( layout );
-
-   }
-
-   private void addStringArrayView( String key, String[] array ) {
-
-      RelativeLayout layout = (RelativeLayout) View.inflate( getContext(), R.layout.string_array_layout, null );
-
-      TextView textView = (TextView) layout.findViewById( R.id.array_title );
-      textView.setText( key );
-
-      LinearLayout stringLayout = (LinearLayout) layout.findViewById( R.id.string_layout );
-
-      for ( String string : array ) {
-         RobotoTextView valueText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
-         valueText.setText( string );
-         stringLayout.addView( valueText );
-      }
-      mBaseLayout.addView( layout );
-   }
-
-   private void addMatrixView( String key, Matrix matrix ) {
-
-      ByteBuffer bb = ByteBuffer.allocate( Double.SIZE * 9 );
-      matrix.getContent( bb );
-      bb.rewind();
-
-      double a = IsoTypeReader.readFixedPoint1616( bb );
-      double b = IsoTypeReader.readFixedPoint1616( bb );
-      double u = IsoTypeReader.readFixedPoint0230( bb );
-      double c = IsoTypeReader.readFixedPoint1616( bb );
-      double d = IsoTypeReader.readFixedPoint1616( bb );
-      double v = IsoTypeReader.readFixedPoint0230( bb );
-      double tx = IsoTypeReader.readFixedPoint1616( bb );
-      double ty = IsoTypeReader.readFixedPoint1616( bb );
-      double w = IsoTypeReader.readFixedPoint0230( bb );
-
-      Double[] matrixArray = new Double[9];
-      matrixArray[0] = a;
-      matrixArray[1] = b;
-      matrixArray[2] = u;
-      matrixArray[3] = c;
-      matrixArray[4] = d;
-      matrixArray[5] = v;
-      matrixArray[6] = tx;
-      matrixArray[7] = ty;
-      matrixArray[8] = w;
-
-      RelativeLayout layout = (RelativeLayout) View.inflate( getContext(), R.layout.matrix_layout, null );
-
-      TextView textView = (TextView) layout.findViewById( R.id.matrix_title );
-      textView.setText( "Matrix:" );
-      
-      GridView gridView = (GridView) layout.findViewById( R.id.matrix_grid );
-
-      ArrayAdapter<Double> adapter = new ArrayAdapter<Double>( getContext(), R.layout.matrix_item_layout, matrixArray );
-
-      gridView.setAdapter( adapter );
-
-      mBaseLayout.addView( layout );
-   }
-
-   private String getDisplayForObject(Object object) {
-      if ( object instanceof String ) {
-         return (String) object;
-      } else if ( object instanceof Long ) {
-         return String.format( Locale.US, "%d", (Long) object );
-      } else if ( object instanceof Integer ) {
-         return String.format( Locale.US, "%d", (Integer) object );
-      } else if ( object instanceof Float ) {
-         return String.format( Locale.US, "%.2f", (Float) object );
-      } else if ( object instanceof Double ) {
-         return String.format( Locale.US, "%.2f", (Double) object );
-      } else if ( object instanceof Byte ) {
-         return String.format( Locale.US, "%02X", (Byte) object );
-      } else if (object instanceof List ) {
-         
-         String result = "";
-         List<?> list = (List<?>) object;
-         for ( int i = 0; i < list.size(); i++ ) {
-            if(i != 0) {
-               result += ", ";
-            }
-            result += getDisplayForObject( list.get( i ) );
-         }
-         return result;
-      } else if ( object instanceof Matrix ) {
-         Matrix matrix = (Matrix) object;
-         ByteBuffer bb = ByteBuffer.allocate( Double.SIZE * 9 );
-         matrix.getContent( bb );
-         bb.rewind();
-
-         double a = IsoTypeReader.readFixedPoint1616( bb );
-         double b = IsoTypeReader.readFixedPoint1616( bb );
-         double u = IsoTypeReader.readFixedPoint0230( bb );
-         double c = IsoTypeReader.readFixedPoint1616( bb );
-         double d = IsoTypeReader.readFixedPoint1616( bb );
-         double v = IsoTypeReader.readFixedPoint0230( bb );
-         double tx = IsoTypeReader.readFixedPoint1616( bb );
-         double ty = IsoTypeReader.readFixedPoint1616( bb );
-         double w = IsoTypeReader.readFixedPoint0230( bb );
-         
-         return String.format( Locale.US, "%s - [%.2f, %.2f, %.2f, \r\n%.2f, %.2f, %.2f, %.2f, %.2f, %.2f]", matrix.toString(), a, b, u, c, d, v, tx, ty, w );
-      } else if ( object instanceof int[] ) {
-
-         String result = "";
-         int[] array = (int[]) object;
-         for ( int i = 0; i < array.length; i++ ) {
-            if ( i != 0 ) {
-               result += ", ";
-            }
-            result += getDisplayForObject( array[i] );
-         }
-         return result;
-      } else if ( object instanceof long[] ) {
-
-         String result = "";
-         long[] array = (long[]) object;
-         for ( int i = 0; i < array.length; i++ ) {
-            if ( i != 0 ) {
-               result += ", ";
-            }
-            result += getDisplayForObject( array[i] );
-         }
-         return result;
-      } else if ( object instanceof Date ) {
-
-         Date date = (Date) object;
-         return new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss", Locale.US ).format( date );
-      } else if ( object instanceof Object[] ) {
-
-         String result = "";
-         Object[] array = (Object[]) object;
-         for ( int i = 0; i < array.length; i++ ) {
-            if ( i != 0 ) {
-               result += ", ";
-            }
-            result += getDisplayForObject( array[i] );
-         }
-         return result;
-      } else if ( object instanceof byte[] ) {
-
-         String result = "";
-         byte[] array = (byte[]) object;
-         for ( int i = 0; i < array.length; i++ ) {
-            if ( i != 0 ) {
-               result += ", ";
-            }
-            result += getDisplayForObject( array[i] );
-         }
-         return result;
-      }
-
-
-      return String.format( Locale.US, "Unknown type: '%s'", object.getClass().getSimpleName() );
    }
 }
