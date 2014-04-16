@@ -40,7 +40,7 @@ public class SearchActivity extends Activity {
 
       if ( Intent.ACTION_SEARCH.equals( intent.getAction() ) ) {
          String query = intent.getStringExtra( SearchManager.QUERY );
-         Log.d( "test", "XAJM - search query " + query );
+         Log.d( "test", "search query " + query );
       }
    }
 }

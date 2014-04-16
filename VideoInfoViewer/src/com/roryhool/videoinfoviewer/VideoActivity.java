@@ -212,7 +212,7 @@ public class VideoActivity extends Activity {
        * 
        * FragmentManager manager = getFragmentManager(); FragmentTransaction fragTransaction = manager.beginTransaction(); fragTransaction.remove( mSearchFragment ); fragTransaction.commit();
        * 
-       * Log.d( "this", "KAJM - SearchView onClose" ); return false; }
+       * Log.d( "this", "SearchView onClose" ); return false; }
        * 
        * } );
        */
@@ -221,7 +221,7 @@ public class VideoActivity extends Activity {
 
          @Override
          public void onClick( View v ) {
-            Log.d( "this", "KAJM - SearchView onClick" );
+            Log.d( "this", "SearchView onClick" );
             FragmentManager manager = getFragmentManager();
             FragmentTransaction fragTransaction = manager.beginTransaction();
             fragTransaction.add( R.id.fragment_frame, mSearchFragment );

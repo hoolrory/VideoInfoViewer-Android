@@ -235,7 +235,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    public void handleResize() {
 
-      Log.d( "this", "XAJM - handleResize" );
+      Log.d( "this", "handleResize" );
       int currentHeight = getHeight();
       int targetHeight = getContext().getResources().getDimensionPixelSize( R.dimen.video_player_size );
 
@@ -257,12 +257,12 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
          targetHeight = height;
 
-         Log.d( "this", String.format( Locale.US, "XAJM - handleResize fullscreen, going from %d to %d", currentHeight, targetHeight ) );
+         Log.d( "this", String.format( Locale.US, "handleResize fullscreen, going from %d to %d", currentHeight, targetHeight ) );
          ResizeAnimation animation = new ResizeAnimation( VideoPlayerView.this, currentHeight, targetHeight, true );
          animation.setDuration( 200 );
          startAnimation( animation );
       } else {
-         Log.d( "this", "XAJM - handleResize not fullscreen" );
+         Log.d( "this", "handleResize not fullscreen" );
          ResizeAnimation animation = new ResizeAnimation( VideoPlayerView.this, currentHeight, targetHeight, true );
          animation.setDuration( 200 );
          startAnimation( animation );
