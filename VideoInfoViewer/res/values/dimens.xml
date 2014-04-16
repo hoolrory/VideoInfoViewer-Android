@@ -7,4 +7,6 @@
     <dimen name="video_player_size">230dp</dimen>
 
     <dimen name="min_touch">48dp</dimen>
+    
+    <dimen name="column_padding">10dp</dimen>
 </resources>

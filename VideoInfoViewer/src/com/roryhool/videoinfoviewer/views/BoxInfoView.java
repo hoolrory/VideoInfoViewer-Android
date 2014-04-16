@@ -25,10 +25,14 @@ import java.util.Locale;
 import android.content.Context;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.GridLayout;
+import android.widget.GridLayout.Spec;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -75,6 +79,7 @@ import com.googlecode.mp4parser.boxes.mp4.ESDescriptorBox;
 import com.googlecode.mp4parser.util.Matrix;
 import com.roryhool.videoinfoviewer.R;
 import com.roryhool.videoinfoviewer.utils.AtomHelper;
+import com.roryhool.videoinfoviewer.utils.Logg;
 
 public class BoxInfoView extends FrameLayout {
 
@@ -184,6 +189,51 @@ public class BoxInfoView extends FrameLayout {
 
       mBaseLayout.addView( layout );
    }
+   
+   private GridLayout addTableHeader( String... headers ) {
+      
+      GridLayout gridLayout = new GridLayout( getContext() );
+      gridLayout.setBackgroundResource( R.color.grey_faint );
+      int rowNum = 0;
+      int columnNum = 0;
+      for ( String header : headers ) {
+
+         RobotoTextView headerText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardKey ) );
+         headerText.setText( header );
+
+         Spec rowspecs = GridLayout.spec( rowNum, 1 );
+         Spec colspecs = GridLayout.spec( columnNum, 1 );
+         GridLayout.LayoutParams params = new GridLayout.LayoutParams( rowspecs, colspecs );
+         params.setGravity( Gravity.CENTER_HORIZONTAL );
+         params.setMargins( getContext().getResources().getDimensionPixelSize( R.dimen.column_padding ), 0, getContext().getResources().getDimensionPixelSize( R.dimen.column_padding ), 0 );
+
+         gridLayout.addView( headerText, params );
+
+         columnNum++;
+      }
+
+      return gridLayout;
+   }
+
+   private void addTableRow( GridLayout gridLayout, String... columns ) {
+      int rowNum = gridLayout.getRowCount();
+
+      int columnNum = 0;
+      for ( String column : columns ) {
+
+         RobotoTextView columnText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         columnText.setText( column );
+
+         Spec rowspecs = GridLayout.spec( rowNum, 1 );
+         Spec colspecs = GridLayout.spec( columnNum, 1 );
+         GridLayout.LayoutParams params = new GridLayout.LayoutParams( rowspecs, colspecs );
+         params.setGravity( Gravity.CENTER_HORIZONTAL );
+
+         gridLayout.addView( columnText, params );
+
+         columnNum++;
+      }
+   }
 
    private String getDisplayForObject( Object object ) {
       if ( object instanceof String ) {
@@ -284,6 +334,8 @@ public class BoxInfoView extends FrameLayout {
       mBoxTypeText.setText( box.getType() );
       mBoxDescriptionText.setText( AtomHelper.GetNameForType( box.getType() ) );
 
+      Logg.d( "Trying to load box %s", box.getClass().getName() );
+
       if ( box instanceof AbstractFullBox ) {
          LoadSpecificBox( (AbstractFullBox) box );
       }
@@ -359,7 +411,7 @@ public class BoxInfoView extends FrameLayout {
       } else if ( box instanceof SampleDependencyTypeBox ) {
          LoadSpecificBox( (SampleDependencyTypeBox) box );
       } else {
-
+         Logg.d( "Unable to load box of type %s", box.getClass().getName() );
       }
    }
 
@@ -432,10 +484,27 @@ public class BoxInfoView extends FrameLayout {
    private void LoadSpecificBox( EditListBox box ) {
       addViewForValue( "Entry Count:", box.getEntries().size() );
 
+      int skippedRows = 0;
+
+      GridLayout gridLayout = addTableHeader( "Segment Duration", "Media Time", "Media Rate" );
       for ( EditListBox.Entry entry : box.getEntries() ) {
-         addViewForValue( "Segment Duration:", entry.getSegmentDuration() );
-         addViewForValue( "Media Time:", entry.getMediaTime() );
-         addViewForValue( "Media Rate:", entry.getMediaRate() );
+         addTableRow( gridLayout, getDisplayForObject( entry.getSegmentDuration() ), getDisplayForObject( entry.getMediaTime() ), getDisplayForObject( entry.getMediaRate() ) );
+
+         if ( gridLayout.getRowCount() > 200 ) {
+            skippedRows = box.getEntries().size() - 200;
+            break;
+         }
+      }
+
+      HorizontalScrollView scrollView = new HorizontalScrollView( getContext() );
+      scrollView.addView( gridLayout );
+      mBaseLayout.addView( scrollView );
+
+      if ( skippedRows > 0 ) {
+
+         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
+         mBaseLayout.addView( text );
       }
    }
 
@@ -550,16 +619,54 @@ public class BoxInfoView extends FrameLayout {
    private void LoadSpecificBox( TimeToSampleBox box ) {
       addViewForValue( "Entries:", box.getEntries().size() );
 
-      for ( TimeToSampleBox.Entry entry : box.getEntries() ) {
+      int skippedRows = 0;
 
+      GridLayout gridLayout = addTableHeader( "Count", "Delta" );
+      for ( TimeToSampleBox.Entry entry : box.getEntries() ) {
+         addTableRow( gridLayout, getDisplayForObject( entry.getCount() ), getDisplayForObject( entry.getDelta() ) );
+
+         if ( gridLayout.getRowCount() > 200 ) {
+            skippedRows = box.getEntries().size() - 200;
+            break;
+         }
+      }
+
+      HorizontalScrollView scrollView = new HorizontalScrollView( getContext() );
+      scrollView.addView( gridLayout );
+      mBaseLayout.addView( scrollView );
+
+      if ( skippedRows > 0 ) {
+
+         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
+         mBaseLayout.addView( text );
       }
    }
 
    private void LoadSpecificBox( CompositionTimeToSample box ) {
       addViewForValue( "Entries:", box.getEntries().size() );
 
-      for ( CompositionTimeToSample.Entry entry : box.getEntries() ) {
+      int skippedRows = 0;
 
+      GridLayout gridLayout = addTableHeader( "Count", "Offset" );
+      for ( CompositionTimeToSample.Entry entry : box.getEntries() ) {
+         addTableRow( gridLayout, getDisplayForObject( entry.getCount() ), getDisplayForObject( entry.getOffset() ) );
+
+         if ( gridLayout.getRowCount() > 200 ) {
+            skippedRows = box.getEntries().size() - 200;
+            break;
+         }
+      }
+
+      HorizontalScrollView scrollView = new HorizontalScrollView( getContext() );
+      scrollView.addView( gridLayout );
+      mBaseLayout.addView( scrollView );
+
+      if ( skippedRows > 0 ) {
+
+         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
+         mBaseLayout.addView( text );
       }
    }
 
@@ -570,8 +677,27 @@ public class BoxInfoView extends FrameLayout {
    private void LoadSpecificBox( SampleToChunkBox box ) {
       addViewForValue( "Entries:", box.getEntries().size() );
 
-      for ( SampleToChunkBox.Entry entry : box.getEntries() ) {
+      int skippedRows = 0;
 
+      GridLayout gridLayout = addTableHeader( "First Chunk", "Sample Description Index", "Samples Per Chunk" );
+      for ( SampleToChunkBox.Entry entry : box.getEntries() ) {
+         addTableRow( gridLayout, getDisplayForObject( entry.getFirstChunk() ), getDisplayForObject( entry.getSampleDescriptionIndex() ), getDisplayForObject( entry.getSamplesPerChunk() ) );
+
+         if ( gridLayout.getRowCount() > 200 ) {
+            skippedRows = box.getEntries().size() - 200;
+            break;
+         }
+      }
+
+      HorizontalScrollView scrollView = new HorizontalScrollView( getContext() );
+      scrollView.addView( gridLayout );
+      mBaseLayout.addView( scrollView );
+
+      if ( skippedRows > 0 ) {
+
+         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
+         mBaseLayout.addView( text );
       }
    }
 
@@ -603,14 +729,12 @@ public class BoxInfoView extends FrameLayout {
 
    private void LoadSpecificBox( MediaDataBox box ) {
       addViewForValue( "Offset:", box.getOffset() );
-      addViewForValue( "Parent:", box.getParent() );
       addViewForValue( "Size:", box.getSize() );
       addViewForValue( "Type:", box.getType() );
    }
 
    private void LoadSpecificBox( EditBox box ) {
       addViewForValue( "Offset:", box.getOffset() );
-      addViewForValue( "Parent:", box.getParent() );
       addViewForValue( "Size:", box.getSize() );
       addViewForValue( "Type:", box.getType() );
    }
@@ -619,8 +743,28 @@ public class BoxInfoView extends FrameLayout {
 
       addViewForValue( "Entries:", box.getEntries().size() );
 
-      for ( SampleDependencyTypeBox.Entry entry : box.getEntries() ) {
+      int skippedRows = 0;
 
+      Logg.d( "there are %d entries", box.getEntries().size() );
+      GridLayout gridLayout = addTableHeader( "Reserved", "Sample Depends On", "Sample Has Redundancy", "Sample Is Dependent On" );
+      for ( SampleDependencyTypeBox.Entry entry : box.getEntries() ) {
+         addTableRow( gridLayout, getDisplayForObject( entry.getReserved() ), getDisplayForObject( entry.getSampleDependsOn() ), getDisplayForObject( entry.getSampleHasRedundancy() ), getDisplayForObject( entry.getSampleIsDependentOn() ) );
+
+         if ( gridLayout.getRowCount() > 200 ) {
+            skippedRows = box.getEntries().size() - 200;
+            break;
+         }
+      }
+
+      HorizontalScrollView scrollView = new HorizontalScrollView( getContext() );
+      scrollView.addView( gridLayout );
+      mBaseLayout.addView( scrollView );
+
+      if ( skippedRows > 0 ) {
+
+         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
+         mBaseLayout.addView( text );
       }
    }
 }
