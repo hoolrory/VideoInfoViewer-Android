@@ -20,8 +20,6 @@ import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -30,11 +28,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
@@ -181,6 +176,7 @@ public class VideoActivity extends Activity {
 
       getMenuInflater().inflate( R.menu.video, menu );
 
+      /*
       MenuItem searchMenuItem = menu.findItem( R.id.search );
 
       searchMenuItem.setOnActionExpandListener( new OnActionExpandListener() {
@@ -202,8 +198,10 @@ public class VideoActivity extends Activity {
          }
 
       } );
+      
       mSearchView = (SearchView) searchMenuItem.getActionView();
       mSearchView.setOnQueryTextListener( mSearchFragment );
+      */
 
       /*
        * mSearchView.setOnCloseListener( new OnCloseListener() {
@@ -217,6 +215,7 @@ public class VideoActivity extends Activity {
        * } );
        */
 
+      /*
       mSearchView.setOnSearchClickListener( new View.OnClickListener() {
 
          @Override
@@ -228,6 +227,7 @@ public class VideoActivity extends Activity {
             fragTransaction.commit();
          }
       } );
+      */
 
       return true;
    }
