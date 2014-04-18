@@ -75,6 +75,7 @@ import com.coremedia.iso.boxes.mdat.MediaDataBox;
 import com.coremedia.iso.boxes.sampleentry.AudioSampleEntry;
 import com.coremedia.iso.boxes.sampleentry.VisualSampleEntry;
 import com.googlecode.mp4parser.AbstractFullBox;
+import com.googlecode.mp4parser.boxes.apple.PixelAspectRationAtom;
 import com.googlecode.mp4parser.boxes.mp4.ESDescriptorBox;
 import com.googlecode.mp4parser.util.Matrix;
 import com.roryhool.videoinfoviewer.R;
@@ -410,8 +411,10 @@ public class BoxInfoView extends FrameLayout {
          LoadSpecificBox( (EditListBox) box );
       } else if ( box instanceof SampleDependencyTypeBox ) {
          LoadSpecificBox( (SampleDependencyTypeBox) box );
+      } else if ( box instanceof PixelAspectRationAtom ) {
+         LoadSpecificBox( (PixelAspectRationAtom) box );
       } else {
-         Logg.d( "Unable to load box of type %s", box.getClass().getName() );
+         Logg.d( "XAJM - Unable to load box of type %s", box.getClass().getName() );
       }
    }
 
@@ -766,5 +769,11 @@ public class BoxInfoView extends FrameLayout {
          text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
          mBaseLayout.addView( text );
       }
+   }
+
+   private void LoadSpecificBox( PixelAspectRationAtom box ) {
+
+      addViewForValue( "H Spacing::", box.gethSpacing() );
+      addViewForValue( "V Spacing::", box.getvSpacing() );
    }
 }
