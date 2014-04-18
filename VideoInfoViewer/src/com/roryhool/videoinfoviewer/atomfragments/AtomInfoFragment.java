@@ -16,6 +16,7 @@
 
 package com.roryhool.videoinfoviewer.atomfragments;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -71,15 +72,25 @@ public class AtomInfoFragment extends Fragment {
       @Override
       protected void onPostExecute( BoxInfoView view ) {
 
-         LinearLayout layout = (LinearLayout) getActivity().findViewById( R.id.root_layout );
-         layout.addView( view );
+         Activity activity = getActivity();
+
+         if ( activity != null ) {
+            LinearLayout layout = (LinearLayout) activity.findViewById( R.id.root_layout );
+            layout.addView( view );
+         }
       }
    }
 
    private BoxInfoView LoadBoxInfo( Box box ) {
 
-      BoxInfoView view = new BoxInfoView( getActivity() );
-      view.LoadBox( box );
+      BoxInfoView view = null;
+
+      Activity activity = getActivity();
+
+      if ( activity != null ) {
+         view = new BoxInfoView( activity );
+         view.LoadBox( box );
+      }
 
       return view;
    }
