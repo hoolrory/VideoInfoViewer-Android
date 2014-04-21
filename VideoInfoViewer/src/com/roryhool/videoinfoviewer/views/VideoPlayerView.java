@@ -215,7 +215,6 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
             Display display = wm.getDefaultDisplay();
             Point size = new Point();
             display.getSize( size );
-            int width = size.x;
             int height = size.y;
 
             View fullscreenTargetView = mFullscreenFillView;
@@ -241,7 +240,6 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    public void handleResize() {
 
-      Log.d( "this", "handleResize" );
       int currentHeight = getHeight();
       int targetHeight = getContext().getResources().getDimensionPixelSize( R.dimen.video_player_size );
 
@@ -252,13 +250,11 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
          if ( fullscreenTargetView == null ) {
             fullscreenTargetView = (View) getParent();
          }
-         // targetHeight = fullscreenTargetView.getHeight();
 
          WindowManager wm = (WindowManager) getContext().getSystemService( Context.WINDOW_SERVICE );
          Display display = wm.getDefaultDisplay();
          Point size = new Point();
          display.getSize( size );
-         int width = size.x;
          int height = size.y;
 
          targetHeight = height;
@@ -268,7 +264,6 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
          animation.setDuration( 200 );
          startAnimation( animation );
       } else {
-         Log.d( "this", "handleResize not fullscreen" );
          ResizeAnimation animation = new ResizeAnimation( VideoPlayerView.this, currentHeight, targetHeight, true );
          animation.setDuration( 200 );
          startAnimation( animation );
