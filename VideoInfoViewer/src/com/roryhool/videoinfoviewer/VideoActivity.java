@@ -44,6 +44,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
 import com.roryhool.videoinfoviewer.utils.FormatUtils;
@@ -353,6 +354,8 @@ public class VideoActivity extends Activity {
          mRetrieveIsoFileTask.execute( mVideo );
          return;
       }
+
+      Analytics.Instance( this ).LogEvent( "App Action", "Opened Video in VideoActivity" );
 
       findViewById( R.id.loading_progress ).setVisibility( View.GONE );
 

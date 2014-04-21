@@ -32,6 +32,7 @@ import com.coremedia.iso.IsoFile;
 import com.coremedia.iso.boxes.Box;
 import com.roryhool.videoinfoviewer.R;
 import com.roryhool.videoinfoviewer.data.Video;
+import com.roryhool.videoinfoviewer.utils.AtomHelper;
 import com.roryhool.videoinfoviewer.views.BoxView;
 import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 
@@ -110,6 +111,12 @@ public class AtomStructureFragment extends Fragment {
       }
 
       for ( Box box : isoFile.getBoxes() ) {
+
+         Activity activity = getActivity();
+         if ( activity != null ) {
+            AtomHelper.LogEventsForBox( activity, box );
+         }
+
          BoxView view = BoxView.CreateBoxViewAndChildren( getActivity(), mBoxViewOnClickListener, box );
          view.setTag( isoFile );
          views.add( view );

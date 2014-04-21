@@ -42,6 +42,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
 
@@ -146,6 +147,8 @@ public class MainActivity extends Activity {
       fragTransaction.add( R.id.fragment_frame, new CreditsFragment() );
       fragTransaction.addToBackStack( "Credits" );
       fragTransaction.commit();
+
+      Analytics.Instance( this ).LogEvent( "App Action", "Opened Credits" );
    }
 
    private void launchVideoChooser() {
@@ -155,6 +158,8 @@ public class MainActivity extends Activity {
       intent.setAction( Intent.ACTION_GET_CONTENT );
       Intent chooser = Intent.createChooser( intent, getString( R.string.select_video ) );
       startActivityForResult( chooser, SELECT_VIDEO_CODE );
+
+      Analytics.Instance( this ).LogEvent( "App Action", "Launched Video Chooser" );
    }
 
    @Override
@@ -205,6 +210,8 @@ public class MainActivity extends Activity {
 
          intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, video.CacheId );
          startActivity( intent );
+
+         Analytics.Instance( MainActivity.this ).LogEvent( "App Action", "Selected Video from Recent Videos List" );
       }
       
    }

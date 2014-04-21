@@ -191,6 +191,9 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    OnClickListener mOnFullscreenClickListener = new OnClickListener() {
       @Override
       public void onClick( View view ) {
+
+         Analytics.Instance( getContext() ).LogEvent( "App Action", "Toggled Fullscreen Mode" );
+
          if ( mMediaPlayer.isPlaying() ) {
             resetTimer();
          }

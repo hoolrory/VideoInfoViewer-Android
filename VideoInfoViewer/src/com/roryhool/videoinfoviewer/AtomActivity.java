@@ -23,6 +23,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.coremedia.iso.boxes.Box;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.atomfragments.AtomInfoFragment;
 import com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment;
 import com.roryhool.videoinfoviewer.data.Video;
@@ -53,6 +54,8 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
       }
 
       if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
+
+         Analytics.Instance( this ).LogEvent( "App Action", "Opened Video in AtomActivity" );
 
          mVideo = VideoCache.Instance( this ).getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
 

@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 
 import com.coremedia.iso.boxes.Box;
 import com.roryhool.videoinfoviewer.R;
+import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.views.BoxInfoView;
 
 public class AtomInfoFragment extends Fragment {
@@ -51,6 +52,11 @@ public class AtomInfoFragment extends Fragment {
 
       if ( !mLoaded ) {
          mLoaded = true;
+
+         Activity activity = getActivity();
+         if ( activity != null ) {
+            Analytics.Instance( activity ).LogEvent( "Video Info", "Load Atom Info", mBox.getType() );
+         }
          new RetrieveBoxInfoTask().execute( mBox );
       }
    }
