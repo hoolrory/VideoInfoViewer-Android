@@ -33,6 +33,7 @@ import android.widget.ToggleButton;
 import com.coremedia.iso.boxes.Box;
 import com.googlecode.mp4parser.AbstractContainerBox;
 import com.roryhool.videoinfoviewer.R;
+import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.utils.AtomHelper;
 
 public class BoxView extends FrameLayout {
@@ -98,8 +99,14 @@ public class BoxView extends FrameLayout {
 
    public void loadBox( Box box ) {
       mBox = box;
-      mTypeView.setText( box.getType() );
-      mDescriptionView.setText( AtomHelper.GetNameForType( box.getType() ) );
+      mTypeView.setText( mBox.getType() );
+
+      String name = AtomHelper.GetNameForType( mBox.getType() );
+
+      if ( name == null ) {
+         Analytics.Instance( getContext() ).LogEvent( "Video Info", "Failed to get name for type ", mBox.getType() );
+      }
+      mDescriptionView.setText( name );
    }
 
    private void setBoxViewOnClickListener( BoxViewOnClickListener listener ) {
