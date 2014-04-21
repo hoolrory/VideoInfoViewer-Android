@@ -48,6 +48,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.roryhool.videoinfoviewer.R;
+import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.animation.ResizeAnimation;
 
 public class VideoPlayerView extends FrameLayout implements SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener {
@@ -73,6 +74,8 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    boolean mControlsShowing = true;
 
    boolean mFullscreen = false;
+
+   boolean mAlreadyLoggedPlayAction = false;
 
    List<OnFullscreenListener> mFullscreenListeners = new ArrayList<OnFullscreenListener>();
 
@@ -281,6 +284,11 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
             }
             mMediaPlayer.start();
             mPlayButton.setImageResource( R.drawable.ic_media_pause );
+
+            if ( !mAlreadyLoggedPlayAction ) {
+               Analytics.Instance( getContext() ).LogEvent( "App Action", "Played Video" );
+               mAlreadyLoggedPlayAction = true;
+            }
          }
       }
    }
