@@ -20,6 +20,7 @@ import android.content.Context;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.roryhool.videoinfoviewer.utils.Logg;
 
 public class Analytics {
 
@@ -54,6 +55,7 @@ public class Analytics {
          return;
       }
 
+      Logg.d( "Logging event %s, %s, %s, %d", category, action, label, value );
       // MapBuilder.createEvent().build() returns a Map of event fields and values
       // that are set and sent with the hit.
       easyTracker.send(MapBuilder
