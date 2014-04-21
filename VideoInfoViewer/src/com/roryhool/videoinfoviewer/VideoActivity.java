@@ -30,6 +30,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
@@ -156,6 +157,9 @@ public class VideoActivity extends Activity {
       setupAds();
 
       EasyTracker.getInstance( this ).activityStart( this );
+
+      getActionBar().setDisplayHomeAsUpEnabled( true );
+      getActionBar().setDisplayShowHomeEnabled( true );
    }
 
    @Override
@@ -229,6 +233,19 @@ public class VideoActivity extends Activity {
          }
       } );
       */
+
+      return true;
+   }
+
+   @Override
+   public boolean onMenuItemSelected( int featureId, MenuItem item ) {
+
+      int itemId = item.getItemId();
+      switch ( itemId ) {
+      case android.R.id.home:
+         super.onBackPressed();
+         break;
+      }
 
       return true;
    }

@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 
 import com.coremedia.iso.boxes.Box;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -80,10 +81,26 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
    }
 
    @Override
+   public boolean onMenuItemSelected( int featureId, MenuItem item ) {
+
+      int itemId = item.getItemId();
+      switch ( itemId ) {
+      case android.R.id.home:
+         super.onBackPressed();
+         break;
+      }
+
+      return true;
+   }
+
+   @Override
    public void onStart() {
       super.onStart();
 
       EasyTracker.getInstance( this ).activityStart( this );
+
+      getActionBar().setDisplayHomeAsUpEnabled( true );
+      getActionBar().setDisplayShowHomeEnabled( true );
    }
 
    @Override
