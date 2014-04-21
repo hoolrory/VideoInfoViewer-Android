@@ -44,4 +44,6 @@
     
     <string name="icon_credit">Icon provided by <a href="http://dribbble.com/sok">Simeon K.</a></string>
     
+    <string name="video_thumbnail_content_description">Thumbnail from video</string>
+    
 </resources>

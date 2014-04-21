@@ -11,6 +11,7 @@
         android:layout_height="60dip"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
+        android:contentDescription="@string/video_thumbnail_content_description"
         android:scaleType="centerCrop" />
 
     <View

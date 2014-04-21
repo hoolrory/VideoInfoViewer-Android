@@ -8,7 +8,7 @@
       android:id="@+id/divider"
       android:layout_width="0dp"
       android:layout_height="0dp"
-      android:layout_centerHorizontal="true" />"
+      android:layout_centerHorizontal="true" />
     
    <com.roryhool.videoinfoviewer.views.RobotoTextView
 		android:id="@+id/array_title"
