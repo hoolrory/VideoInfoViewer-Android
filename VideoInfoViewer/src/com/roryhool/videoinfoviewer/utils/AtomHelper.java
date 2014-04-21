@@ -16,9 +16,66 @@
 
 package com.roryhool.videoinfoviewer.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import android.content.Context;
+
+import com.coremedia.iso.boxes.BitRateBox;
+import com.coremedia.iso.boxes.Box;
+import com.coremedia.iso.boxes.CompositionTimeToSample;
+import com.coremedia.iso.boxes.DataEntryUrlBox;
+import com.coremedia.iso.boxes.DataInformationBox;
+import com.coremedia.iso.boxes.DataReferenceBox;
+import com.coremedia.iso.boxes.EditBox;
+import com.coremedia.iso.boxes.EditListBox;
+import com.coremedia.iso.boxes.FileTypeBox;
+import com.coremedia.iso.boxes.FreeBox;
+import com.coremedia.iso.boxes.HandlerBox;
+import com.coremedia.iso.boxes.MediaBox;
+import com.coremedia.iso.boxes.MediaHeaderBox;
+import com.coremedia.iso.boxes.MediaInformationBox;
+import com.coremedia.iso.boxes.MetaBox;
+import com.coremedia.iso.boxes.MovieBox;
+import com.coremedia.iso.boxes.MovieHeaderBox;
+import com.coremedia.iso.boxes.SampleDependencyTypeBox;
+import com.coremedia.iso.boxes.SampleDescriptionBox;
+import com.coremedia.iso.boxes.SampleSizeBox;
+import com.coremedia.iso.boxes.SampleTableBox;
+import com.coremedia.iso.boxes.SampleToChunkBox;
+import com.coremedia.iso.boxes.SoundMediaHeaderBox;
+import com.coremedia.iso.boxes.StaticChunkOffsetBox;
+import com.coremedia.iso.boxes.SyncSampleBox;
+import com.coremedia.iso.boxes.TimeToSampleBox;
+import com.coremedia.iso.boxes.TrackBox;
+import com.coremedia.iso.boxes.TrackHeaderBox;
+import com.coremedia.iso.boxes.UnknownBox;
+import com.coremedia.iso.boxes.UserDataBox;
+import com.coremedia.iso.boxes.VideoMediaHeaderBox;
+import com.coremedia.iso.boxes.apple.AppleItemListBox;
+import com.coremedia.iso.boxes.h264.AvcConfigurationBox;
+import com.coremedia.iso.boxes.mdat.MediaDataBox;
+import com.coremedia.iso.boxes.sampleentry.AudioSampleEntry;
+import com.coremedia.iso.boxes.sampleentry.VisualSampleEntry;
+import com.googlecode.mp4parser.boxes.apple.PixelAspectRationAtom;
+import com.googlecode.mp4parser.boxes.mp4.ESDescriptorBox;
+import com.roryhool.videoinfoviewer.analytics.Analytics;
 
 public class AtomHelper {
+
+   public static List<Class<?>> sKnownBoxes = new ArrayList<Class<?>>();
+
+   public static void LogEventsForBox( Context context, Box box ) {
+      
+      if ( sKnownBoxes.contains( box.getClass() ) ) {
+         
+      } else if ( UnknownBox.class.isInstance( box ) ) {
+         Analytics.Instance( context ).LogEvent( "Video Info", "Found UnknownBox", box.getType() );
+      } else {
+         Analytics.Instance( context ).LogEvent( "Video Info", "Found box not in list", box.getType() );
+      }
+   }
 
    public static HashMap<String, String> sTypeToNameMap = new HashMap<String, String>();
 
@@ -197,5 +254,42 @@ public class AtomHelper {
       sTypeToNameMap.put( "disk", "Apple Disk Number Box" );
       sTypeToNameMap.put( "tkrn", "Apple Track Number Box" );
       sTypeToNameMap.put( "default", "Unknown Box" );
+
+      sKnownBoxes.add( FileTypeBox.class );
+      sKnownBoxes.add( MovieBox.class );
+      sKnownBoxes.add( MovieHeaderBox.class );
+      sKnownBoxes.add( TrackBox.class );
+      sKnownBoxes.add( TrackHeaderBox.class );
+      sKnownBoxes.add( MediaBox.class );
+      sKnownBoxes.add( MediaHeaderBox.class );
+      sKnownBoxes.add( HandlerBox.class );
+      sKnownBoxes.add( MediaInformationBox.class );
+      sKnownBoxes.add( VideoMediaHeaderBox.class );
+      sKnownBoxes.add( SoundMediaHeaderBox.class );
+      sKnownBoxes.add( DataInformationBox.class );
+      sKnownBoxes.add( DataReferenceBox.class );
+      sKnownBoxes.add( DataEntryUrlBox.class );
+      sKnownBoxes.add( SampleTableBox.class );
+      sKnownBoxes.add( SampleDescriptionBox.class );
+      sKnownBoxes.add( VisualSampleEntry.class );
+      sKnownBoxes.add( AudioSampleEntry.class );
+      sKnownBoxes.add( AvcConfigurationBox.class );
+      sKnownBoxes.add( BitRateBox.class );
+      sKnownBoxes.add( ESDescriptorBox.class );
+      sKnownBoxes.add( TimeToSampleBox.class );
+      sKnownBoxes.add( CompositionTimeToSample.class );
+      sKnownBoxes.add( SyncSampleBox.class );
+      sKnownBoxes.add( SampleToChunkBox.class );
+      sKnownBoxes.add( SampleSizeBox.class );
+      sKnownBoxes.add( StaticChunkOffsetBox.class );
+      sKnownBoxes.add( UserDataBox.class );
+      sKnownBoxes.add( MetaBox.class );
+      sKnownBoxes.add( AppleItemListBox.class );
+      sKnownBoxes.add( MediaDataBox.class );
+      sKnownBoxes.add( EditBox.class );
+      sKnownBoxes.add( EditListBox.class );
+      sKnownBoxes.add( SampleDependencyTypeBox.class );
+      sKnownBoxes.add( PixelAspectRationAtom.class );
+      sKnownBoxes.add( FreeBox.class );
    }
 }
