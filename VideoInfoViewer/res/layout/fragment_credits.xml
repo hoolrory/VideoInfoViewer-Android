@@ -20,7 +20,7 @@
 
        <View
            android:layout_width="match_parent"
-           android:layout_height="2px"
+           android:layout_height="@dimen/two_px"
            android:layout_margin="10dip"
            android:background="@color/grey_lighter" />
         
@@ -48,7 +48,7 @@
 
 	    <View
 	        android:layout_width="match_parent"
-	        android:layout_height="2px"
+	        android:layout_height="@dimen/two_px"
 	        android:layout_margin="10dip"
 	        android:background="@color/grey_lighter" />
         

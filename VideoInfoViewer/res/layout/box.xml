@@ -66,7 +66,7 @@
 	    android:src="@drawable/ic_menu_info_details" />
     
     <View 
-        android:layout_width="2px"
+        android:layout_width="@dimen/two_px"
         android:layout_height="match_parent"
         android:background="@color/grey_lighter"
         android:layout_toLeftOf="@+id/box_info_button"
@@ -75,18 +75,18 @@
     
     <View 
         android:layout_width="match_parent"
-        android:layout_height="2px"
+        android:layout_height="@dimen/two_px"
         android:background="@color/grey_lighter"
         android:layout_alignBottom="@+id/box_expand_button"
         android:clickable="false" />
     
     <View 
-        android:layout_width="2px"
+        android:layout_width="@dimen/two_px"
         android:layout_height="match_parent"
         android:background="@color/grey_lighter"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/child_boxes"
-        android:clickable="false" />"
+        android:clickable="false" />
     
     <LinearLayout
         android:id="@+id/child_boxes"

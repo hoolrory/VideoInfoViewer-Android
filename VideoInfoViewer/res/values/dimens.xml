@@ -9,4 +9,6 @@
     <dimen name="min_touch">48dp</dimen>
     
     <dimen name="column_padding">10dp</dimen>
+    
+    <dimen name="two_px">2px</dimen>
 </resources>

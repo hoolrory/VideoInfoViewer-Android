@@ -15,7 +15,7 @@
 
     <View
         android:layout_width="0dip"
-        android:layout_height="2px"
+        android:layout_height="@dimen/two_px"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="10dip"
         android:layout_toRightOf="@+id/video_thumbnail"
