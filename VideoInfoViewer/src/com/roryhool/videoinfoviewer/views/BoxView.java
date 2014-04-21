@@ -54,7 +54,7 @@ public class BoxView extends FrameLayout {
          for ( Box childBox : containerBox.getBoxes() ) {
             Log.d( "this", "adding child " + childBox.getType() + " - " + childBox.getClass().getName() );
             BoxView childView = BoxView.CreateBoxViewAndChildren( context, listener, childBox );
-            // childView.setVisibility( View.GONE );
+
             boxView.addChildBoxView( childView );
          }
       } else {
@@ -127,8 +127,8 @@ public class BoxView extends FrameLayout {
       @Override
       public void onCheckedChanged( CompoundButton view, boolean checked ) {
 
-         int from = checked ? 0 : 90;
-         int to = checked ? 90 : 0;
+         int from = checked ? -90 : 0;
+         int to = checked ? 0 : -90;
 
          RotateAnimation animation = new RotateAnimation( from, to, mBoxIcon.getWidth() / 2, mBoxIcon.getHeight() / 2 );
          animation.setDuration( 600 );
