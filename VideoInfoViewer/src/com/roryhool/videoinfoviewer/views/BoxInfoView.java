@@ -47,6 +47,7 @@ import com.coremedia.iso.boxes.DataReferenceBox;
 import com.coremedia.iso.boxes.EditBox;
 import com.coremedia.iso.boxes.EditListBox;
 import com.coremedia.iso.boxes.FileTypeBox;
+import com.coremedia.iso.boxes.FreeBox;
 import com.coremedia.iso.boxes.HandlerBox;
 import com.coremedia.iso.boxes.MediaBox;
 import com.coremedia.iso.boxes.MediaHeaderBox;
@@ -335,7 +336,7 @@ public class BoxInfoView extends FrameLayout {
       mBoxTypeText.setText( box.getType() );
       mBoxDescriptionText.setText( AtomHelper.GetNameForType( box.getType() ) );
 
-      Logg.d( "Trying to load box %s", box.getClass().getName() );
+      Logg.d( "XAJM - Trying to load box %s", box.getClass().getName() );
 
       if ( box instanceof AbstractFullBox ) {
          LoadSpecificBox( (AbstractFullBox) box );
@@ -413,7 +414,10 @@ public class BoxInfoView extends FrameLayout {
          LoadSpecificBox( (SampleDependencyTypeBox) box );
       } else if ( box instanceof PixelAspectRationAtom ) {
          LoadSpecificBox( (PixelAspectRationAtom) box );
+      } else if ( box instanceof FreeBox ) {
+         LoadSpecificBox( (FreeBox) box );
       } else {
+
          Logg.d( "XAJM - Unable to load box of type %s", box.getClass().getName() );
       }
    }
@@ -775,5 +779,11 @@ public class BoxInfoView extends FrameLayout {
 
       addViewForValue( "H Spacing::", box.gethSpacing() );
       addViewForValue( "V Spacing::", box.getvSpacing() );
+   }
+
+   private void LoadSpecificBox( FreeBox box ) {
+      addViewForValue( "Offset:", box.getOffset() );
+      addViewForValue( "Size:", box.getSize() );
+      addViewForValue( "Type:", box.getType() );
    }
 }
