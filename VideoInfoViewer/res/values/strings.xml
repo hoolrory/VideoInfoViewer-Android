@@ -14,6 +14,7 @@
     
     <string name="key_file_name">Name:</string>
     <string name="key_file_path">Path:</string>
+    <string name="key_frame_rate">Frame Rate:</string>
     <string name="key_format">Format:</string>
     <string name="key_format_profile">Format Profile:</string>
     <string name="key_codec_id">Codec ID:</string>

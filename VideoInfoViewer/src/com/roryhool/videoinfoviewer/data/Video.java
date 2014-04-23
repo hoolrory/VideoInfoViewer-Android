@@ -50,6 +50,9 @@ public class Video implements Comparable<Video> {
    @SerializedName( "MimeType" )
    public String MimeType;
 
+   @SerializedName( "FrameRate" )
+   public String FrameRate;
+
    @SerializedName( "Duration" )
    public String Duration;
 
@@ -90,6 +93,27 @@ public class Video implements Comparable<Video> {
          return null;
       }
 
+      
+      /*
+      float frameRate = 0;
+      
+      try {
+         MediaPlayer player = new MediaPlayer();
+         player.setDataSource( filePath );
+
+         TrackInfo[] infos = player.getTrackInfo();
+
+         for ( int i = 0; i < infos.length; i++ ) {
+            TrackInfo info = infos[i];
+            if ( info.getTrackType() == TrackInfo.MEDIA_TRACK_TYPE_VIDEO ) {
+               info.g
+               frameRate = (float) info.getFormat().getInteger( MediaFormat.KEY_FRAME_RATE );
+            }
+         }
+      } catch ( Exception e ) {
+
+      }*/
+      
       MediaMetadataRetriever retriever = new MediaMetadataRetriever();
       retriever.setDataSource( filePath );
 
@@ -99,6 +123,7 @@ public class Video implements Comparable<Video> {
       video.Format = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_TITLE );
       video.FileSize = Long.toString( file.length() );
       video.MimeType = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_MIMETYPE );
+      // video.FrameRate = Float.toString( frameRate );
       video.Duration = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DURATION );
       video.BitRate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_BITRATE );
       video.Date = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DATE );
