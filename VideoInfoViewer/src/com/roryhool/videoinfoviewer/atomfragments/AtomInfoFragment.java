@@ -120,6 +120,9 @@ public class AtomInfoFragment extends Fragment {
          Activity activity = getActivity();
 
          if ( activity != null ) {
+
+            activity.findViewById( R.id.loading_progress ).setVisibility( View.GONE );
+
             LinearLayout layout = (LinearLayout) activity.findViewById( R.id.root_layout );
             layout.addView( view );
          }
