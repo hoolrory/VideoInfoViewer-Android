@@ -25,19 +25,20 @@
                  style="@style/CardTitle_T2"
                  android:layout_toLeftOf="@+id/onboarding_image"
                  android:layout_marginTop="10dip"
-                 android:text="To get started, click here to select a video" />
+                 android:text="@string/onboarding_text" />
 		       
 		       <ImageView
 		           android:id="@+id/onboarding_image"
 		           android:layout_width="48dip"
 		           android:layout_height="48dip"
 		           android:layout_marginRight="36dip"
-		           android:contentDescription="Onboarding arrow pointing at select video button"
+		           android:contentDescription="@string/onboarding_image_content_description"
 		           android:src="@drawable/ic_commit_search_api_holo_light"
 		           android:layout_alignParentRight="true"
 		           android:layout_alignParentTop="true" />
 		       
        </RelativeLayout>
+       
 	    <LinearLayout
 	        android:id="@+id/video_properties_card"
 	        style="@style/CardLinearLayout"

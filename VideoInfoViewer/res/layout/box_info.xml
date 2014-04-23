@@ -51,7 +51,7 @@
             android:paddingBottom="0dp"
             android:paddingTop="4dp"
             android:clickable="false"
-            android:text="Raw Data" />
+            android:text="@string/raw_data" />
         
         <com.roryhool.videoinfoviewer.views.RobotoTextView
             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
             android:paddingBottom="0dp"
             android:paddingTop="4dp"
             android:clickable="false"
-            android:text="Bytes:" />
+            android:text="@string/bytes_key" />
         
         <com.roryhool.videoinfoviewer.views.RobotoTextView
             android:id="@+id/byte_text"
@@ -81,7 +81,7 @@
             android:paddingBottom="0dp"
             android:paddingTop="4dp"
             android:clickable="false"
-            android:text="String:" />
+            android:text="@string/string_key" />
         
         <com.roryhool.videoinfoviewer.views.RobotoTextView
             android:id="@+id/string_text"
