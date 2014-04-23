@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
          findViewById( R.id.video_properties_card ).setVisibility( View.VISIBLE );
       }
 
-      mAdapter = new RecentVideosAdapter( this, R.layout.recent_video_layout, VideoCache.Instance( this ).getVideos() );
+      mAdapter = new RecentVideosAdapter( this, R.layout.recent_video_layout, recentVideos );
       mRecentVideosList.setAdapter( mAdapter );
       mRecentVideosList.setOnItemClickListener( new OnVideoItemClickListener() );
 
