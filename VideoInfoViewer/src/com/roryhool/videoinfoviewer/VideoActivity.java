@@ -389,7 +389,8 @@ public class VideoActivity extends Activity {
 
       addKeyValueField( R.id.video_properties_layout, R.string.key_mimetype, video.MimeType );
 
-      addKeyValueField( R.id.video_properties_layout, R.string.key_frame_rate, video.FrameRate );
+      // addKeyValueField( R.id.video_properties_layout, R.string.key_frame_rate, video.FrameRate );
+
       // addKeyValueField( R.id.video_properties_layout, R.string.key_format, video.Format );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_format_profile, video.FormatProfile );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_codec_id, video.CodecID );
