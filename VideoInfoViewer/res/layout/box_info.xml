@@ -38,5 +38,61 @@
         </LinearLayout>
         
 	</LinearLayout>
+    
+   <LinearLayout
+       style="@style/CardLinearLayout">
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardTitle_T2"
+            android:textStyle="bold"
+            android:paddingLeft="12dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false"
+            android:text="Raw Data" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardKey"
+            android:paddingLeft="24dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false"
+            android:text="Bytes:" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:id="@+id/byte_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardValue"
+            android:paddingLeft="24dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardKey"
+            android:paddingLeft="24dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false"
+            android:text="String:" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:id="@+id/string_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardValue"
+            android:paddingLeft="24dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false" />
+       
+   </LinearLayout>
 	
 </LinearLayout>

@@ -16,7 +16,11 @@
 
 package com.roryhool.videoinfoviewer.views;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.WritableByteChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -75,6 +79,7 @@ import com.coremedia.iso.boxes.h264.AvcConfigurationBox.AVCDecoderConfigurationR
 import com.coremedia.iso.boxes.mdat.MediaDataBox;
 import com.coremedia.iso.boxes.sampleentry.AudioSampleEntry;
 import com.coremedia.iso.boxes.sampleentry.VisualSampleEntry;
+import com.googlecode.mp4parser.AbstractBox;
 import com.googlecode.mp4parser.AbstractFullBox;
 import com.googlecode.mp4parser.boxes.apple.PixelAspectRationAtom;
 import com.googlecode.mp4parser.boxes.mp4.ESDescriptorBox;
@@ -420,6 +425,34 @@ public class BoxInfoView extends FrameLayout {
 
          Logg.d( "XAJM - Unable to load box of type %s", box.getClass().getName() );
       }
+      
+      if ( box instanceof AbstractBox ) {
+         AbstractBox abstractBox = (AbstractBox) box;
+         abstractBox.getUserType();
+      }
+      
+      ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+      WritableByteChannel channel = Channels.newChannel( stream );
+      try {
+         box.getBox( channel );
+      } catch ( IOException e ) {
+         e.printStackTrace();
+      }
+      
+      String string = stream.toString();
+      byte[] byteArray = stream.toByteArray();
+
+      String byteString = "";
+      for ( int i = 0; i < byteArray.length; i++ ) {
+         byteString += String.format( Locale.US, "%02X ", byteArray[i] );
+      }
+
+      RobotoTextView byteText = (RobotoTextView) findViewById( R.id.byte_text );
+      byteText.setText( getDisplayForObject( byteString ) );
+
+      RobotoTextView stringText = (RobotoTextView) findViewById( R.id.string_text );
+      stringText.setText( getDisplayForObject( string ) );
    }
 
    private void LoadSpecificBox( AbstractFullBox box ) {
