@@ -9,6 +9,8 @@
     
     <string name="video_activity_admob_ad_unit_id"></string>
     
+    <string name="atom_info_admob_ad_unit_id"></string>
+    
     <!-- Add your personal devices here, so test ads are shown on them. -->
     
     <string-array name="admob_test_device_ids">

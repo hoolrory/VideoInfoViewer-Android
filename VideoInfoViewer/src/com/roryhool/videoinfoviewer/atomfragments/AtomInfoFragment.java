@@ -17,15 +17,20 @@
 package com.roryhool.videoinfoviewer.atomfragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.coremedia.iso.boxes.Box;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.roryhool.videoinfoviewer.R;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.views.BoxInfoView;
@@ -36,10 +41,18 @@ public class AtomInfoFragment extends Fragment {
 
    Box mBox;
 
+   FrameLayout mAdFrame;
+
+   private AdView mAdView;
+
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
 
-      return inflater.inflate( R.layout.fragment_box_info, container, false );
+      View view = inflater.inflate( R.layout.fragment_box_info, container, false );
+
+      mAdFrame = (FrameLayout) view.findViewById( R.id.adFrame );
+
+      return view;
    }
 
    public void setBox( Box box ) {
@@ -56,8 +69,34 @@ public class AtomInfoFragment extends Fragment {
          Activity activity = getActivity();
          if ( activity != null ) {
             Analytics.Instance( activity ).LogEvent( "Video Info", "Load Atom Info", mBox.getType() );
+            setupAds( activity );
          }
          new RetrieveBoxInfoTask().execute( mBox );
+      }
+   }
+
+   private void setupAds( Context context ) {
+
+      String admobAdUnitId = getString( R.string.atom_info_admob_ad_unit_id );
+
+      if ( admobAdUnitId != null && !admobAdUnitId.equals( ( "" ) ) ) {
+         mAdView = new AdView( context );
+         mAdView.setAdSize( AdSize.BANNER );
+         mAdView.setAdUnitId( admobAdUnitId );
+
+         mAdFrame.addView( mAdView );
+
+         String[] testDeviceIds = getResources().getStringArray( R.array.admob_test_device_ids );
+
+         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+         adRequestBuilder.addTestDevice( AdRequest.DEVICE_ID_EMULATOR );
+
+         for ( int i = 0; i < testDeviceIds.length; i++ ) {
+            adRequestBuilder.addTestDevice( testDeviceIds[i] );
+         }
+
+         AdRequest adRequest = adRequestBuilder.build();
+         mAdView.loadAd( adRequest );
       }
    }
 
