@@ -80,6 +80,14 @@ public class MainActivity extends Activity {
          Crittercism.initialize( getApplicationContext(), crittercismAppId );
       }
 
+      List<Video> recentVideos = VideoCache.Instance( this ).getVideos();
+
+      if ( recentVideos.size() == 0 ) {
+         findViewById( R.id.onboarding_layout ).setVisibility( View.VISIBLE );
+      } else {
+         findViewById( R.id.video_properties_card ).setVisibility( View.VISIBLE );
+      }
+
       mAdapter = new RecentVideosAdapter( this, R.layout.recent_video_layout, VideoCache.Instance( this ).getVideos() );
       mRecentVideosList.setAdapter( mAdapter );
       mRecentVideosList.setOnItemClickListener( new OnVideoItemClickListener() );
