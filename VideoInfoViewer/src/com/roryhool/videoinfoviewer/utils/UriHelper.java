@@ -27,6 +27,8 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import com.roryhool.videoinfoviewer.analytics.Analytics;
+
 public class UriHelper {
 	
 	private static String EXTERNAL_STORAGE_DOCUMENTS_PROVIDER 	= "com.android.externalstorage.documents";
@@ -96,6 +98,8 @@ public class UriHelper {
              return uri.getPath();
          }
 		
+      Analytics.Instance( context ).LogEvent( "Failure", "Failed to resolve content URI to path", uri.toString() );
+
 		return null;
 	}
 
