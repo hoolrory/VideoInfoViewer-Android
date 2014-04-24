@@ -18,12 +18,14 @@ package com.roryhool.videoinfoviewer;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,10 +46,10 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.data.Video;
+import com.roryhool.videoinfoviewer.utils.UriHelper;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
 
 public class MainActivity extends Activity {
-
 
    private int SELECT_VIDEO_CODE = 100;
 
@@ -159,22 +161,42 @@ public class MainActivity extends Activity {
       Analytics.Instance( this ).LogEvent( "App Action", "Opened Credits" );
    }
 
+   @SuppressLint( "NewApi" )
    private void launchVideoChooser() {
-      Intent intent = new Intent();
-      intent.addCategory( Intent.CATEGORY_OPENABLE );
-      intent.setType( "video/*" );
-      intent.setAction( Intent.ACTION_GET_CONTENT );
-      Intent chooser = Intent.createChooser( intent, getString( R.string.select_video ) );
-      startActivityForResult( chooser, SELECT_VIDEO_CODE );
+      if ( Build.VERSION.SDK_INT < 19 ) {
+         Intent intent = new Intent();
+         intent.addCategory( Intent.CATEGORY_OPENABLE );
+         intent.setType( "video/mp4" );
+         intent.setAction( Intent.ACTION_GET_CONTENT );
+         Intent chooser = Intent.createChooser( intent, getString( R.string.select_video ) );
+         startActivityForResult( chooser, SELECT_VIDEO_CODE );
+      } else {
+         Intent intent = new Intent( Intent.ACTION_OPEN_DOCUMENT );
+         intent.addCategory( Intent.CATEGORY_OPENABLE );
+         intent.setType( "video/mp4" );
+         intent.setAction( Intent.ACTION_GET_CONTENT );
+         Intent chooser = Intent.createChooser( intent, getString( R.string.select_video ) );
+         startActivityForResult( chooser, SELECT_VIDEO_CODE );
+      }
 
       Analytics.Instance( this ).LogEvent( "App Action", "Launched Video Chooser" );
    }
 
+   @SuppressLint( "NewApi" )
    @Override
    public void onActivityResult( int requestCode, int resultCode, Intent data ) {
-      if ( requestCode == SELECT_VIDEO_CODE && data != null ) {
+      if ( data != null ) {
          Intent intent = new Intent( this, VideoActivity.class );
-         intent.setData( data.getData() );
+
+         Uri uri = data.getData();
+
+         if ( uri.getScheme().equals( "content" ) ) {
+            String path = UriHelper.ContentUriToFilePath( this, uri );
+            intent.setData( Uri.parse( path ) );
+         } else {
+            intent.setData( data.getData() );
+         }
+
          startActivity(intent);
       }
    }
