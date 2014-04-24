@@ -45,7 +45,7 @@
                 <action android:name="android.intent.action.SHARE" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
-		        <data android:mimeType="video/*" />
+		        <data android:mimeType="video/mp4" />
 		      </intent-filter>
 		      
 			    <meta-data android:name="android.app.searchable"
