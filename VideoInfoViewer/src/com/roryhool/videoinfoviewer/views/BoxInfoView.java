@@ -27,11 +27,13 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.GridLayout.Spec;
@@ -95,7 +97,11 @@ public class BoxInfoView extends FrameLayout {
 
    LinearLayout mBaseLayout;
 
+   Button mButton;
+
    Box mBox;
+
+   LoadRawDataTask mLoadRawDataTask;
 
    public BoxInfoView( Context context ) {
       super( context );
@@ -106,6 +112,106 @@ public class BoxInfoView extends FrameLayout {
       mBoxDescriptionText = (TextView) findViewById( R.id.box_description );
 
       mBaseLayout = (LinearLayout) findViewById( R.id.box_layout );
+
+      mButton = (Button) findViewById( R.id.load_raw_data_button );
+      mButton.setOnClickListener( mLoadRawDataButtonClickListener );
+   }
+   
+   public void stop() 
+   {
+      if ( mLoadRawDataTask != null && mLoadRawDataTask.isRunning() )
+      {
+         mLoadRawDataTask.cancel();
+      }
+   }
+   
+   Button.OnClickListener mLoadRawDataButtonClickListener = new Button.OnClickListener(){
+
+      @Override
+      public void onClick( View view ) {
+
+         loadRawData();
+
+         mButton.setVisibility( View.GONE );
+      }
+      
+   };
+
+   private void loadRawData() {
+      mLoadRawDataTask = new LoadRawDataTask();
+      mLoadRawDataTask.execute( mBox );
+   }
+   
+   public class LoadRawDataTask extends AsyncTask<Box, Void, String[]> {
+
+      private boolean mRunning = true;
+
+      @Override
+      protected String[] doInBackground( Box... boxes ) {
+
+         String[] strings = new String[2];
+         Box box = boxes[0];
+         
+         ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+         WritableByteChannel channel = Channels.newChannel( stream );
+         try {
+            box.getBox( channel );
+         } catch ( IOException e ) {
+            e.printStackTrace();
+         }
+
+         String string = stream.toString();
+         byte[] byteArray = stream.toByteArray();
+
+         try {
+            stream.close();
+         } catch ( IOException e ) {
+            e.printStackTrace();
+         }
+
+         String byteString = "";
+         for ( int i = 0; i < byteArray.length; i++ ) {
+            if ( !mRunning ) {
+               return null;
+            }
+            byteString += String.format( Locale.US, "%02X ", byteArray[i] );
+         }
+
+         strings[0] = byteString;
+         strings[1] = string;
+
+         return strings;
+      }
+
+      @Override
+      protected void onPostExecute( String[] strings ) {
+
+         if ( mRunning ) {
+
+            String byteString = strings[0];
+            String string = strings[1];
+
+            LinearLayout layout = (LinearLayout) findViewById( R.id.raw_data_layout );
+            layout.setVisibility( View.VISIBLE );
+
+            RobotoTextView byteText = (RobotoTextView) findViewById( R.id.byte_text );
+            byteText.setText( getDisplayForObject( byteString ) );
+
+            RobotoTextView stringText = (RobotoTextView) findViewById( R.id.string_text );
+            stringText.setText( getDisplayForObject( string ) );
+         }
+
+         mRunning = false;
+      }
+
+      protected void cancel() {
+         mRunning = false;
+      }
+
+      public boolean isRunning() {
+         return mRunning;
+      }
    }
 
    private void addViewForValue( String key, Object value ) {
@@ -338,6 +444,8 @@ public class BoxInfoView extends FrameLayout {
 
    public void LoadBox( Box box ) {
       
+      mBox = box;
+
       mBoxTypeText.setText( box.getType() );
       mBoxDescriptionText.setText( AtomHelper.GetNameForType( box.getType() ) );
 
@@ -430,29 +538,6 @@ public class BoxInfoView extends FrameLayout {
          AbstractBox abstractBox = (AbstractBox) box;
          abstractBox.getUserType();
       }
-      
-      ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-      WritableByteChannel channel = Channels.newChannel( stream );
-      try {
-         box.getBox( channel );
-      } catch ( IOException e ) {
-         e.printStackTrace();
-      }
-      
-      String string = stream.toString();
-      byte[] byteArray = stream.toByteArray();
-
-      String byteString = "";
-      for ( int i = 0; i < byteArray.length; i++ ) {
-         byteString += String.format( Locale.US, "%02X ", byteArray[i] );
-      }
-
-      RobotoTextView byteText = (RobotoTextView) findViewById( R.id.byte_text );
-      byteText.setText( getDisplayForObject( byteString ) );
-
-      RobotoTextView stringText = (RobotoTextView) findViewById( R.id.string_text );
-      stringText.setText( getDisplayForObject( string ) );
    }
 
    private void LoadSpecificBox( AbstractFullBox box ) {

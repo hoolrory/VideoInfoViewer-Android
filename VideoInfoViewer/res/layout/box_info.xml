@@ -38,9 +38,18 @@
         </LinearLayout>
         
 	</LinearLayout>
-    
+	
+   <Button 
+       android:id="@+id/load_raw_data_button"
+       android:text="@string/load_raw_data"
+       android:layout_width="wrap_content"
+       android:layout_height="48dip"
+       android:layout_gravity="center_horizontal" />"
+   
    <LinearLayout
-       style="@style/CardLinearLayout">
+       android:id="@+id/raw_data_layout"
+       style="@style/CardLinearLayout"
+       android:visibility="invisible">
         
         <com.roryhool.videoinfoviewer.views.RobotoTextView
             android:layout_width="wrap_content"

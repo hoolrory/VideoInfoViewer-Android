@@ -45,6 +45,8 @@ public class AtomInfoFragment extends Fragment {
 
    private AdView mAdView;
 
+   private BoxInfoView mBoxInfoView;
+
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
 
@@ -72,6 +74,15 @@ public class AtomInfoFragment extends Fragment {
             setupAds( activity );
          }
          new RetrieveBoxInfoTask().execute( mBox );
+      }
+   }
+
+   @Override
+   public void onStop() {
+      super.onStop();
+
+      if ( mBoxInfoView != null ) {
+         mBoxInfoView.stop();
       }
    }
 
@@ -117,6 +128,8 @@ public class AtomInfoFragment extends Fragment {
       @Override
       protected void onPostExecute( BoxInfoView view ) {
 
+         mBoxInfoView = view;
+
          Activity activity = getActivity();
 
          if ( activity != null ) {
@@ -124,7 +137,7 @@ public class AtomInfoFragment extends Fragment {
             activity.findViewById( R.id.loading_progress ).setVisibility( View.GONE );
 
             LinearLayout layout = (LinearLayout) activity.findViewById( R.id.root_layout );
-            layout.addView( view );
+            layout.addView( mBoxInfoView );
          }
       }
    }

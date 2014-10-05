@@ -51,6 +51,8 @@
     
     <string name="onboarding_image_content_description">Onboarding arrow pointing at select video button</string>
     
+    <string name="load_raw_data">Load Raw Data</string>
+    
     <string name="raw_data">Raw Data</string>
     
     <string name="bytes_key">Bytes:</string>
