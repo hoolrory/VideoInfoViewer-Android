@@ -18,6 +18,7 @@ package com.roryhool.videoinfoviewer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -389,7 +390,7 @@ public class VideoActivity extends Activity {
 
       addKeyValueField( R.id.video_properties_layout, R.string.key_mimetype, video.MimeType );
 
-      // addKeyValueField( R.id.video_properties_layout, R.string.key_frame_rate, video.FrameRate );
+      addKeyValueField( R.id.video_properties_layout, R.string.key_frame_rate, String.format( Locale.US, "%s fps", video.FrameRate ) );
 
       // addKeyValueField( R.id.video_properties_layout, R.string.key_format, video.Format );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_format_profile, video.FormatProfile );

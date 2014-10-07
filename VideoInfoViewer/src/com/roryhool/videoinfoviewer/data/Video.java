@@ -18,6 +18,7 @@ package com.roryhool.videoinfoviewer.data;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,7 +26,10 @@ import android.media.MediaMetadataRetriever;
 import android.util.Log;
 
 import com.coremedia.iso.IsoFile;
+import com.coremedia.iso.boxes.Box;
+import com.coremedia.iso.boxes.SampleSizeBox;
 import com.google.gson.annotations.SerializedName;
+import com.roryhool.videoinfoviewer.utils.BoxUtils;
 
 public class Video implements Comparable<Video> {
 
@@ -93,27 +97,6 @@ public class Video implements Comparable<Video> {
          return null;
       }
 
-      
-      /*
-      float frameRate = 0;
-      
-      try {
-         MediaPlayer player = new MediaPlayer();
-         player.setDataSource( filePath );
-
-         TrackInfo[] infos = player.getTrackInfo();
-
-         for ( int i = 0; i < infos.length; i++ ) {
-            TrackInfo info = infos[i];
-            if ( info.getTrackType() == TrackInfo.MEDIA_TRACK_TYPE_VIDEO ) {
-               info.g
-               frameRate = (float) info.getFormat().getInteger( MediaFormat.KEY_FRAME_RATE );
-            }
-         }
-      } catch ( Exception e ) {
-
-      }*/
-      
       MediaMetadataRetriever retriever = new MediaMetadataRetriever();
       retriever.setDataSource( filePath );
 
@@ -123,7 +106,6 @@ public class Video implements Comparable<Video> {
       video.Format = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_TITLE );
       video.FileSize = Long.toString( file.length() );
       video.MimeType = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_MIMETYPE );
-      // video.FrameRate = Float.toString( frameRate );
       video.Duration = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DURATION );
       video.BitRate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_BITRATE );
       video.Date = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DATE );
@@ -137,6 +119,25 @@ public class Video implements Comparable<Video> {
          bitmap.compress( Bitmap.CompressFormat.PNG, 90, out );
          out.close();
       } catch ( Exception e ) {
+         e.printStackTrace();
+      }
+
+      IsoFile isoFile = null;
+      try {
+         isoFile = new IsoFile( video.FilePath );
+         
+         Box box = BoxUtils.FindBox( isoFile.getMovieBox(), "stsz" );
+
+         if ( box instanceof SampleSizeBox ) {
+            SampleSizeBox sampleSizeBox = (SampleSizeBox) box;
+            float durationMS = Float.parseFloat( video.Duration );
+            float durationS = durationMS / 1000.0f;
+            float sampleCount = (float) sampleSizeBox.getSampleCount();
+            float fps = sampleCount / durationS;
+            video.FrameRate = String.format( "%.2f", fps );
+         }
+         isoFile.close();
+      } catch ( IOException e ) {
          e.printStackTrace();
       }
 
