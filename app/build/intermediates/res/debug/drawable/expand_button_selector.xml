@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+       <item 
+           android:state_checked="true"
+           android:drawable="@color/transparent"
+           android:drawableTop="@drawable/ic_launcher" /> 
+       <item 
+           android:state_pressed="true"
+           android:drawable="@color/transparent"
+           android:drawableTop="@drawable/ic_expand"
+           android:background="@color/blue_peter_river" /> 
+       <item 
+           android:drawable="@color/transparent"
+           android:drawableTop="@drawable/ic_expand" /> 
+</selector><!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/drawable/expand_button_selector.xml -->

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="isoviewer-1.0-RC-35">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/isoviewer-1.0-RC-35.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

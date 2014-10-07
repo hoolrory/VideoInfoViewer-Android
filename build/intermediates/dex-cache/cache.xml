@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\crittercism_v4_4_0_sdkonly-9bdb5033bd5b3475b5194cf14dc1c7cb97520fe5.jar"
+        jar="C:\Android\workspace\videoinfoviewer\app\libs\crittercism_v4_4_0_sdkonly.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7f9b65d5334f9b290b69ee15cd295c418541c2b9"/>
+    <item
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\isoviewer-1.0-RC-35-cb822cd6fbc86afadf32a8719eb19da2fb3d7dc8.jar"
+        jar="C:\Android\workspace\videoinfoviewer\app\libs\isoviewer-1.0-RC-35.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="c7d2cd7b78de04299aa7ff230545bacd19aa173a"/>
+    <item
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\classes-33c826cd20aa3c5dc11a9cc56a56348d14fd8ea3.jar"
+        jar="C:\Android\workspace\videoinfoviewer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\4.4.52\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="3dfdf1db5ce5ea2999a5dcde8c8e650b02660059"/>
+    <item
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-7541db917baa506c0dd564574dda219c7099e134.jar"
+        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+    <item
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\gson-2.2.4-42afe232ee361e7dd9dbbf6e7f3d8149e0bc3d51.jar"
+        jar="C:\Users\User\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
+    <item
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\libGoogleAnalyticsServices-4814c786124c061844a43ccf945715a454ce0d20.jar"
+        jar="C:\Android\workspace\videoinfoviewer\app\libs\libGoogleAnalyticsServices.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e887c6c9b31b39a39b0eaba981448b78902ea813"/>
+
+</pre-dex-items>

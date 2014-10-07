@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0F0"
+    android:orientation="vertical">
+    
+	<LinearLayout
+	    style="@style/CardLinearLayout">
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:id="@+id/box_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardTitle_T2"
+            android:textStyle="bold"
+            android:paddingLeft="12dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:id="@+id/box_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardTitle_T3"
+            android:paddingLeft="12dp"
+            android:paddingBottom="6dp"
+            android:clickable="false" />
+	    
+		<LinearLayout 
+		    android:id="@+id/box_layout"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:orientation="vertical" >
+
+        </LinearLayout>
+        
+	</LinearLayout>
+	
+   <Button 
+       android:id="@+id/load_raw_data_button"
+       android:text="@string/load_raw_data"
+       android:layout_width="wrap_content"
+       android:layout_height="48dip"
+       android:layout_gravity="center_horizontal" />"
+   
+   <LinearLayout
+       android:id="@+id/raw_data_layout"
+       style="@style/CardLinearLayout"
+       android:visibility="invisible">
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardTitle_T2"
+            android:textStyle="bold"
+            android:paddingLeft="12dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false"
+            android:text="@string/raw_data" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardKey"
+            android:paddingLeft="24dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false"
+            android:text="@string/bytes_key" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:id="@+id/byte_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardValue"
+            android:paddingLeft="24dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardKey"
+            android:paddingLeft="24dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false"
+            android:text="@string/string_key" />
+        
+        <com.roryhool.videoinfoviewer.views.RobotoTextView
+            android:id="@+id/string_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardValue"
+            android:paddingLeft="24dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="4dp"
+            android:clickable="false" />
+       
+   </LinearLayout>
+	
+</LinearLayout><!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/layout/box_info.xml -->

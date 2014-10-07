@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+	<LinearLayout 
+	    android:id="@+id/atom_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical">
+          
+	    <ProgressBar
+	        android:id="@+id/loading_progress"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        style="@android:style/Widget.Holo.Light.Spinner"
+	        android:background="@null"
+	        android:layout_marginTop="10dp"
+	        android:layout_gravity="center_horizontal" />
+	    
+	</LinearLayout>
+
+</ScrollView>
+<!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/layout/fragment_atom_structure.xml -->

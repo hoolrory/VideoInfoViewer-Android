@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item 
+        android:state_pressed="true" 
+        android:background="@color/grey_faint"
+        android:drawable="@color/grey_faint" />
+    
+    <item 
+        android:background="@color/white"
+        android:drawable="@color/white"/> 
+</selector><!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/drawable/info_button_selector.xml -->

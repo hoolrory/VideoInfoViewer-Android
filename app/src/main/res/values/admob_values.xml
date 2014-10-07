@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- NOTE: Git ignores any changes to this file -->
+    
+    <!-- If this value is not filled in, the banner ad in MainActivity will not show. -->
+    
+    <string name="main_activity_admob_ad_unit_id">ca-app-pub-1668298707270419/3790975284</string>
+    
+    <string name="video_activity_admob_ad_unit_id">ca-app-pub-1668298707270419/7507347684</string>
+    
+    <string name="atom_info_admob_ad_unit_id">ca-app-pub-1668298707270419/7609165280</string>
+    
+    <!-- Add your personal devices here, so test ads are shown on them. -->
+    
+    <string-array name="admob_test_device_ids">
+        
+        <item>F9D413434A74A97B7606C727FD07E3C8</item>
+        
+        <item>7D7B920076CAE298B6652C4F45A013C8</item>
+        
+    </string-array>
+    
+</resources>

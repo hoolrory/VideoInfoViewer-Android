@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000" >
+
+    <com.roryhool.videoinfoviewer.views.ScaledTextureView
+        android:id="@+id/video_texture_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#C367AF" />
+    
+    <ImageButton
+        android:id="@+id/play_button"
+        android:layout_width="48dip"
+        android:layout_height="48dip"
+        android:src="@drawable/ic_media_play"
+        android:layout_centerInParent="true"
+        android:background="@drawable/button_selector"
+        android:contentDescription="@string/play_description" />
+    
+    <RelativeLayout
+        android:id="@+id/video_controls"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:background="@color/transparent_black"
+        android:layout_alignBottom="@+id/video_texture_view">
+    
+	    <SeekBar
+	        android:id="@+id/seek_bar"
+	        android:layout_width="match_parent"
+	        android:layout_height="48dip"
+	        android:minHeight="48dip"
+	        android:maxHeight="48dip"
+	        android:layout_marginRight="4dip"
+	        android:layout_marginLeft="4dip"
+	        android:layout_toLeftOf="@+id/fullscreen_button" />
+	    
+	    <ImageButton
+	        android:id="@+id/fullscreen_button"
+	        android:layout_width="48dip"
+	        android:layout_height="48dip"
+	        android:layout_marginRight="4dip"
+	        android:src="@drawable/ic_vidcontrol_fullscreen_on"
+	        android:layout_alignParentRight="true"
+	        android:background="@drawable/button_selector"
+	        android:contentDescription="@string/fullscreen_description" />
+    
+    </RelativeLayout>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:layout_below="@+id/video_texture_view"
+        android:background="@color/black" />
+    
+</RelativeLayout>
+<!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/layout/video_player.xml -->

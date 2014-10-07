@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+    <LinearLayout
+        android:id="@+id/left_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/divider" />
+    
+    <View 
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+    
+    <LinearLayout
+        android:id="@+id/right_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="left"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/divider" />
+
+</RelativeLayout>
+<!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/layout/fifty_fifty_layout.xml -->
