@@ -336,6 +336,11 @@ public class VideoActivity extends Activity {
    }
 
    private String GetFilePathFromUri( Uri uri ) {
+
+      if ( uri == null ) {
+         return null;
+      }
+
       String filePath = null;
 
       if ( uri.getPath() != null ) {
@@ -345,7 +350,9 @@ public class VideoActivity extends Activity {
          }
       }
 
-      if ( ( filePath == null ) && uri.getScheme().equals( "content" ) ) {
+      String scheme = uri.getScheme();
+      
+      if ( ( filePath == null ) && scheme != null && scheme.equals( "content" ) ) {
          String[] projection = { MediaStore.Video.Media.DATA };
          Cursor cursor = getContentResolver().query( uri, projection, null, null, null );
 
