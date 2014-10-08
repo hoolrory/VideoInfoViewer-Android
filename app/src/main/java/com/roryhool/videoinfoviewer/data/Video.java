@@ -109,8 +109,16 @@ public class Video implements Comparable<Video> {
       video.Duration = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DURATION );
       video.BitRate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_BITRATE );
       video.Date = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DATE );
-      video.VideoWidth = Integer.parseInt( retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH ) );
-      video.VideoHeight = Integer.parseInt( retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT ) );
+      try {
+         video.VideoWidth = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+      } catch (NumberFormatException e) {
+
+      }
+      try {
+         video.VideoHeight = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+      } catch (NumberFormatException e) {
+
+      }
       
       Bitmap bitmap = retriever.getFrameAtTime( Long.parseLong( video.Duration ) / 2 );
 
