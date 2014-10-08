@@ -29,6 +29,11 @@ public class FormatUtils {
    public static String DISPLAY_DATE_FORMAT = "yyyy-MM-dd-yy HH:mm aa";
 
    public static String FormatZuluDateTimeForDisplay( String zuluTime ) {
+
+      if ( zuluTime == null ) {
+          return "N/A";
+      }
+      
       DateFormat zuluFormat = new SimpleDateFormat( ZULU_DATE_FORMAT, Locale.US );
       zuluFormat.setTimeZone( java.util.TimeZone.getTimeZone( "Zulu" ) );
       
