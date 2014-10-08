@@ -349,6 +349,11 @@ public class BoxInfoView extends FrameLayout {
    }
 
    private String getDisplayForObject( Object object ) {
+
+      if ( object == null ) {
+         return "null";
+      }
+
       if ( object instanceof String ) {
          return (String) object;
       } else if ( object instanceof Long ) {
