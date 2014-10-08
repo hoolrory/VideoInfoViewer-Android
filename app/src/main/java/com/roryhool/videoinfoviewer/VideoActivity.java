@@ -396,14 +396,23 @@ public class VideoActivity extends Activity {
       // addKeyValueField( R.id.video_properties_layout, R.string.key_format_profile, video.FormatProfile );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_codec_id, video.CodecID );
 
-      String fileSizeString = FormatUtils.FormatFileSizeForDisplay( Float.parseFloat( video.FileSize ) );
+      String fileSizeString = "N/A";
+      if ( video.FileSize != null ) {
+         fileSizeString = FormatUtils.FormatFileSizeForDisplay(Float.parseFloat(video.FileSize));
+      }
       addKeyValueField( R.id.video_properties_layout, R.string.key_file_size, fileSizeString );
 
-      String durationString = FormatUtils.FormatTimeForDisplay( Long.parseLong( video.Duration ) );
-      addKeyValueField( R.id.video_properties_layout, R.string.key_duration, durationString );
+      String durationString = "N/A";
+      if ( video.Duration != null ) {
+         durationString = FormatUtils.FormatTimeForDisplay( Long.parseLong( video.Duration ) );
+      }
+      addKeyValueField(R.id.video_properties_layout, R.string.key_duration, durationString);
 
-      String kbps = FormatUtils.FormatBpsForDisplay( Long.parseLong( video.BitRate ) );
-      addKeyValueField( R.id.video_properties_layout, R.string.key_bitrate, kbps );
+      String kbps = "N/A";
+      if ( video.BitRate != null ) {
+         kbps = FormatUtils.FormatBpsForDisplay( Long.parseLong( video.BitRate ) );
+      }
+      addKeyValueField(R.id.video_properties_layout, R.string.key_bitrate, kbps);
 
       String dateString = FormatUtils.FormatZuluDateTimeForDisplay( video.Date );
       addKeyValueField( R.id.video_properties_layout, R.string.key_date, dateString );
