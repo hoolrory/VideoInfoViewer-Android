@@ -18,7 +18,7 @@
     <color name="black">#000000</color>
     <color name="blue_belize_hole">#2980b9</color>
     <color name="blue_peter_river">#3498db</color>
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values/common_colors.xml -->
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/common_colors.xml -->
     <eat-comment/>
     <color name="common_action_bar_splitter">#d2d2d2</color>
     <color name="common_signin_btn_dark_text_default">@android:color/white</color>
@@ -48,7 +48,7 @@
     <color name="transparent">#00000000</color>
     <color name="transparent_black">#44000000</color>
     <color name="transparent_blue_peter_river">#443498db</color>
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values/wallet_colors.xml -->
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/wallet_colors.xml -->
     <eat-comment/>
     <color name="wallet_bright_foreground_disabled_holo_light">#ffb2b2b2</color>
     <color name="wallet_bright_foreground_holo_dark">#fff3f3f3</color>
@@ -69,7 +69,7 @@
     <color name="white_grey">#F0F0F0</color>
     <declare-styleable name="AdsAttrs"><attr format="string" name="adSize"/><attr format="string" name="adSizes"/><attr format="string" name="adUnitId"/></declare-styleable>
     <declare-styleable name="MapAttrs"><attr format="enum" name="mapType"><enum name="none" value="0"/><enum name="normal" value="1"/><enum name="satellite" value="2"/><enum name="terrain" value="3"/><enum name="hybrid" value="4"/></attr><attr format="float" name="cameraBearing"/><attr format="float" name="cameraTargetLat"/><attr format="float" name="cameraTargetLng"/><attr format="float" name="cameraTilt"/><attr format="float" name="cameraZoom"/><attr format="boolean" name="uiCompass"/><attr format="boolean" name="uiRotateGestures"/><attr format="boolean" name="uiScrollGestures"/><attr format="boolean" name="uiTiltGestures"/><attr format="boolean" name="uiZoomControls"/><attr format="boolean" name="uiZoomGestures"/><attr format="boolean" name="useViewLifecycle"/><attr format="boolean" name="zOrderOnTop"/></declare-styleable>
-    <declare-styleable name="WalletFragmentOptions"><attr format="enum" name="theme"><enum name="holo_dark" value="0"/><enum name="holo_light" value="1"/></attr><attr format="enum" name="environment"><enum name="production" value="1"/><enum name="sandbox" value="0"/><enum name="strict_sandbox" value="2"/></attr><attr format="reference" name="fragmentStyle"/><attr format="enum" name="fragmentMode"><enum name="buyButton" value="1"/><enum name="selectionDetails" value="2"/></attr></declare-styleable>
+    <declare-styleable name="WalletFragmentOptions"><attr format="enum" name="appTheme"><enum name="holo_dark" value="0"/><enum name="holo_light" value="1"/></attr><attr format="enum" name="environment"><enum name="production" value="1"/><enum name="sandbox" value="0"/><enum name="strict_sandbox" value="2"/></attr><attr format="reference" name="fragmentStyle"/><attr format="enum" name="fragmentMode"><enum name="buyButton" value="1"/><enum name="selectionDetails" value="2"/></attr></declare-styleable>
     <declare-styleable name="WalletFragmentStyle"><attr format="dimension" name="buyButtonHeight"><enum name="match_parent" value="-1"/><enum name="wrap_content" value="-2"/></attr><attr format="dimension" name="buyButtonWidth"><enum name="match_parent" value="-1"/><enum name="wrap_content" value="-2"/></attr><attr format="enum" name="buyButtonText"><enum name="buy_with_google" value="1"/><enum name="buy_now" value="2"/><enum name="book_now" value="3"/></attr><attr format="enum" name="buyButtonAppearance"><enum name="classic" value="1"/><enum name="grayscale" value="2"/><enum name="monochrome" value="3"/></attr><attr format="reference" name="maskedWalletDetailsTextAppearance"/><attr format="reference" name="maskedWalletDetailsHeaderTextAppearance"/><attr format="reference|color" name="maskedWalletDetailsBackground"/><attr format="reference" name="maskedWalletDetailsButtonTextAppearance"/><attr format="reference|color" name="maskedWalletDetailsButtonBackground"/><attr format="color" name="maskedWalletDetailsLogoTextColor"/><attr format="enum" name="maskedWalletDetailsLogoImageType"><enum name="classic" value="1"/><enum name="monochrome" value="2"/></attr></declare-styleable>
     <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
@@ -79,9 +79,12 @@
     <dimen name="min_touch">48dp</dimen>
     <dimen name="two_px">2px</dimen>
     <dimen name="video_player_size">230dp</dimen>
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values/version.xml -->
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/version.xml -->
     <eat-comment/>
-    <integer name="google_play_services_version">4452000</integer>
+    <integer name="google_play_services_version">6111000</integer>
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/admob_strings.xml -->
+    <eat-comment/>
+    <string name="accept">Accept</string>
     <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_credits">Credits</string>
@@ -95,8 +98,11 @@
     <eat-comment/>
     <string name="box_info_button_description">View Detailed Box Information</string>
     <string name="bytes_key">Bytes:</string>
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values/common_strings.xml -->
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/common_strings.xml -->
     <eat-comment/>
+    <string name="common_android_wear_notification_needs_update_text">An application requires an update to the Android Wear app.</string>
+    <string name="common_android_wear_update_text">This app won\'t run unless you update the Android Wear app.</string>
+    <string msgid="6006316683626838685" name="common_android_wear_update_title">Update Android Wear</string>
     <string msgid="2523291102206661146" name="common_google_play_services_enable_button">Enable Google Play services</string>
     <string msgid="227660514972886228" name="common_google_play_services_enable_text">This app won\'t work unless you enable Google Play services.</string>
     <string msgid="5122002158466380389" name="common_google_play_services_enable_title">Enable Google Play services</string>
@@ -114,17 +120,24 @@
     <string name="common_google_play_services_notification_needs_update_title">An application requires an update for Google Play services.</string>
     <string name="common_google_play_services_notification_ticker">Google Play services error</string>
     <string name="common_google_play_services_unknown_issue">Unknown issue with Google Play services.</string>
-    <string name="common_google_play_services_unsupported_date_text">The date on the device appears to be incorrect. Please check the date on the device.</string>
     <string name="common_google_play_services_unsupported_text">Google Play services, which some of your applications rely on, is not supported by your device. Please contact the manufacturer for assistance.</string>
     <string name="common_google_play_services_unsupported_title">Google Play services</string>
     <string msgid="6556509956452265614" name="common_google_play_services_update_button">Update</string>
     <string msgid="9053896323427875356" name="common_google_play_services_update_text">This app won\'t run unless you update Google Play services.</string>
-    <string msgid="1788179980625863495" name="common_google_play_services_update_title">Update Google Play services</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">Update Google Play services</string>
+    <string name="common_open_on_phone">Open on phone</string>
     <string name="common_signin_button_text">Sign in</string>
     <string name="common_signin_button_text_long">Sign in with Google</string>
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/admob_strings.xml -->
+    <eat-comment/>
+    <string name="create_calendar_message">Allow Ad to create a calendar event?</string>
+    <string name="create_calendar_title">Create calendar event</string>
     <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/values/crittercism_values.xml -->
     <eat-comment/>
     <string name="crittercism_app_id">532645ac2e2e1f6abc000002</string>
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/admob_strings.xml -->
+    <eat-comment/>
+    <string name="decline">Decline</string>
     <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="expand_box_icon_description">Expand Box Description</string>
@@ -164,6 +177,12 @@
     <string name="search_hint">Search for property</string>
     <string name="search_title">Search</string>
     <string name="select_video">Select Video</string>
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/admob_strings.xml -->
+    <eat-comment/>
+    <string name="store_picture_message">"Allow Ad to store image in Picture gallery?"</string>
+    <string name="store_picture_title">Save image</string>
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
     <string name="string_key">String:</string>
     <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/values/admob_values.xml -->
     <eat-comment/>
@@ -174,7 +193,7 @@
     <string name="video_thumbnail_content_description">Thumbnail from video</string>
     <string name="view_atom_structure">View Atom Structure</string>
     <string name="view_video_info">View Video Info</string>
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values/wallet_strings.xml -->
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/wallet_strings.xml -->
     <eat-comment/>
     <string name="wallet_buy_button_place_holder" translation_description="Text on a button that allows a user to make a payment with Google Wallet [CHAR LIMIT=30]">Buy with Google</string>
     <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/src/main/res/values/styles.xml -->
@@ -286,7 +305,17 @@
         <item name="android:paddingBottom">2dp</item>
         <item name="android:textColor">@color/grey_dark</item>
     </style>
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values/wallet_styles.xml -->
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/admob_iap_style.xml -->
+    <eat-comment/>
+    <style name="Theme.IAPTheme" parent="android:Theme">
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowIsFloating">true</item>
+    <item name="android:backgroundDimEnabled">false</item>
+  </style>
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values/wallet_styles.xml -->
     <eat-comment/>
     <style name="WalletFragmentDefaultButtonTextAppearance">
         <item name="android:textColor">@color/wallet_primary_text_holo_light</item>

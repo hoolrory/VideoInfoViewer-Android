@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values-be/auth_strings.xml -->
-    <eat-comment/>
-    <string msgid="3983201110833868073" name="auth_client_needs_enabling_title">"Прыкладанне патрабуе ўключэння службаў Google Play."</string>
-    <string msgid="7999585836145154206" name="auth_client_needs_installation_title">"Прыкладанне патрабуе ўсталявання службаў Google Play."</string>
-    <string msgid="6488605506794595966" name="auth_client_needs_update_title">"Прыкладанне патрабуе абнаўлення службаў Google Play."</string>
-    <string msgid="3635065018897986478" name="auth_client_play_services_err_notification_msg">"Памылка службаў Google Play"</string>
-    <string msgid="6304135633531965756" name="auth_client_requested_by_msg">"Запытана прыкладаннем <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
-    <string msgid="2534454398764507874" name="auth_client_using_bad_version_title">"Прыкладанне паспрабавала скарыстацца сапсаванай версіяй службаў Google Play."</string>
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values-be/common_strings.xml -->
+<resources>
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values-be/common_strings.xml -->
     <eat-comment/>
     <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Уключыць службы Google Play"</string>
     <string msgid="7627896071867667758" name="common_google_play_services_enable_text">"Гэта прыкладанне не будзе працаваць, пакуль вы не ўключыце службы Google Play."</string>

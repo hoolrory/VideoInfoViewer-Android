@@ -20,3 +20,16 @@ obj/
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
 .gradle
 build/
+.gradle/
+
+.DS_Store
+
+**/build
+*.iml
+*.iws
+*.ipr
+*.swp
+*~
+
+# Local environment setup
+local.properties

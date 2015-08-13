@@ -12,14 +12,14 @@ android {
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.android.support:support-v4:21.+'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.google.android.gms:play-services:+'
     compile files('libs/crittercism_v4_4_0_sdkonly.jar')

@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values-uk/auth_strings.xml -->
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values-uk/common_strings.xml -->
     <eat-comment/>
-    <string msgid="3983201110833868073" name="auth_client_needs_enabling_title">"Щоб програма працювала, потрібно ввімкнути Сервіси Google Play."</string>
-    <string msgid="7999585836145154206" name="auth_client_needs_installation_title">"Щоб програма працювала, потрібно встановити Сервіси Google Play."</string>
-    <string msgid="6488605506794595966" name="auth_client_needs_update_title">"Щоб програма працювала, потрібно оновити Сервіси Google Play."</string>
-    <string msgid="3635065018897986478" name="auth_client_play_services_err_notification_msg">"Помилка Сервісів Google Play"</string>
-    <string msgid="6304135633531965756" name="auth_client_requested_by_msg">"Запит від програми <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
-    <string msgid="2534454398764507874" name="auth_client_using_bad_version_title">"Програма спробувала застосувати хибну версію Сервісів Google Play."</string>
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values-uk/common_strings.xml -->
-    <eat-comment/>
+    <string msgid="473679118463211576" name="common_android_wear_notification_needs_update_text">"Для роботи додатка потрібно оновити Android Wear."</string>
+    <string msgid="3046420540094071256" name="common_android_wear_update_text">"Цей додаток запуститься, лише коли ви оновите Android Wear."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"Оновити Android Wear"</string>
     <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Увімкнути Google Play Послуги"</string>
     <string msgid="7627896071867667758" name="common_google_play_services_enable_text">"Ця програма не працюватиме, поки ви не ввімкнете Google Play Послуги."</string>
     <string msgid="529078775174559253" name="common_google_play_services_enable_title">"Увімкнути Google Play Послуги"</string>
@@ -27,12 +22,12 @@
     <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"Щоб додаток працював, потрібно оновити сервіси Google Play."</string>
     <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Помилка сервісів Google Play"</string>
     <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Google Play Послуги – невідома проблема."</string>
-    <string msgid="4725396522367789365" name="common_google_play_services_unsupported_date_text">"Схоже, на пристрої вказано неправильну дату. Перевірте її."</string>
     <string msgid="3542578567569488671" name="common_google_play_services_unsupported_text">"Ваш пристрій не підтримує Сервіси Google Play, від яких залежить робота деяких програм. Зверніться по допомогу до виробника."</string>
     <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Сервіси Google Play"</string>
     <string msgid="8932944190611227642" name="common_google_play_services_update_button">"Оновити"</string>
     <string msgid="448354684997260580" name="common_google_play_services_update_text">"Ця програма не запуститься, поки ви не оновите Google Play Послуги."</string>
     <string msgid="6006316683626838685" name="common_google_play_services_update_title">"Оновити Google Play Послуги"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"Відкрити на телефоні"</string>
     <string msgid="9071884888741449141" name="common_signin_button_text">"Увійти"</string>
     <string msgid="2429381841831957106" name="common_signin_button_text_long">"Увійти в обл.запис Google"</string>
 </resources>

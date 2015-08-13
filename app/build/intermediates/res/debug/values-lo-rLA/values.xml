@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values-lo-rLA/auth_strings.xml -->
+    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.11/res/values-lo-rLA/common_strings.xml -->
     <eat-comment/>
-    <string msgid="3983201110833868073" name="auth_client_needs_enabling_title">"ແອັບພລິເຄຊັນຕ້ອງການເປີດນຳໃຊ້ Google Play Services."</string>
-    <string msgid="7999585836145154206" name="auth_client_needs_installation_title">"ແອັບພລິເຄຊັນຕ້ອງການໃຫ້ຕິດຕັ້ງ Google Play Services."</string>
-    <string msgid="6488605506794595966" name="auth_client_needs_update_title">"ແອັບພລິເຄຊັນຕ້ອງການອັບເດດ Google Play Services."</string>
-    <string msgid="3635065018897986478" name="auth_client_play_services_err_notification_msg">"ບໍລິການ Google Play ຜິດພາດ"</string>
-    <string msgid="6304135633531965756" name="auth_client_requested_by_msg">"ຮ້ອງຂໍໂດຍ <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
-    <string msgid="2534454398764507874" name="auth_client_using_bad_version_title">"ແອັບພລິເຄຊັນໄດ້ພະຍາຍາມໃຊ້ Google Play Services ເວີຊັນທີ່ບໍ່ສາມາດໃຊ້ໄດ້."</string>
-    <!-- From: file:/C:/Android/workspace/videoinfoviewer/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/res/values-lo-rLA/common_strings.xml -->
-    <eat-comment/>
+    <string msgid="473679118463211576" name="common_android_wear_notification_needs_update_text">"ແອັບະ​ລິ​ເຄ​ຊັນ​ຕ້ອງ​ການ​ໃຫ້​ອັບ​ເດດ​ແອັບຯ Android Wear."</string>
+    <string msgid="3046420540094071256" name="common_android_wear_update_text">"ແອັບຯ​ນີ້​ຈະ​ບໍ່​ສາ​ມາດ​ໃຊ້​ໄດ້​ຈົນ​ກວ່າ​ທ່ານ​ຈະ​ອັບ​ເດດ​ແອັບຯ Android Wear."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"​ອັບ​ເດດ Android Wear"</string>
     <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"ເປີດໃຊ້ບໍລິການ Google Play"</string>
     <string msgid="7627896071867667758" name="common_google_play_services_enable_text">"ແອັບຯນີ້ຈະບໍ່ສາມາດເຮັດວຽກໄດ້ຈົນກວ່າທ່ານຈະເປີດໃຊ້ບໍລິການ Google Play"</string>
     <string msgid="529078775174559253" name="common_google_play_services_enable_title">"ເປີດໃຊ້ບໍລິການ Google Play"</string>
@@ -27,12 +22,12 @@
     <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"​ແອັບ​ພ​ລິ​ເຄ​ຊັນ​ຕ້ອງ​ການ​ໃຫ້​ອັບ​ເດດບໍ​ລິ​ການ Google Play ກ່ອນ."</string>
     <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Google Play Services ​ເກີດ​ຄວາມ​ຜິດ​ພາດ"</string>
     <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"ມີປັນຫາທີ່ບໍ່ຄາດຄິດໃນບໍລິການ Google Play."</string>
-    <string msgid="4725396522367789365" name="common_google_play_services_unsupported_date_text">"ວັນທີຂອງອຸປະກອນບໍ່ຖືກຕ້ອງ. ກະລຸນາກວດສອບວັນທີຂອງອຸປະກອນຂອງທ່ານ."</string>
     <string msgid="3542578567569488671" name="common_google_play_services_unsupported_text">"ບໍລິການ Google Play ທີ່ບາງແອັບພລິເຄຊັນຂອງທ່ານຕ້ອງອາໄສນັ້ນ ບໍ່ຖືກຮອງຮັບໃນອຸປະກອນຂອງທ່ານ. ກະລຸນາຕິດຕໍ່ຜູ້ຜະລິດສຳລັບການແນະນຳ."</string>
     <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"ບໍລິການ Google Play"</string>
     <string msgid="8932944190611227642" name="common_google_play_services_update_button">"ອັບເດດ"</string>
     <string msgid="448354684997260580" name="common_google_play_services_update_text">"ແອັບຯນີ້ຈະບໍ່ສາມາດເຮັດວຽກໄດ້ຈົນກວ່າທ່ານຈະອັບເດດບໍລິການ Google Play."</string>
     <string msgid="6006316683626838685" name="common_google_play_services_update_title">"ອັບເດດບໍລິການ Google Play"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"​ເປີດ​ໃນ​ໂທ​ລະ​ສັບ"</string>
     <string msgid="9071884888741449141" name="common_signin_button_text">"ເຂົ້າສູ່ລະບົບ"</string>
     <string msgid="2429381841831957106" name="common_signin_button_text_long">"ເຂົ້າສູ່ລະບົບດ້ວຍ Google"</string>
 </resources>

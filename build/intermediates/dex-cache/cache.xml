@@ -14,17 +14,17 @@
         revision="20.0.0"
         sha1="c7d2cd7b78de04299aa7ff230545bacd19aa173a"/>
     <item
-        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\classes-33c826cd20aa3c5dc11a9cc56a56348d14fd8ea3.jar"
-        jar="C:\Android\workspace\videoinfoviewer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\4.4.52\classes.jar"
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\classes-fe36e66ebec5c73b2306eba71717e42ae7edc0b5.jar"
+        jar="C:\Android\workspace\videoinfoviewer\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="3dfdf1db5ce5ea2999a5dcde8c8e650b02660059"/>
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
     <item
-        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-7541db917baa506c0dd564574dda219c7099e134.jar"
-        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-665f80eb160525767caee63ea160a2046d9da6b3.jar"
+        jar="C:\Android\workspace\videoinfoviewer\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
     <item
         dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\gson-2.2.4-42afe232ee361e7dd9dbbf6e7f3d8149e0bc3d51.jar"
         jar="C:\Users\User\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
@@ -37,5 +37,17 @@
         jumboMode="false"
         revision="20.0.0"
         sha1="e887c6c9b31b39a39b0eaba981448b78902ea813"/>
+    <item
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-9ade5ec4e43d9f0dedde29f0e205b2f48594e1c0.jar"
+        jar="C:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
+    <item
+        dex="C:\Android\workspace\videoinfoviewer\app\build\intermediates\pre-dexed\debug\classes-49391b27838bf8fa670c532b6234a6d875dbd92b.jar"
+        jar="C:\Android\workspace\videoinfoviewer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.1.11\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="0f700f6802ba1a1f1fa7ac26d5db0666a89d75a6"/>
 
 </pre-dex-items>
