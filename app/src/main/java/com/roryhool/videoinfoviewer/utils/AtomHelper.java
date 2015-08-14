@@ -84,7 +84,7 @@ public class AtomHelper {
    }
 
    static {
-      sTypeToNameMap.put( "©cmt", "iTunes Comment" );
+      sTypeToNameMap.put( "\u00A9cmt", "iTunes Comment" );
       sTypeToNameMap.put( "skip", "Free Space Box" );
       sTypeToNameMap.put( "odda", "OMA DRM Content Object Box" );
       sTypeToNameMap.put( "hinf", "Hint Statistics Box" );
@@ -92,7 +92,7 @@ public class AtomHelper {
       sTypeToNameMap.put( "edts", "Edit Box" );
       sTypeToNameMap.put( "ilst", "iTunes Meta Data" );
       sTypeToNameMap.put( "tvsn", "iTunes TV Season Box" );
-      sTypeToNameMap.put( "©grp", "iTunes Grouping Box" );
+      sTypeToNameMap.put( "\u00A9grp", "iTunes Grouping Box" );
       sTypeToNameMap.put( "stss", "Sync Sample Box" );
       sTypeToNameMap.put( "dref", "Data Reference Box" );
       sTypeToNameMap.put( "tvsh", "iTunes TV Show Box" );
@@ -109,12 +109,12 @@ public class AtomHelper {
       sTypeToNameMap.put( "traf", "Track Fragment Box" );
       sTypeToNameMap.put( "stsd", "Sample Description Box" );
       sTypeToNameMap.put( "smhd", "Sound Media Header Box" );
-      sTypeToNameMap.put( "©too", "iTunes Encoder Box" );
+      sTypeToNameMap.put( "\u00A9too", "iTunes Encoder Box" );
       sTypeToNameMap.put( "stsc", "Sample to Chunk Box" );
       sTypeToNameMap.put( "esds", "ES Descriptor Box" );
       sTypeToNameMap.put( "gnre", "Genre Box" );
       sTypeToNameMap.put( "soal", "iTunes Sort Album Box" );
-      sTypeToNameMap.put( "©gen", "iTunes Custom Genre" );
+      sTypeToNameMap.put( "\u00A9gen", "iTunes Custom Genre" );
       sTypeToNameMap.put( "----", "Some iTunes Generic dunno Box" );
       sTypeToNameMap.put( "purd", "iTunes Purchase Date Box" );
       sTypeToNameMap.put( "data", "iTunes Data Box" );
@@ -129,7 +129,7 @@ public class AtomHelper {
       sTypeToNameMap.put( "sinf", "Protection Scheme Information Box" );
       sTypeToNameMap.put( "odtt", "OMA DRM Tranaction Tracking Box" );
       sTypeToNameMap.put( "tves", "iTunes TV Episode Box" );
-      sTypeToNameMap.put( "©alb", "iTunes Album Title" );
+      sTypeToNameMap.put( "\u00A9alb", "iTunes Album Title" );
       sTypeToNameMap.put( "titl", "Title Box" );
       sTypeToNameMap.put( "meta", "Meta Box" );
       sTypeToNameMap.put( "dscp", "Description Box" );
@@ -162,16 +162,16 @@ public class AtomHelper {
       sTypeToNameMap.put( "lrcu", "Lyrics URI Box" );
       sTypeToNameMap.put( "yrrc", "RecordingYearBox" );
       sTypeToNameMap.put( "mfro", "Movie Fragment Random Access Offset Box" );
-      sTypeToNameMap.put( "©wrt", "iTunes Track Author" );
+      sTypeToNameMap.put( "\u00A9wrt", "iTunes Track Author" );
       sTypeToNameMap.put( "udta", "User Data Box" );
       sTypeToNameMap.put( "sfID", "iTunes Store Country Type Box" );
       sTypeToNameMap.put( "name", "Apple Name Box" );
       sTypeToNameMap.put( "sbgp", "Sample to Group Box" );
-      sTypeToNameMap.put( "©ART", "iTunes Artist" );
+      sTypeToNameMap.put( "\u00A9ART", "iTunes Artist" );
       sTypeToNameMap.put( "mfra", "Movie Fragment Random Access Box" );
       sTypeToNameMap.put( "payt", "Payload Type" );
       sTypeToNameMap.put( "albr", "Album Artist Box" );
-      sTypeToNameMap.put( "©nam", "iTunes Track Title" );
+      sTypeToNameMap.put( "\u00A9nam", "iTunes Track Title" );
       sTypeToNameMap.put( "mdri", "Mutable DRM Information Box" );
       sTypeToNameMap.put( "albm", "Album Box" );
       sTypeToNameMap.put( "odrm", "OMA DRM Container Box" );
@@ -209,7 +209,7 @@ public class AtomHelper {
       sTypeToNameMap.put( "stbl", "Sample Table Box" );
       sTypeToNameMap.put( "hmhd", "Hint Media Header Box" );
       sTypeToNameMap.put( "tvnn", "iTunes TV Network Box" );
-      sTypeToNameMap.put( "©day", "iTunes Recording Year" );
+      sTypeToNameMap.put( "\u00A9day", "iTunes Recording Year" );
       sTypeToNameMap.put( "ccid", "Content Id Sub Box" );
       sTypeToNameMap.put( "dinf", "Data Information Box" );
       sTypeToNameMap.put( "stts", "Decoding Time to Sample Box" );
