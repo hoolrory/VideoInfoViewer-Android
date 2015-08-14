@@ -16,7 +16,7 @@
         android:id="@+id/play_button"
         android:layout_width="48dip"
         android:layout_height="48dip"
-        android:src="@drawable/ic_media_play"
+        android:src="@drawable/ic_media_play2"
         android:layout_centerInParent="true"
         android:background="@drawable/button_selector"
         android:contentDescription="@string/play_description" />

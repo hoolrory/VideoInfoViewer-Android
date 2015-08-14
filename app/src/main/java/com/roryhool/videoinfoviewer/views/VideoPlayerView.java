@@ -278,7 +278,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
                mMediaPlayer.seekTo( 0 );
             }
             mMediaPlayer.start();
-            mPlayButton.setImageResource( R.drawable.ic_media_pause );
+            mPlayButton.setImageResource( R.drawable.ic_media_pause2 );
 
             if ( !mAlreadyLoggedPlayAction ) {
                Analytics.Instance( getContext() ).LogEvent( "App Action", "Played Video" );
@@ -293,7 +293,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
          if ( mMediaPlayer.isPlaying() ) {
             cancelTimer();
             mMediaPlayer.pause();
-            mPlayButton.setImageResource( R.drawable.ic_media_play );
+            mPlayButton.setImageResource( R.drawable.ic_media_play2 );
          }
       }
    }
@@ -365,7 +365,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    public void onCompletion( MediaPlayer mediaPlayer ) {
       showControls();
       cancelTimer();
-      mPlayButton.setImageResource( R.drawable.ic_media_play );
+      mPlayButton.setImageResource( R.drawable.ic_media_play2 );
    }
 
    @Override
