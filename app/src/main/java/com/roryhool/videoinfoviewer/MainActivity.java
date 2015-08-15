@@ -40,10 +40,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crittercism.app.Crittercism;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.HitBuilders;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.UriHelper;
@@ -96,14 +96,8 @@ public class MainActivity extends Activity {
 
       setupAds();
 
-      EasyTracker.getInstance( this ).activityStart( this );
-   }
-
-   @Override
-   public void onStop() {
-      super.onStop();
-
-      EasyTracker.getInstance( this ).activityStop( this );
+      VideoInfoViewerApp.getDefaultTracker().setScreenName( MainActivity.class.getSimpleName() );
+      VideoInfoViewerApp.getDefaultTracker().send( new HitBuilders.ScreenViewBuilder().build() );
    }
 
    @Override

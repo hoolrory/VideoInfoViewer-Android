@@ -26,5 +26,4 @@ dependencies {
     compile 'com.google.android.gms:play-services:7.5.0'
     compile files('libs/crittercism_v4_4_0_sdkonly.jar')
     compile files('libs/isoviewer-1.0-RC-35.jar')
-    compile files('libs/libGoogleAnalyticsServices.jar')
 }

@@ -42,10 +42,10 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
 import com.coremedia.iso.IsoFile;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.HitBuilders;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
@@ -142,22 +142,24 @@ public class VideoActivity extends Activity {
       mVideoPlayer.addFullscreenListener( mOnFullscreenListener );
       mVideoPlayer.setFullscreenFillView( mRootLayout );
 
-      mButton.setOnClickListener( new OnClickListener() {
+      mButton.setOnClickListener(
+              new OnClickListener() {
 
-         @Override
-         public void onClick( View view ) {
+                 @Override
+                 public void onClick( View view ) {
 
-            Intent intent = new Intent( VideoActivity.this, AtomActivity.class );
+                    Intent intent = new Intent( VideoActivity.this, AtomActivity.class );
 
-            intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
-            startActivity( intent );
-         }
+                    intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
+                    startActivity( intent );
+                 }
 
-      } );
+              } );
 
       setupAds();
 
-      EasyTracker.getInstance( this ).activityStart( this );
+      VideoInfoViewerApp.getDefaultTracker().setScreenName( VideoActivity.class.getSimpleName() );
+      VideoInfoViewerApp.getDefaultTracker().send( new HitBuilders.ScreenViewBuilder().build() );
 
       getActionBar().setDisplayHomeAsUpEnabled( true );
       getActionBar().setDisplayShowHomeEnabled( true );
@@ -168,13 +170,6 @@ public class VideoActivity extends Activity {
       super.onPause();
 
       mVideoPlayer.pause();
-   }
-
-   @Override
-   public void onStop() {
-      super.onStart();
-
-      EasyTracker.getInstance( this ).activityStop( this );
    }
 
    @Override

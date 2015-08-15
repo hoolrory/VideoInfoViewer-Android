@@ -18,9 +18,8 @@ package com.roryhool.videoinfoviewer.analytics;
 
 import android.content.Context;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
-import com.roryhool.videoinfoviewer.utils.Logg;
+import com.google.android.gms.analytics.HitBuilders;
+import com.roryhool.videoinfoviewer.VideoInfoViewerApp;
 
 public class Analytics {
 
@@ -49,20 +48,12 @@ public class Analytics {
    }
 
    public void LogEvent( String category, String action, String label, long value ) {
-      EasyTracker easyTracker = EasyTracker.getInstance( mContext );
-
-      if ( easyTracker == null ) {
-         return;
-      }
-
-      Logg.d( "Logging event %s, %s, %s, %d", category, action, label, value );
-      // MapBuilder.createEvent().build() returns a Map of event fields and values
-      // that are set and sent with the hit.
-      easyTracker.send(MapBuilder
-          .createEvent(category,    // Event category (required)
-                       action,      // Event action (required)
-                       label,       // Event label
-                       value)       // Event value
-            .build() );
+      VideoInfoViewerApp.getDefaultTracker().send(
+              new HitBuilders.EventBuilder()
+                      .setCategory( category )
+                      .setAction( action )
+                      .setLabel( label )
+                      .setValue( value )
+                      .build() );
    }
 }

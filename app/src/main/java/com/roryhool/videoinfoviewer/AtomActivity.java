@@ -23,7 +23,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
 import com.coremedia.iso.boxes.Box;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.HitBuilders;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.atomfragments.AtomInfoFragment;
 import com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment;
@@ -97,17 +97,11 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
    public void onStart() {
       super.onStart();
 
-      EasyTracker.getInstance( this ).activityStart( this );
+      VideoInfoViewerApp.getDefaultTracker().setScreenName( AtomActivity.class.getSimpleName() );
+      VideoInfoViewerApp.getDefaultTracker().send( new HitBuilders.ScreenViewBuilder().build() );
 
       getActionBar().setDisplayHomeAsUpEnabled( true );
       getActionBar().setDisplayShowHomeEnabled( true );
-   }
-
-   @Override
-   public void onStop() {
-      super.onStop();
-
-      EasyTracker.getInstance( this ).activityStop( this );
    }
 
    @Override
