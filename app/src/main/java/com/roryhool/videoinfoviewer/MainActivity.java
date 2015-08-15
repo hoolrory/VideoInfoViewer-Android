@@ -51,15 +51,15 @@ import com.roryhool.videoinfoviewer.utils.VideoCache;
 
 public class MainActivity extends Activity {
 
-   private int SELECT_VIDEO_CODE = 100;
+   protected int SELECT_VIDEO_CODE = 100;
 
-   ListView mRecentVideosList;
+   protected ListView mRecentVideosList;
 
-   FrameLayout mAdFrame;
+   protected FrameLayout mAdFrame;
 
-   RecentVideosAdapter mAdapter;
+   protected RecentVideosAdapter mAdapter;
 
-   private AdView mAdView;
+   protected AdView mAdView;
 
    @Override
    public void onCreate( Bundle savedInstanceState ) {

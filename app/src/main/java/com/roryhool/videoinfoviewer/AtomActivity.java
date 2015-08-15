@@ -34,13 +34,13 @@ import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 
 public class AtomActivity extends FragmentActivity implements BoxViewOnClickListener {
 
-   AtomStructureFragment mAtomStructureFragment;
+   protected AtomStructureFragment mAtomStructureFragment;
 
-   AtomInfoFragment mAtomInfoFragment;
+   protected AtomInfoFragment mAtomInfoFragment;
 
-   Video mVideo;
+   protected Video mVideo;
 
-   Box mBox;
+   protected Box mBox;
 
    @Override
    public void onCreate( Bundle bundle ) {
@@ -111,5 +111,4 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
       intent.putExtra( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( box ) );
       startActivity( intent );
    }
-
 }

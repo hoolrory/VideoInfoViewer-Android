@@ -1,17 +1,17 @@
 /**
-   Copyright (c) 2014 Rory Hool
-   
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-   
-       http://www.apache.org/licenses/LICENSE-2.0
-   
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ * Copyright (c) 2014 Rory Hool
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  **/
 
 package com.roryhool.videoinfoviewer;
@@ -57,37 +57,28 @@ import com.roryhool.videoinfoviewer.views.RobotoTextView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 
-public class VideoActivity extends Activity {
+public class VideoActivity extends Activity implements OnClickListener, OnFullscreenListener {
 
-   SearchView mSearchView;
+   protected SearchView            mSearchView;
+   protected RelativeLayout        mRootLayout;
+   protected DisableableScrollView mScrollView;
+   protected VideoPlayerView       mVideoPlayer;
+   protected Button                mButton;
+   protected FrameLayout           mAdFrame;
+   protected AdView                mAdView;
 
-   RelativeLayout mRootLayout;
+   protected Uri   mVideoUri;
+   protected Video mVideo;
 
-   DisableableScrollView mScrollView;
+   protected RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
+   protected RetrieveIsoFileTask      mRetrieveIsoFileTask;
 
-   VideoPlayerView mVideoPlayer;
-   
-   Button mButton;
 
-   FrameLayout mAdFrame;
+   protected boolean mLoaded = false;
 
-   AdView mAdView;
+   protected int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
 
-   Uri mVideoUri;
-
-   RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
-
-   RetrieveIsoFileTask mRetrieveIsoFileTask;
-
-   Video mVideo;
-
-   boolean mLoaded = false;
-   
-   int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-   
-   SearchFragment mSearchFragment;
-
-   int mFragmentId;
+   protected SearchFragment mSearchFragment;
 
    @Override
    public void onCreate( Bundle savedInstanceState ) {
@@ -139,22 +130,10 @@ public class VideoActivity extends Activity {
       }
 
       mVideoPlayer.setVideoUri( mVideoUri );
-      mVideoPlayer.addFullscreenListener( mOnFullscreenListener );
+      mVideoPlayer.addFullscreenListener( this );
       mVideoPlayer.setFullscreenFillView( mRootLayout );
 
-      mButton.setOnClickListener(
-              new OnClickListener() {
-
-                 @Override
-                 public void onClick( View view ) {
-
-                    Intent intent = new Intent( VideoActivity.this, AtomActivity.class );
-
-                    intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
-                    startActivity( intent );
-                 }
-
-              } );
+      mButton.setOnClickListener( this );
 
       setupAds();
 
@@ -253,6 +232,16 @@ public class VideoActivity extends Activity {
       mVideoPlayer.handleResize();
    }
 
+   @Override
+   public void onClick( View v ) {
+      if ( v.getId() == R.id.view_atom_button ) {
+         Intent intent = new Intent( VideoActivity.this, AtomActivity.class );
+
+         intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
+         startActivity( intent );
+      }
+   }
+
    private void setupAds() {
 
       String admobAdUnitId = getString( R.string.video_activity_admob_ad_unit_id );
@@ -281,7 +270,7 @@ public class VideoActivity extends Activity {
 
    private void addKeyValueField( int linearLayoutId, int keyStringId, String value ) {
       LinearLayout layout = (LinearLayout) findViewById( linearLayoutId );
-      
+
       LinearLayout keyLayout = (LinearLayout) layout.getChildAt( 0 );
       LinearLayout valueLayout = (LinearLayout) layout.getChildAt( 1 );
 
@@ -290,7 +279,7 @@ public class VideoActivity extends Activity {
 
       RobotoTextView valueView = new RobotoTextView( new ContextThemeWrapper( this, R.style.CardValueOneLine ) );
       FontManager.get( this ).setRobotoLight( valueView );
-      
+
       keyView.setText( keyStringId );
       valueView.setText( value );
 
@@ -308,7 +297,7 @@ public class VideoActivity extends Activity {
 
    }
    */
-   
+
    private Uri FindVideoUri() {
       Intent intent = getIntent();
 
@@ -346,7 +335,7 @@ public class VideoActivity extends Activity {
       }
 
       String scheme = uri.getScheme();
-      
+
       if ( ( filePath == null ) && scheme != null && scheme.equals( "content" ) ) {
          String[] projection = { MediaStore.Video.Media.DATA };
          Cursor cursor = getContentResolver().query( uri, projection, null, null, null );
@@ -400,7 +389,7 @@ public class VideoActivity extends Activity {
 
       String fileSizeString = "N/A";
       if ( video.FileSize != null ) {
-         fileSizeString = FormatUtils.FormatFileSizeForDisplay(Float.parseFloat(video.FileSize));
+         fileSizeString = FormatUtils.FormatFileSizeForDisplay( Float.parseFloat( video.FileSize ) );
       }
       addKeyValueField( R.id.video_properties_layout, R.string.key_file_size, fileSizeString );
 
@@ -408,66 +397,62 @@ public class VideoActivity extends Activity {
       if ( video.Duration != null ) {
          durationString = FormatUtils.FormatTimeForDisplay( Long.parseLong( video.Duration ) );
       }
-      addKeyValueField(R.id.video_properties_layout, R.string.key_duration, durationString);
+      addKeyValueField( R.id.video_properties_layout, R.string.key_duration, durationString );
 
       String kbps = "N/A";
       if ( video.BitRate != null ) {
          kbps = FormatUtils.FormatBpsForDisplay( Long.parseLong( video.BitRate ) );
       }
-      addKeyValueField(R.id.video_properties_layout, R.string.key_bitrate, kbps);
+      addKeyValueField( R.id.video_properties_layout, R.string.key_bitrate, kbps );
 
       String dateString = FormatUtils.FormatZuluDateTimeForDisplay( video.Date );
       addKeyValueField( R.id.video_properties_layout, R.string.key_date, dateString );
    }
 
-   OnFullscreenListener mOnFullscreenListener = new OnFullscreenListener() {
+   @Override
+   public void onFullscreenChanged( boolean fullscreen ) {
 
-      @Override
-      public void onFullscreenChanged( boolean fullscreen ) {
+      if ( fullscreen ) {
+         getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility | View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_FULLSCREEN );
 
-         if ( fullscreen ) {
-            getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility | View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_FULLSCREEN );
+         mVideoPlayer.setPadding( 0, 0, 0, 0 );
 
-            mVideoPlayer.setPadding( 0, 0, 0, 0 );
+         TranslateAnimation animate = new TranslateAnimation( 0, 0, 0, mAdFrame.getHeight() );
+         animate.setDuration( 500 );
+         animate.setFillAfter( true );
 
-            TranslateAnimation animate = new TranslateAnimation( 0, 0, 0, mAdFrame.getHeight() );
-            animate.setDuration( 500 );
-            animate.setFillAfter( true );
-
-            mAdFrame.startAnimation( animate );
-            mAdFrame.setVisibility( View.GONE );
-            if ( mAdView != null ) {
-            	mAdView.setEnabled( false );
-               mAdView.setVisibility( View.INVISIBLE );
-            }
-
-            mScrollView.scrollTo( 0, 0 );
-            mScrollView.setEnabled( false );
-
-            getActionBar().hide();
-         } else {
-            getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
-
-            mVideoPlayer.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ) + ViewUtils.GetActionBarHeight( VideoActivity.this ), 0, 0 );
-
-            TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
-            animate.setDuration( 500 );
-            animate.setFillAfter( true );
-
-            mAdFrame.startAnimation( animate );
-            mAdFrame.setVisibility( View.VISIBLE );
-            mAdFrame.setEnabled( true );
-            if ( mAdView != null ) {
-            	mAdView.setVisibility( View.VISIBLE );
-            }
-
-            mScrollView.setEnabled( true );
-
-            getActionBar().show();
+         mAdFrame.startAnimation( animate );
+         mAdFrame.setVisibility( View.GONE );
+         if ( mAdView != null ) {
+            mAdView.setEnabled( false );
+            mAdView.setVisibility( View.INVISIBLE );
          }
-      }
 
-   };
+         mScrollView.scrollTo( 0, 0 );
+         mScrollView.setEnabled( false );
+
+         getActionBar().hide();
+      } else {
+         getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
+
+         mVideoPlayer.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ) + ViewUtils.GetActionBarHeight( VideoActivity.this ), 0, 0 );
+
+         TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
+         animate.setDuration( 500 );
+         animate.setFillAfter( true );
+
+         mAdFrame.startAnimation( animate );
+         mAdFrame.setVisibility( View.VISIBLE );
+         mAdFrame.setEnabled( true );
+         if ( mAdView != null ) {
+            mAdView.setVisibility( View.VISIBLE );
+         }
+
+         mScrollView.setEnabled( true );
+
+         getActionBar().show();
+      }
+   }
 
    public class RetrieveIsoFileTask extends AsyncTask<Video, Void, IsoFile> {
 
