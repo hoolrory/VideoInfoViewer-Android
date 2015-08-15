@@ -24,6 +24,8 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'io.reactivex:rxjava:1.0.0'
+    compile 'io.reactivex:rxandroid:0.24.0'
     compile files('libs/crittercism_v4_4_0_sdkonly.jar')
     compile files('libs/isoviewer-1.0-RC-35.jar')
 }
