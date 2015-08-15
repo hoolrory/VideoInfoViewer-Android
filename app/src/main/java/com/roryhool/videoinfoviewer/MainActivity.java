@@ -222,7 +222,6 @@ public class MainActivity extends Activity {
 
          return videoView;
       }
-
    }
    
    public class OnVideoItemClickListener implements AdapterView.OnItemClickListener {
@@ -237,7 +236,5 @@ public class MainActivity extends Activity {
 
          Analytics.Instance( MainActivity.this ).LogEvent( "App Action", "Selected Video from Recent Videos List" );
       }
-      
    }
-
 }
