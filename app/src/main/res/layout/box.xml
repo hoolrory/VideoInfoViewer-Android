@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/box_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="false">
     
     <ToggleButton
         android:id="@+id/box_expand_button"
@@ -23,12 +24,12 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginLeft="4dip"
-           android:layout_marginRight="4dip"
+            android:layout_marginRight="4dip"
 	        android:src="@drawable/ic_expand"
 	        android:rotation="90"
 	        android:layout_alignParentLeft="true"
-           android:layout_centerVertical="true"
-           android:contentDescription="@string/expand_box_icon_description"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/expand_box_icon_description"
 	        android:clickable="false" />
 	    
 	    <com.roryhool.videoinfoviewer.views.RobotoTextView

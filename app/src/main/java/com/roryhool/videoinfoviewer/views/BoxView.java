@@ -84,7 +84,8 @@ public class BoxView extends FrameLayout {
    public BoxView( Context context ) {
       super( context );
 
-      addView( View.inflate( context, R.layout.box, null ) );
+      View view = View.inflate( context, R.layout.box, null );
+      addView( view );
 
       mTypeView = (TextView) findViewById( R.id.box_type );
       mDescriptionView = (TextView) findViewById( R.id.box_description );

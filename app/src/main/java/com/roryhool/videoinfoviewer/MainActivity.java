@@ -19,7 +19,6 @@ package com.roryhool.videoinfoviewer;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -27,6 +26,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +50,7 @@ import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.UriHelper;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
    protected int SELECT_VIDEO_CODE = 100;
 
@@ -61,6 +62,8 @@ public class MainActivity extends Activity {
 
    protected AdView mAdView;
 
+   protected Toolbar mToolbar;
+
    @Override
    public void onCreate( Bundle savedInstanceState ) {
       super.onCreate( savedInstanceState );
@@ -70,6 +73,10 @@ public class MainActivity extends Activity {
       mRecentVideosList = (ListView) findViewById( R.id.recentVideosList );
 
       mAdFrame = (FrameLayout) findViewById( R.id.adFrame );
+
+      mToolbar = (Toolbar) findViewById( R.id.toolbar );
+
+      setSupportActionBar( mToolbar );
    }
 
    @Override

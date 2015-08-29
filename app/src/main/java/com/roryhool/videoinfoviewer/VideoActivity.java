@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -29,6 +28,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,7 +58,7 @@ import com.roryhool.videoinfoviewer.views.RobotoTextView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 
-public class VideoActivity extends Activity implements OnClickListener, OnFullscreenListener {
+public class VideoActivity extends AppCompatActivity implements OnClickListener, OnFullscreenListener {
 
    protected SearchView            mSearchView;
    protected RelativeLayout        mRootLayout;
@@ -87,6 +88,10 @@ public class VideoActivity extends Activity implements OnClickListener, OnFullsc
       setContentView( R.layout.activity_video );
       getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
       mRootLayout = (RelativeLayout) findViewById( R.id.root_layout );
+
+      setSupportActionBar( (Toolbar) findViewById( R.id.toolbar ) );
+      getSupportActionBar().setDisplayHomeAsUpEnabled( true );
+      getSupportActionBar().setDisplayShowHomeEnabled( true );
 
       mScrollView = (DisableableScrollView) findViewById( R.id.scroll_view );
       mVideoPlayer = (VideoPlayerView) findViewById( R.id.video_player );
@@ -139,9 +144,6 @@ public class VideoActivity extends Activity implements OnClickListener, OnFullsc
 
       VideoInfoViewerApp.getDefaultTracker().setScreenName( VideoActivity.class.getSimpleName() );
       VideoInfoViewerApp.getDefaultTracker().send( new HitBuilders.ScreenViewBuilder().build() );
-
-      getActionBar().setDisplayHomeAsUpEnabled( true );
-      getActionBar().setDisplayShowHomeEnabled( true );
    }
 
    @Override
@@ -213,8 +215,7 @@ public class VideoActivity extends Activity implements OnClickListener, OnFullsc
    }
 
    @Override
-   public boolean onMenuItemSelected( int featureId, MenuItem item ) {
-
+   public boolean onOptionsItemSelected( MenuItem item ) {
       int itemId = item.getItemId();
       switch ( itemId ) {
       case android.R.id.home:
@@ -431,7 +432,7 @@ public class VideoActivity extends Activity implements OnClickListener, OnFullsc
          mScrollView.scrollTo( 0, 0 );
          mScrollView.setEnabled( false );
 
-         getActionBar().hide();
+         getSupportActionBar().hide();
       } else {
          getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
 
@@ -450,7 +451,7 @@ public class VideoActivity extends Activity implements OnClickListener, OnFullsc
 
          mScrollView.setEnabled( true );
 
-         getActionBar().show();
+         getSupportActionBar().show();
       }
    }
 

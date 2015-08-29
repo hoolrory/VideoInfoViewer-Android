@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.coremedia.iso.boxes.Box;
@@ -32,7 +34,7 @@ import com.roryhool.videoinfoviewer.utils.IsoFileCache;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
 import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 
-public class AtomActivity extends FragmentActivity implements BoxViewOnClickListener {
+public class AtomActivity extends AppCompatActivity implements BoxViewOnClickListener {
 
    protected AtomStructureFragment mAtomStructureFragment;
 
@@ -47,6 +49,10 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
       super.onCreate( bundle );
 
       setContentView( R.layout.activity_atom );
+
+      setSupportActionBar( (Toolbar) findViewById( R.id.toolbar ) );
+      getSupportActionBar().setDisplayHomeAsUpEnabled( true );
+      getSupportActionBar().setDisplayShowHomeEnabled( true );
 
       Bundle extras = getIntent().getExtras();
 
@@ -81,8 +87,7 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
    }
 
    @Override
-   public boolean onMenuItemSelected( int featureId, MenuItem item ) {
-
+   public boolean onOptionsItemSelected( MenuItem item ) {
       int itemId = item.getItemId();
       switch ( itemId ) {
       case android.R.id.home:
@@ -99,9 +104,6 @@ public class AtomActivity extends FragmentActivity implements BoxViewOnClickList
 
       VideoInfoViewerApp.getDefaultTracker().setScreenName( AtomActivity.class.getSimpleName() );
       VideoInfoViewerApp.getDefaultTracker().send( new HitBuilders.ScreenViewBuilder().build() );
-
-      getActionBar().setDisplayHomeAsUpEnabled( true );
-      getActionBar().setDisplayShowHomeEnabled( true );
    }
 
    @Override

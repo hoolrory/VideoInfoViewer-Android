@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.roryhool.videoinfoviewer"
     android:versionCode="111"
     android:versionName="1.1.1" >
@@ -19,25 +20,27 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
-		<meta-data 
-		    android:name="com.google.android.gms.version"
-		  android:value="@integer/google_play_services_version" />
+		<meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         
         <activity
             android:name="com.roryhool.videoinfoviewer.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         
         <activity
 		   android:name="com.roryhool.videoinfoviewer.VideoActivity"
 		   android:label="@string/view_video_info"
 		   android:configChanges="orientation|screenSize"
-		   android:theme="@style/ActionBarOverlayTheme">
+           android:theme="@style/Theme.AppTheme.NoActionBar">
 		
 		      <intent-filter>
 				<action android:name="android.intent.action.VIEW" />
@@ -48,8 +51,10 @@
 		        <data android:mimeType="video/mp4" />
 		      </intent-filter>
 		      
-			    <meta-data android:name="android.app.searchable"
-			            android:resource="@xml/searchable_video" />
+                <meta-data
+                    android:name="android.app.searchable"
+                    android:resource="@xml/searchable_video" />
+
 		</activity>
 		
         <activity
@@ -59,12 +64,14 @@
 			    <intent-filter>
 			        <action android:name="android.intent.action.SEARCH" />
 			    </intent-filter>
+
         </activity>
 		
         <activity
            android:name="com.roryhool.videoinfoviewer.AtomActivity"
            android:label="@string/view_video_info"
-           android:configChanges="orientation|screenSize"/>
+           android:configChanges="orientation|screenSize"
+           android:theme="@style/Theme.AppTheme.NoActionBar" />
 		   
         <activity 
 			android:name="com.google.android.gms.ads.AdActivity"
