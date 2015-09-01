@@ -452,9 +452,9 @@ public class BoxInfoView extends FrameLayout {
       mBox = box;
 
       mBoxTypeText.setText( box.getType() );
-      mBoxDescriptionText.setText( AtomHelper.GetNameForType( box.getType() ) );
+      mBoxDescriptionText.setText( AtomHelper.getNameForType( box.getType() ) );
 
-      Logg.d( "XAJM - Trying to load box %s", box.getClass().getName() );
+      Logg.d( "Trying to load box %s", box.getClass().getName() );
 
       if ( box instanceof AbstractFullBox ) {
          LoadSpecificBox( (AbstractFullBox) box );
@@ -536,7 +536,7 @@ public class BoxInfoView extends FrameLayout {
          LoadSpecificBox( (FreeBox) box );
       } else {
 
-         Logg.d( "XAJM - Unable to load box of type %s", box.getClass().getName() );
+         Logg.d( "Unable to load box of type %s", box.getClass().getName() );
       }
       
       if ( box instanceof AbstractBox ) {

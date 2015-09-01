@@ -32,9 +32,8 @@ import com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.IsoFileCache;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
-import com.roryhool.videoinfoviewer.views.BoxView.BoxViewOnClickListener;
 
-public class AtomActivity extends AppCompatActivity implements BoxViewOnClickListener {
+public class AtomActivity extends AppCompatActivity {
 
    protected AtomStructureFragment mAtomStructureFragment;
 
@@ -67,7 +66,6 @@ public class AtomActivity extends AppCompatActivity implements BoxViewOnClickLis
          mVideo = VideoCache.Instance( this ).getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
 
          mAtomStructureFragment = new AtomStructureFragment();
-         mAtomStructureFragment.setBoxViewOnClickListener( this );
          mAtomStructureFragment.setVideo( mVideo );
 
          FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -104,13 +102,5 @@ public class AtomActivity extends AppCompatActivity implements BoxViewOnClickLis
 
       VideoInfoViewerApp.getDefaultTracker().setScreenName( AtomActivity.class.getSimpleName() );
       VideoInfoViewerApp.getDefaultTracker().send( new HitBuilders.ScreenViewBuilder().build() );
-   }
-
-   @Override
-   public void onClickInfo( Box box ) {
-      Intent intent = new Intent( this, AtomActivity.class );
-
-      intent.putExtra( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( box ) );
-      startActivity( intent );
    }
 }

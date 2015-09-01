@@ -60,13 +60,14 @@ import com.coremedia.iso.boxes.sampleentry.AudioSampleEntry;
 import com.coremedia.iso.boxes.sampleentry.VisualSampleEntry;
 import com.googlecode.mp4parser.boxes.apple.PixelAspectRationAtom;
 import com.googlecode.mp4parser.boxes.mp4.ESDescriptorBox;
+import com.roryhool.videoinfoviewer.VideoInfoViewerApp;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 
 public class AtomHelper {
 
-   public static List<Class<?>> sKnownBoxes = new ArrayList<Class<?>>();
+   public static List<Class<?>> sKnownBoxes = new ArrayList<>();
 
-   public static void LogEventsForBox( Context context, Box box ) {
+   public static void logEventsForBox( Context context, Box box ) {
       
       if ( sKnownBoxes.contains( box.getClass() ) ) {
          
@@ -77,10 +78,12 @@ public class AtomHelper {
       }
    }
 
-   public static HashMap<String, String> sTypeToNameMap = new HashMap<String, String>();
+   public static HashMap<String, String> sTypeToNameMap = new HashMap<>();
 
-   public static String GetNameForType( String type ) {
-      return sTypeToNameMap.get( type );
+   public static String getNameForType( String type ) {
+      String name = sTypeToNameMap.get( type );
+      Analytics.Instance( VideoInfoViewerApp.getContext() ).LogEvent( "Video Info", "Failed to get name for type ", type );
+      return name;
    }
 
    static {
