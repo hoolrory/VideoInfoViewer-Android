@@ -37,19 +37,16 @@ import com.roryhool.videoinfoviewer.views.BoxInfoView;
 
 public class AtomInfoFragment extends Fragment {
 
-   boolean mLoaded = false;
+   protected boolean mLoaded = false;
 
-   Box mBox;
+   protected Box mBox;
 
-   FrameLayout mAdFrame;
-
-   private AdView mAdView;
-
-   private BoxInfoView mBoxInfoView;
+   protected FrameLayout mAdFrame;
+   protected BoxInfoView mBoxInfoView;
+   protected AdView mAdView;
 
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
-
       View view = inflater.inflate( R.layout.fragment_box_info, container, false );
 
       mAdFrame = (FrameLayout) view.findViewById( R.id.adFrame );
@@ -87,7 +84,6 @@ public class AtomInfoFragment extends Fragment {
    }
 
    private void setupAds( Context context ) {
-
       String admobAdUnitId = getString( R.string.atom_info_admob_ad_unit_id );
 
       if ( admobAdUnitId != null && !admobAdUnitId.equals( ( "" ) ) ) {
@@ -115,27 +111,20 @@ public class AtomInfoFragment extends Fragment {
 
       @Override
       protected void onPreExecute() {
-
       }
 
       @Override
       protected BoxInfoView doInBackground( Box... boxes ) {
-         Box box = boxes[0];
-
-         return LoadBoxInfo( box );
+         return LoadBoxInfo( boxes[0] );
       }
 
       @Override
       protected void onPostExecute( BoxInfoView view ) {
-
          mBoxInfoView = view;
 
          Activity activity = getActivity();
-
          if ( activity != null ) {
-
             activity.findViewById( R.id.loading_progress ).setVisibility( View.GONE );
-
             LinearLayout layout = (LinearLayout) activity.findViewById( R.id.root_layout );
             layout.addView( mBoxInfoView );
          }
@@ -143,11 +132,9 @@ public class AtomInfoFragment extends Fragment {
    }
 
    private BoxInfoView LoadBoxInfo( Box box ) {
-
       BoxInfoView view = null;
 
       Activity activity = getActivity();
-
       if ( activity != null ) {
          view = new BoxInfoView( activity );
          view.LoadBox( box );

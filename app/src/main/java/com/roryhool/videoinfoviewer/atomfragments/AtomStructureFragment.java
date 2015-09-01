@@ -50,7 +50,6 @@ import com.roryhool.videoinfoviewer.R;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.AtomHelper;
 import com.roryhool.videoinfoviewer.utils.IsoFileCache;
-import com.roryhool.videoinfoviewer.utils.Logg;
 
 import rx.Observable;
 import rx.android.app.AppObservable;

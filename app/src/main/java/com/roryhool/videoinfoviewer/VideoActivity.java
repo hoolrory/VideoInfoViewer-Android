@@ -74,7 +74,6 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
    protected RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
    protected RetrieveIsoFileTask      mRetrieveIsoFileTask;
 
-
    protected boolean mLoaded = false;
 
    protected int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
@@ -244,7 +243,6 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
    }
 
    private void setupAds() {
-
       String admobAdUnitId = getString( R.string.video_activity_admob_ad_unit_id );
 
       if ( admobAdUnitId != null && !admobAdUnitId.equals( ( "" ) ) ) {
@@ -287,31 +285,17 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
       keyLayout.addView( keyView );
       valueLayout.addView( valueView );
    }
-   
-   /*
-   private void logBoxes( Box box ) {
-
-      for ( Box subBox : box.getBoxes() ) {
-         Log.d( "This", String.format( "Box - %s", box.getType() ) );
-
-      }
-
-   }
-   */
 
    private Uri FindVideoUri() {
       Intent intent = getIntent();
-
       if ( intent != null ) {
 
          Uri uri = intent.getData();
-
          if ( uri != null ) {
             return uri;
          }
 
          Parcelable p = intent.getParcelableExtra( Intent.EXTRA_STREAM );
-
          if ( p != null && p instanceof Uri ) {
             return (Uri) p;
          }
@@ -321,13 +305,11 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
    }
 
    private String GetFilePathFromUri( Uri uri ) {
-
       if ( uri == null ) {
          return null;
       }
 
       String filePath = null;
-
       if ( uri.getPath() != null ) {
          File f = new File( uri.getPath() );
          if ( f.exists() ) {
@@ -336,13 +318,11 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
       }
 
       String scheme = uri.getScheme();
-
-      if ( ( filePath == null ) && scheme != null && scheme.equals( "content" ) ) {
+      if ( filePath == null && scheme != null && scheme.equals( "content" ) ) {
          String[] projection = { MediaStore.Video.Media.DATA };
          Cursor cursor = getContentResolver().query( uri, projection, null, null, null );
 
          int dataColumn = cursor.getColumnIndex( MediaStore.Video.Media.DATA );
-
          if ( dataColumn >= 0 && cursor.moveToFirst() ) {
 
             filePath = cursor.getString( dataColumn );
@@ -355,11 +335,8 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
    }
 
    private void LoadVideo( Video video ) {
-
       mVideo = video;
-
       if ( mVideo.getIsoFile() == null ) {
-
          mRetrieveIsoFileTask = new RetrieveIsoFileTask();
          mRetrieveIsoFileTask.execute( mVideo );
          return;
@@ -368,51 +345,46 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
       Analytics.Instance( this ).LogEvent( "App Action", "Opened Video in VideoActivity" );
 
       findViewById( R.id.loading_progress ).setVisibility( View.GONE );
-
       findViewById( R.id.video_properties_card ).setVisibility( View.VISIBLE );
       findViewById( R.id.view_atom_button ).setVisibility( View.VISIBLE );
 
-      mSearchFragment.setVideo( video );
+      mSearchFragment.setVideo( mVideo );
 
       VideoCache.Instance( VideoActivity.this ).addVideo( mVideo );
 
-      addKeyValueField( R.id.video_properties_layout, R.string.key_file_name, video.FileName );
+      addKeyValueField( R.id.video_properties_layout, R.string.key_file_name, mVideo.FileName );
+      addKeyValueField( R.id.video_properties_layout, R.string.key_resolution, String.format( "%dx%d", mVideo.VideoWidth, mVideo.VideoHeight ) );
+      addKeyValueField( R.id.video_properties_layout, R.string.key_mimetype, mVideo.MimeType );
+      addKeyValueField( R.id.video_properties_layout, R.string.key_frame_rate, String.format( Locale.US, "%s fps", mVideo.FrameRate ) );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_file_path, video.FilePath );
-      addKeyValueField( R.id.video_properties_layout, R.string.key_resolution, String.format( "%dx%d", video.VideoWidth, video.VideoHeight ) );
-
-      addKeyValueField( R.id.video_properties_layout, R.string.key_mimetype, video.MimeType );
-
-      addKeyValueField( R.id.video_properties_layout, R.string.key_frame_rate, String.format( Locale.US, "%s fps", video.FrameRate ) );
-
       // addKeyValueField( R.id.video_properties_layout, R.string.key_format, video.Format );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_format_profile, video.FormatProfile );
       // addKeyValueField( R.id.video_properties_layout, R.string.key_codec_id, video.CodecID );
 
       String fileSizeString = "N/A";
-      if ( video.FileSize != null ) {
-         fileSizeString = FormatUtils.FormatFileSizeForDisplay( Float.parseFloat( video.FileSize ) );
+      if ( mVideo.FileSize != null ) {
+         fileSizeString = FormatUtils.FormatFileSizeForDisplay( Float.parseFloat( mVideo.FileSize ) );
       }
       addKeyValueField( R.id.video_properties_layout, R.string.key_file_size, fileSizeString );
 
       String durationString = "N/A";
-      if ( video.Duration != null ) {
-         durationString = FormatUtils.FormatTimeForDisplay( Long.parseLong( video.Duration ) );
+      if ( mVideo.Duration != null ) {
+         durationString = FormatUtils.FormatTimeForDisplay( Long.parseLong( mVideo.Duration ) );
       }
       addKeyValueField( R.id.video_properties_layout, R.string.key_duration, durationString );
 
       String kbps = "N/A";
-      if ( video.BitRate != null ) {
-         kbps = FormatUtils.FormatBpsForDisplay( Long.parseLong( video.BitRate ) );
+      if ( mVideo.BitRate != null ) {
+         kbps = FormatUtils.FormatBpsForDisplay( Long.parseLong( mVideo.BitRate ) );
       }
       addKeyValueField( R.id.video_properties_layout, R.string.key_bitrate, kbps );
 
-      String dateString = FormatUtils.FormatZuluDateTimeForDisplay( video.Date );
+      String dateString = FormatUtils.FormatZuluDateTimeForDisplay( mVideo.Date );
       addKeyValueField( R.id.video_properties_layout, R.string.key_date, dateString );
    }
 
    @Override
    public void onFullscreenChanged( boolean fullscreen ) {
-
       if ( fullscreen ) {
          getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility | View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_FULLSCREEN );
 
@@ -459,12 +431,10 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
 
       @Override
       protected void onPreExecute() {
-
       }
 
       @Override
       protected IsoFile doInBackground( Video... videos ) {
-
          IsoFile isoFile = null;
          try {
             isoFile = new IsoFile( mVideo.FilePath );
@@ -485,7 +455,6 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
 
       @Override
       protected void onPreExecute() {
-
       }
 
       @Override
@@ -497,7 +466,6 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
 
       @Override
       protected void onPostExecute( Video video ) {
-
          LoadVideo( video );
       }
    }

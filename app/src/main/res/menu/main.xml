@@ -1,9 +1,12 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_select_video"
         android:orderInCategory="100"
         android:showAsAction="always"
+        app:showAsAction="always"
         android:title="@string/action_select_video"
         android:icon="@drawable/ic_menu_add" />
     
@@ -11,6 +14,7 @@
         android:id="@+id/action_credits"
         android:orderInCategory="101"
         android:showAsAction="never"
+        app:showAsAction="never"
         android:title="@string/action_credits" />
 
 </menu>

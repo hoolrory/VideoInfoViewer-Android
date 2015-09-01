@@ -1,17 +1,17 @@
 /**
-   Copyright (c) 2014 Rory Hool
-   
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-   
-       http://www.apache.org/licenses/LICENSE-2.0
-   
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ * Copyright (c) 2014 Rory Hool
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  **/
 
 package com.roryhool.videoinfoviewer;
@@ -37,7 +37,6 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crittercism.app.Crittercism;
@@ -54,15 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
    protected int SELECT_VIDEO_CODE = 100;
 
-   protected ListView mRecentVideosList;
-
+   protected Toolbar     mToolbar;
+   protected ListView    mRecentVideosList;
    protected FrameLayout mAdFrame;
+   protected AdView      mAdView;
 
    protected RecentVideosAdapter mAdapter;
-
-   protected AdView mAdView;
-
-   protected Toolbar mToolbar;
 
    @Override
    public void onCreate( Bundle savedInstanceState ) {
@@ -71,9 +67,7 @@ public class MainActivity extends AppCompatActivity {
       setContentView( R.layout.activity_main );
 
       mRecentVideosList = (ListView) findViewById( R.id.recentVideosList );
-
       mAdFrame = (FrameLayout) findViewById( R.id.adFrame );
-
       mToolbar = (Toolbar) findViewById( R.id.toolbar );
 
       setSupportActionBar( mToolbar );
@@ -128,9 +122,8 @@ public class MainActivity extends AppCompatActivity {
    }
 
    private void setupAds() {
-      
       String admobAdUnitId = getString( R.string.main_activity_admob_ad_unit_id );
-      
+
       if ( admobAdUnitId != null && !admobAdUnitId.equals( ( "" ) ) ) {
          mAdView = new AdView( this );
          mAdView.setAdSize( AdSize.BANNER );
@@ -198,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
             intent.setData( data.getData() );
          }
 
-         startActivity(intent);
+         startActivity( intent );
       }
    }
 
@@ -210,14 +203,9 @@ public class MainActivity extends AppCompatActivity {
 
       @Override
       public View getView( int position, View convertView, ViewGroup parent ) {
+         View videoView = super.getView( position, convertView, parent );
 
          Video video = getItem( position );
-
-         RelativeLayout videoView = (RelativeLayout) convertView;
-
-         if ( videoView == null ) {
-            videoView = (RelativeLayout) View.inflate( MainActivity.this, R.layout.recent_video_layout, null );
-         }
 
          ImageView thumbnailView = (ImageView) videoView.findViewById( R.id.video_thumbnail );
          TextView fileNameText = (TextView) videoView.findViewById( R.id.video_filename );
@@ -230,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
          return videoView;
       }
    }
-   
+
    public class OnVideoItemClickListener implements AdapterView.OnItemClickListener {
 
       @Override
