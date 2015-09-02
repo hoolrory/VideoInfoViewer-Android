@@ -19,6 +19,7 @@ package com.roryhool.videoinfoviewer.atomfragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,12 +36,12 @@ import android.view.ViewGroup;
 import android.view.animation.RotateAnimation;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.coremedia.iso.IsoFile;
 import com.coremedia.iso.boxes.Box;
@@ -207,8 +209,7 @@ public class AtomStructureFragment extends Fragment {
          mView = view;
          mAdapter = adapter;
 
-         ToggleButton expandButton = (ToggleButton) mView.findViewById( R.id.box_expand_button );
-         expandButton.setOnCheckedChangeListener( this );
+         mView.setOnClickListener( this );
 
          ImageButton infoButton = (ImageButton) mView.findViewById( R.id.box_info_button );
          infoButton.setOnClickListener( this );
@@ -220,40 +221,54 @@ public class AtomStructureFragment extends Fragment {
          TextView typeView = (TextView) mView.findViewById( R.id.box_type );
          typeView.setText( mAtom.getType() );
 
-         RelativeLayout root = (RelativeLayout) mView.findViewById( R.id.root );
-         root.setPadding( 10 * mAtom.getDepth(), 0, 0 ,0 );
+         RelativeLayout root = (RelativeLayout) mView.findViewById( R.id.atom_root );
+         root.setClickable( atom.getChildCount() == 0 ? false : true );
+
+         View paddingView = mView.findViewById( R.id.padding_view );
+         paddingView.setLayoutParams( new RelativeLayout.LayoutParams( dpToPx( 16 * mAtom.getDepth() ), LayoutParams.MATCH_PARENT ) );
 
          TextView descriptionView = (TextView) mView.findViewById( R.id.box_description );
          String name = mAtom.getName();
          descriptionView.setText( name );
 
-         ToggleButton expandButton = (ToggleButton) mView.findViewById( R.id.box_expand_button );
          ImageView boxIcon = (ImageView) mView.findViewById( R.id.box_icon );
-
-         expandButton.setClickable( atom.getChildCount() == 0 ? false : true );
          boxIcon.setVisibility( atom.getChildCount() == 0 ? View.INVISIBLE : View.VISIBLE );
+      }
+
+      public int dpToPx( int dp ) {
+         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+         int px = Math.round( dp * ( displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT ) );
+         return px;
       }
 
       @Override
       public void onClick( View v ) {
-         AtomActivity activity = (AtomActivity) getActivity();
-         if ( activity != null ) {
-            Intent intent = new Intent( activity, AtomActivity.class );
-            intent.putExtra( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( mAtom.getBox() ) );
-            startActivity( intent );
+         if ( v.getId() == R.id.atom_root ) {
+            mAtom.toggleExpansion();
+
+            boolean isExpanded = mAtom.isExpanded();
+            int from = isExpanded ? -90 : 0;
+            int to = isExpanded ? 0 : -90;
+
+            ImageView boxIcon = (ImageView) mView.findViewById( R.id.box_icon );
+            RotateAnimation animation = new RotateAnimation( from, to, boxIcon.getWidth() / 2, boxIcon.getHeight() / 2 );
+            animation.setDuration( 600 );
+            animation.setFillAfter( true );
+            boxIcon.startAnimation( animation );
+
+         } else if ( v.getId() == R.id.box_info_button ) {
+
+            Activity activity = getActivity();
+            if ( activity != null ) {
+               Intent intent = new Intent( activity, AtomActivity.class );
+               intent.putExtra( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( mAtom.getBox() ) );
+               startActivity( intent );
+            }
          }
       }
 
       @Override
       public void onCheckedChanged( CompoundButton buttonView, boolean isChecked ) {
-         int from = isChecked ? -90 : 0;
-         int to = isChecked ? 0 : -90;
-
-         ImageView boxIcon = (ImageView) mView.findViewById( R.id.box_icon );
-         RotateAnimation animation = new RotateAnimation( from, to, boxIcon.getWidth() / 2, boxIcon.getHeight() / 2 );
-         animation.setDuration( 600 );
-         animation.setFillAfter( true );
-         boxIcon.startAnimation( animation );
       }
    }
 

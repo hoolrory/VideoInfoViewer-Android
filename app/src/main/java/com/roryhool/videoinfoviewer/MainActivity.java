@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
    public class RecentVideosAdapter extends ArrayAdapter<Video> {
 
       public RecentVideosAdapter( Context context, int resource, List<Video> objects ) {
-         super( context, resource, objects );
+         super( context, resource, R.id.video_filename, objects );
       }
 
       @Override

@@ -7,6 +7,6 @@
            android:drawable="@color/blue_peter_river" />
 
        <item 
-           android:drawable="@color/transparent" />
+           android:drawable="@color/white" />
 
 </selector>
