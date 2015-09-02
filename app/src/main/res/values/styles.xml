@@ -8,6 +8,7 @@
     <style name="AppTheme" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="android:windowBackground">@color/white_grey</item>
     </style>
 
     <style name="AppTheme.ThemeOverlay.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

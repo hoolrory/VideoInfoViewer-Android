@@ -60,6 +60,7 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 
 public class VideoActivity extends AppCompatActivity implements OnClickListener, OnFullscreenListener {
 
+   protected Toolbar               mToolbar;
    protected SearchView            mSearchView;
    protected RelativeLayout        mRootLayout;
    protected DisableableScrollView mScrollView;
@@ -76,7 +77,7 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
 
    protected boolean mLoaded = false;
 
-   protected int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+   protected int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 
    protected SearchFragment mSearchFragment;
 
@@ -88,7 +89,9 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
       getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
       mRootLayout = (RelativeLayout) findViewById( R.id.root_layout );
 
-      setSupportActionBar( (Toolbar) findViewById( R.id.toolbar ) );
+      mToolbar = (Toolbar) findViewById( R.id.toolbar );
+
+      setSupportActionBar( mToolbar );
       getSupportActionBar().setDisplayHomeAsUpEnabled( true );
       getSupportActionBar().setDisplayShowHomeEnabled( true );
 
@@ -99,7 +102,7 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
 
       mSearchFragment = new SearchFragment();
 
-      mVideoPlayer.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ) + ViewUtils.GetActionBarHeight( VideoActivity.this ), 0, 0 );
+      mRootLayout.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
    }
 
    @Override
@@ -264,7 +267,6 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
          AdRequest adRequest = adRequestBuilder.build();
          mAdView.loadAd( adRequest );
       }
-
    }
 
    private void addKeyValueField( int linearLayoutId, int keyStringId, String value ) {
@@ -388,10 +390,10 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
       if ( fullscreen ) {
          getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility | View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_FULLSCREEN );
 
-         mVideoPlayer.setPadding( 0, 0, 0, 0 );
+         mRootLayout.setPadding( 0, 0, 0, 0 );
 
          TranslateAnimation animate = new TranslateAnimation( 0, 0, 0, mAdFrame.getHeight() );
-         animate.setDuration( 500 );
+         animate.setDuration( 2000 );
          animate.setFillAfter( true );
 
          mAdFrame.startAnimation( animate );
@@ -408,10 +410,10 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
       } else {
          getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
 
-         mVideoPlayer.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ) + ViewUtils.GetActionBarHeight( VideoActivity.this ), 0, 0 );
+         mRootLayout.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
 
          TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
-         animate.setDuration( 500 );
+         animate.setDuration( 2000 );
          animate.setFillAfter( true );
 
          mAdFrame.startAnimation( animate );

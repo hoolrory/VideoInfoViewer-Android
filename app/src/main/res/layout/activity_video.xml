@@ -5,26 +5,18 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-	<android.support.v7.widget.Toolbar
-		android:id="@+id/toolbar"
-		android:layout_width="match_parent"
-		android:layout_height="?attr/actionBarSize"
-		android:background="@color/blue_peter_river"
-		app:theme="@style/AppTheme.ThemeOverlay.ActionBar"
-		app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     
 	<com.roryhool.videoinfoviewer.views.DisableableScrollView
 	    android:id="@+id/scroll_view"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-	    android:layout_above="@+id/adFrame">    
+	    android:layout_above="@+id/adFrame">
 	    
 		<RelativeLayout
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    tools:context=".MainActivity"
-		    android:background="#F0F0F0" >
+		    android:background="@color/white_grey" >
 		    
 		    <com.roryhool.videoinfoviewer.views.VideoPlayerView
 		        android:id="@+id/video_player"
@@ -35,11 +27,18 @@
 		        android:id="@+id/loading_progress"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-	           style="@android:style/Widget.Holo.Light.Spinner"
-	           android:layout_centerHorizontal="true"
-	           android:background="@null"
-	           android:layout_marginTop="10dp"
-              android:layout_below="@+id/video_player" />
+	           	style="@android:style/Widget.Holo.Light.Spinner"
+	           	android:layout_centerHorizontal="true"
+	           	android:background="@null"
+	           	android:layout_marginTop="10dp"
+              	android:layout_below="@+id/video_player" />
+
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:background="@color/transparent_black"
+				app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 		    
 		    <LinearLayout
 		        android:id="@+id/video_properties_card"
