@@ -31,6 +31,7 @@ import com.coremedia.iso.boxes.Box;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.roryhool.videoinfoviewer.BuildConfig;
 import com.roryhool.videoinfoviewer.R;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.views.BoxInfoView;
@@ -68,7 +69,9 @@ public class AtomInfoFragment extends Fragment {
          Activity activity = getActivity();
          if ( activity != null ) {
             Analytics.Instance( activity ).LogEvent( "Video Info", "Load Atom Info", mBox.getType() );
-            setupAds( activity );
+            if ( !BuildConfig.DEBUG ) {
+               setupAds( activity );
+            }
          }
          new RetrieveBoxInfoTask().execute( mBox );
       }

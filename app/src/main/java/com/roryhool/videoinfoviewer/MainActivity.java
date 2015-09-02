@@ -95,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
       mRecentVideosList.setAdapter( mAdapter );
       mRecentVideosList.setOnItemClickListener( new OnVideoItemClickListener() );
 
-      setupAds();
+      if ( !BuildConfig.DEBUG ) {
+         setupAds();
+      }
 
       VideoInfoViewerApp.getDefaultTracker().setScreenName( MainActivity.class.getSimpleName() );
       VideoInfoViewerApp.getDefaultTracker().send( new HitBuilders.ScreenViewBuilder().build() );

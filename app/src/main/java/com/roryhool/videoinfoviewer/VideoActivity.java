@@ -142,7 +142,9 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
 
       mButton.setOnClickListener( this );
 
-      setupAds();
+      if ( !BuildConfig.DEBUG ) {
+         setupAds();
+      }
 
       VideoInfoViewerApp.getDefaultTracker().setScreenName( VideoActivity.class.getSimpleName() );
       VideoInfoViewerApp.getDefaultTracker().send( new HitBuilders.ScreenViewBuilder().build() );
