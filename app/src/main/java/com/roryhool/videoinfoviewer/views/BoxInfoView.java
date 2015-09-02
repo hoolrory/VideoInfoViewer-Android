@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -192,8 +193,8 @@ public class BoxInfoView extends FrameLayout {
             String byteString = strings[0];
             String string = strings[1];
 
-            LinearLayout layout = (LinearLayout) findViewById( R.id.raw_data_layout );
-            layout.setVisibility( View.VISIBLE );
+            CardView cardView = (CardView) findViewById( R.id.raw_data_card );
+            cardView.setVisibility( View.VISIBLE );
 
             RobotoTextView byteText = (RobotoTextView) findViewById( R.id.byte_text );
             byteText.setText( getDisplayForObject( byteString ) );

@@ -28,23 +28,6 @@
         <item name="windowActionModeOverlay">true</item>
     </style>
 
-    <style name="CardRelativeLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">10dip</item>
-        <item name="android:padding">10dip</item>
-        <item name="android:background">@drawable/card_bg_play</item>
-    </style>
-
-    <style name="CardLinearLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:layout_margin">10dip</item>
-        <item name="android:padding">10dip</item>
-        <item name="android:background">@drawable/card_bg_play</item>
-    </style>
-
     <style name="CardTitle_T1" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
