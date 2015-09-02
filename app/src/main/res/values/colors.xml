@@ -4,6 +4,7 @@
     <color name="primary">@color/blue_peter_river</color>
     <color name="primaryDark">@color/blue_belize_hole</color>
     <color name="accent">@color/green_nephritis</color>
+    <color name="accentDark">@color/green_emerald</color>
 
     <color name="holo_blue_light">#33B5E5</color>
     <color name="holo_blue_dark">#0099CC</color>

@@ -26,11 +26,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -49,7 +51,7 @@ import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.UriHelper;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnClickListener {
 
    protected int SELECT_VIDEO_CODE = 100;
 
@@ -69,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
       mRecentVideosList = (ListView) findViewById( R.id.recentVideosList );
       mAdFrame = (FrameLayout) findViewById( R.id.adFrame );
       mToolbar = (Toolbar) findViewById( R.id.toolbar );
+
+      FloatingActionButton fab = (FloatingActionButton) findViewById( R.id.fab );
+      fab.setOnClickListener( this );
 
       setSupportActionBar( mToolbar );
    }
@@ -112,9 +117,6 @@ public class MainActivity extends AppCompatActivity {
    @Override
    public boolean onOptionsItemSelected( MenuItem item ) {
       switch ( item.getItemId() ) {
-      case R.id.action_select_video:
-         launchVideoChooser();
-         return true;
       case R.id.action_credits:
          launchCredits();
          return true;
@@ -194,6 +196,13 @@ public class MainActivity extends AppCompatActivity {
          }
 
          startActivity( intent );
+      }
+   }
+
+   @Override
+   public void onClick( View v ) {
+      if ( v.getId() == R.id.fab ) {
+         launchVideoChooser();
       }
    }
 
