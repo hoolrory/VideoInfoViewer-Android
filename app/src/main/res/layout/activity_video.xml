@@ -46,6 +46,8 @@
 				android:layout_height="wrap_content"
 				app:cardCornerRadius="4dp"
 				app:cardUseCompatPadding="true"
+				android:layout_margin="8dp"
+				app:contentPadding="8dp"
 				android:layout_below="@+id/video_player"
 				android:visibility="invisible">
 
@@ -58,6 +60,8 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/video_properties"
+						android:layout_marginLeft="8dp"
+						android:layout_marginTop="8dp"
 						style="@style/CardTitle_T2" />
 
 					<LinearLayout
@@ -93,7 +97,7 @@
 		        android:layout_height="48dip"
 		        android:layout_below="@+id/video_properties_card"
 		        android:text="@string/view_atom_structure"
-              android:visibility="invisible" />
+               	android:visibility="invisible" />
 		
 		</RelativeLayout>
 		

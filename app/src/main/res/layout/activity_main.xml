@@ -20,34 +20,34 @@
 	    android:layout_above="@+id/adFrame"
 		android:layout_below="@+id/toolbar">
 	    
-       <RelativeLayout
-           android:id="@+id/onboarding_layout"
-           android:visibility="invisible"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="20dip">
+		<RelativeLayout
+			android:id="@+id/onboarding_layout"
+			android:visibility="invisible"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="20dip">
 	       
-		       <com.roryhool.videoinfoviewer.views.RobotoTextView 
-		           android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentLeft="true"
-                 android:layout_centerVertical="true"
-                 style="@style/CardTitle_T2"
-                 android:layout_toLeftOf="@+id/onboarding_image"
-                 android:layout_marginTop="10dip"
-                 android:text="@string/onboarding_text" />
-		       
-		       <ImageView
-		           android:id="@+id/onboarding_image"
-		           android:layout_width="48dip"
-		           android:layout_height="48dip"
-		           android:layout_marginRight="36dip"
-		           android:contentDescription="@string/onboarding_image_content_description"
-		           android:src="@drawable/ic_commit_search_api_holo_light"
-		           android:layout_alignParentRight="true"
-		           android:layout_alignParentTop="true" />
-		       
-       </RelativeLayout>
+			<com.roryhool.videoinfoviewer.views.RobotoTextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_centerVertical="true"
+				style="@style/CardTitle_T2"
+				android:layout_toLeftOf="@+id/onboarding_image"
+				android:layout_marginTop="10dip"
+				android:text="@string/onboarding_text" />
+
+			<ImageView
+				android:id="@+id/onboarding_image"
+				android:layout_width="48dip"
+				android:layout_height="48dip"
+				android:layout_marginRight="36dip"
+				android:contentDescription="@string/onboarding_image_content_description"
+				android:src="@drawable/ic_commit_search_api_holo_light"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentTop="true" />
+
+		</RelativeLayout>
 
 		<android.support.v7.widget.CardView
 			android:id="@+id/recent_videos_card"
