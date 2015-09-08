@@ -19,14 +19,14 @@ package com.roryhool.videoinfoviewer;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
    protected ListView    mRecentVideosList;
    protected FrameLayout mAdFrame;
    protected AdView      mAdView;
+   protected FloatingActionButton mFab;
 
    protected RecentVideosAdapter mAdapter;
 
@@ -72,10 +73,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
       mAdFrame = (FrameLayout) findViewById( R.id.adFrame );
       mToolbar = (Toolbar) findViewById( R.id.toolbar );
 
-      FloatingActionButton fab = (FloatingActionButton) findViewById( R.id.fab );
-      fab.setOnClickListener( this );
+      mFab = (FloatingActionButton) findViewById( R.id.fab );
+      mFab.setOnClickListener( this );
 
       setSupportActionBar( mToolbar );
+   }
+
+   @Override
+   public void onResume() {
+      super.onResume();
+      mFab.setVisibility( View.VISIBLE );
    }
 
    @Override
@@ -150,7 +157,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
    }
 
    private void launchCredits() {
-      FragmentManager manager = getFragmentManager();
+      mFab.setVisibility( View.GONE );
+
+      FragmentManager manager = getSupportFragmentManager();
       FragmentTransaction fragTransaction = manager.beginTransaction();
       fragTransaction.add( R.id.fragment_frame, new CreditsFragment() );
       fragTransaction.addToBackStack( "Credits" );

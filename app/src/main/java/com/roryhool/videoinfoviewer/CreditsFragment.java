@@ -19,10 +19,12 @@ package com.roryhool.videoinfoviewer;
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -33,6 +35,8 @@ public class CreditsFragment extends Fragment {
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
 
       View view = inflater.inflate( R.layout.fragment_credits, container, false );
+
+      setHasOptionsMenu( true );
 
       try {
          InputStream is = view.getContext().getAssets().open( "apache_license_2.txt" );
@@ -61,4 +65,9 @@ public class CreditsFragment extends Fragment {
       return view;
    }
 
+   @Override
+   public void onCreateOptionsMenu( Menu menu, MenuInflater inflater) {
+      super.onCreateOptionsMenu( menu, inflater );
+      menu.clear();
+   }
 }
