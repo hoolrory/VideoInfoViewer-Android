@@ -30,7 +30,7 @@ public class ScaledTextureView extends TextureView implements SurfaceTextureList
    int mVideoWidth = 1;
    int mVideoHeight = 1;
 
-   private List<SurfaceTextureListener> mListeners = new ArrayList<SurfaceTextureListener>();
+   private List<SurfaceTextureListener> mListeners = new ArrayList<>();
 
    boolean mSurfaceAvailable = false;
 

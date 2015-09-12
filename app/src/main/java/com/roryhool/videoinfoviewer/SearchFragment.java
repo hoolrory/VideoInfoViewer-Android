@@ -58,13 +58,11 @@ public class SearchFragment extends Fragment implements OnQueryTextListener {
 
    @Override
    public boolean onQueryTextSubmit( String query ) {
-      // TODO Auto-generated method stub
       return false;
    }
 
    @Override
    public boolean onQueryTextChange( String newText ) {
-      // TODO Auto-generated method stub
       return false;
    }
    
@@ -72,7 +70,7 @@ public class SearchFragment extends Fragment implements OnQueryTextListener {
 
       @Override
       protected List<SearchItem> doInBackground( Video... params ) {
-         List<SearchItem> items = new ArrayList<SearchItem>();
+         List<SearchItem> items = new ArrayList<>();
 
          return items;
       }

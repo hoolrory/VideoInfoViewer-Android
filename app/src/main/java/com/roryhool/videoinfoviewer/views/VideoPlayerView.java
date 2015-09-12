@@ -1,17 +1,17 @@
 /**
-   Copyright (c) 2014 Rory Hool
-   
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-   
-       http://www.apache.org/licenses/LICENSE-2.0
-   
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ * Copyright (c) 2014 Rory Hool
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  **/
 
 package com.roryhool.videoinfoviewer.views;
@@ -54,32 +54,23 @@ import com.roryhool.videoinfoviewer.animation.ResizeAnimation;
 public class VideoPlayerView extends FrameLayout implements SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener {
 
    public interface OnFullscreenListener {
-      public void onFullscreenChanged( boolean fullscreen );
+      void onFullscreenChanged( boolean fullscreen );
    }
 
-   ScaledTextureView mVideoTextureView;
+   protected ScaledTextureView mVideoTextureView;
+   protected SeekBar           mSeekBar;
+   protected ImageButton       mPlayButton;
+   protected ImageButton       mFullscreenButton;
+   protected RelativeLayout    mVideoControls;
 
-   SeekBar mSeekBar;
+   protected MediaPlayer mMediaPlayer;
+   protected Uri         mVideoUri;
 
-   ImageButton mPlayButton;
+   protected boolean mControlsShowing = true;
+   protected boolean mFullscreen;
+   protected boolean mAlreadyLoggedPlayAction;
 
-   ImageButton mFullscreenButton;
-
-   MediaPlayer mMediaPlayer;
-
-   RelativeLayout mVideoControls;
-
-   Uri mVideoUri;
-
-   boolean mControlsShowing = true;
-
-   boolean mFullscreen = false;
-
-   boolean mAlreadyLoggedPlayAction = false;
-
-   List<OnFullscreenListener> mFullscreenListeners = new ArrayList<OnFullscreenListener>();
-
-   View mFullscreenFillView;
+   protected List<OnFullscreenListener> mFullscreenListeners = new ArrayList<>();
 
    public VideoPlayerView( Context context ) {
       super( context );
@@ -119,16 +110,12 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    public void setVideoUri( Uri videoUri ) {
       mVideoUri = videoUri;
    }
-   
+
    public void addFullscreenListener( OnFullscreenListener listener ) {
       mFullscreenListeners.add( listener );
    }
 
-   public void setFullscreenFillView( View view ) {
-      mFullscreenFillView = view;
-   }
-
-   OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
+   protected OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
 
       boolean mResumePlaying = false;
 
@@ -165,7 +152,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    };
 
-   OnClickListener mOnPlayClickListener = new OnClickListener() {
+   protected OnClickListener mOnPlayClickListener = new OnClickListener() {
       @Override
       public void onClick( View view ) {
          if ( mMediaPlayer != null ) {
@@ -178,7 +165,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       }
    };
 
-   OnClickListener mOnVideoPlayerViewClickListener = new OnClickListener() {
+   protected OnClickListener mOnVideoPlayerViewClickListener = new OnClickListener() {
       @Override
       public void onClick( View view ) {
          if ( mControlsShowing ) {
@@ -191,7 +178,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       }
    };
 
-   OnClickListener mOnFullscreenClickListener = new OnClickListener() {
+   protected OnClickListener mOnFullscreenClickListener = new OnClickListener() {
       @Override
       public void onClick( View view ) {
 
@@ -210,18 +197,12 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
          fullscreenChanged( mFullscreen );
 
          if ( mFullscreen ) {
-
             WindowManager wm = (WindowManager) getContext().getSystemService( Context.WINDOW_SERVICE );
             Display display = wm.getDefaultDisplay();
             Point size = new Point();
             display.getSize( size );
             int height = size.y;
 
-            View fullscreenTargetView = mFullscreenFillView;
-
-            if ( fullscreenTargetView == null ) {
-               fullscreenTargetView = (View) getParent();
-            }
             targetHeight = height;
          }
          animation = new ResizeAnimation( VideoPlayerView.this, currentHeight, targetHeight, true );
@@ -230,7 +211,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       }
    };
 
-   private void fullscreenChanged( boolean fullscreen ) {
+   protected void fullscreenChanged( boolean fullscreen ) {
       for ( OnFullscreenListener listener : mFullscreenListeners ) {
          if ( listener != null ) {
             listener.onFullscreenChanged( fullscreen );
@@ -239,18 +220,10 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    }
 
    public void handleResize() {
-
       int currentHeight = getHeight();
       int targetHeight = getContext().getResources().getDimensionPixelSize( R.dimen.video_player_size );
 
       if ( mFullscreen ) {
-
-         View fullscreenTargetView = mFullscreenFillView;
-
-         if ( fullscreenTargetView == null ) {
-            fullscreenTargetView = (View) getParent();
-         }
-
          WindowManager wm = (WindowManager) getContext().getSystemService( Context.WINDOW_SERVICE );
          Display display = wm.getDefaultDisplay();
          Point size = new Point();
@@ -313,7 +286,6 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
          mMediaPlayer.setOnPreparedListener( this );
          mMediaPlayer.setOnVideoSizeChangedListener( this );
          mMediaPlayer.setAudioStreamType( AudioManager.STREAM_MUSIC );
-         mMediaPlayer.seekTo( 0 );
       } catch ( IllegalArgumentException e ) {
          e.printStackTrace();
       } catch ( SecurityException e ) {
@@ -333,32 +305,26 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    @Override
    public boolean onSurfaceTextureDestroyed( SurfaceTexture surfaceTexture ) {
-      // TODO Auto-generated method stub
       return false;
    }
 
    @Override
    public void onSurfaceTextureSizeChanged( SurfaceTexture surfaceTexture, int width, int height ) {
-      // TODO Auto-generated method stub
-
    }
 
    @Override
    public void onSurfaceTextureUpdated( SurfaceTexture surfaceTexture ) {
-      // TODO Auto-generated method stub
-
    }
 
    @Override
    public void onVideoSizeChanged( MediaPlayer mediaPlayer, int width, int height ) {
-      // TODO Auto-generated method stub
-
    }
 
    @Override
    public void onPrepared( MediaPlayer mediaPlayer ) {
-      // TODO Auto-generated method stub
-
+      mMediaPlayer.seekTo( 0 );
+      mMediaPlayer.start();
+      mMediaPlayer.pause();
    }
 
    @Override
@@ -370,13 +336,11 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    @Override
    public void onBufferingUpdate( MediaPlayer mp, int percent ) {
-      // TODO Auto-generated method stub
-
    }
-   
-   CountDownTimer mTimer = new CountDownTimer( 3000, 300 ) {
 
-      public void onTick(long millisUntilFinished) {
+   protected CountDownTimer mTimer = new CountDownTimer( 3000, 300 ) {
+
+      public void onTick( long millisUntilFinished ) {
          updateProgress();
       }
 
@@ -405,7 +369,6 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    }
 
    private void hideControls() {
-
       if ( !mControlsShowing ) {
          return;
       }
@@ -427,7 +390,6 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    }
 
    private void showControls() {
-
       if ( mControlsShowing ) {
          return;
       }
@@ -449,5 +411,4 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
       resetTimer();
    }
-
 }

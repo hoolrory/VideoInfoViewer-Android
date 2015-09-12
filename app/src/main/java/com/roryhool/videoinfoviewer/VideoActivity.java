@@ -138,7 +138,6 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
 
       mVideoPlayer.setVideoUri( mVideoUri );
       mVideoPlayer.addFullscreenListener( this );
-      mVideoPlayer.setFullscreenFillView( mRootLayout );
 
       mButton.setOnClickListener( this );
 
@@ -169,7 +168,6 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
 
          @Override
          public boolean onMenuItemActionExpand( MenuItem item ) {
-            // TODO Auto-generated method stub
             return true;
          }
 
