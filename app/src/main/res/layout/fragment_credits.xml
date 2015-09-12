@@ -13,7 +13,7 @@
         app:cardCornerRadius="4dp"
         app:cardUseCompatPadding="true"
         android:layout_margin="8dp"
-        app:contentPadding="8dp">
+        app:contentPadding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/mp4parser_title"
-                android:paddingLeft="5dp"
+                android:layout_margin="4dp"
                 style="@style/CardTitle_T2" />
 
             <com.roryhool.videoinfoviewer.views.RobotoTextView
@@ -53,7 +53,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/gson_title"
-                android:paddingLeft="5dp"
+                android:layout_margin="4dp"
+                style="@style/CardTitle_T2" />
+
+            <com.roryhool.videoinfoviewer.views.RobotoTextView
+                android:id="@+id/reactivex_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/reactivex_title"
+                android:layout_margin="4dp"
+                style="@style/CardTitle_T2" />
+
+            <com.roryhool.videoinfoviewer.views.RobotoTextView
+                android:id="@+id/reactivexandroid_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/reactivexandroid_title"
+                android:layout_margin="4dp"
                 style="@style/CardTitle_T2" />
 
             <View

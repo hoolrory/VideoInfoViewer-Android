@@ -62,6 +62,12 @@ public class CreditsFragment extends Fragment {
       TextView gsonCreditText = (TextView) view.findViewById( R.id.gson_credit );
       gsonCreditText.setMovementMethod( LinkMovementMethod.getInstance() );
 
+      TextView reactiveXCreditText = (TextView) view.findViewById( R.id.reactivex_credit );
+      reactiveXCreditText.setMovementMethod( LinkMovementMethod.getInstance() );
+
+      TextView reactiveXAndroidCreditText = (TextView) view.findViewById( R.id.reactivexandroid_credit );
+      reactiveXAndroidCreditText.setMovementMethod( LinkMovementMethod.getInstance() );
+
       return view;
    }
 
