@@ -47,7 +47,7 @@
     
     <string name="video_thumbnail_content_description">Thumbnail from video</string>
     
-    <string name="onboarding_text">To get started, click here to select a video</string>
+    <string name="onboarding_text">To get started, click here\nto select a video</string>
     
     <string name="onboarding_image_content_description">Onboarding arrow pointing at select video button</string>
     

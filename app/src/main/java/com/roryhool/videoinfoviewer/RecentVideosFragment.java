@@ -67,11 +67,12 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
 
       List<Video> recentVideos = VideoCache.Instance( view.getContext() ).getVideos();
 
-      if ( recentVideos.size() == 0 ) {
-         view.findViewById( R.id.onboarding_layout ).setVisibility( View.VISIBLE );
-      } else {
-         view.findViewById( R.id.recent_videos_card ).setVisibility( View.VISIBLE );
-      }
+      int onboardingVisibility = recentVideos.size() == 0 ? View.VISIBLE : View.GONE;
+
+      view.findViewById( R.id.onboarding_text ).setVisibility( onboardingVisibility );
+      view.findViewById( R.id.onboarding_image ).setVisibility(onboardingVisibility );
+
+      view.findViewById( R.id.recent_videos_card ).setVisibility( recentVideos.size() > 0 ? View.VISIBLE : View.GONE );
 
       mAdapter = new RecentVideosAdapter( view.getContext(), R.layout.recent_video_layout, recentVideos );
       mRecentVideosList.setAdapter( mAdapter );
