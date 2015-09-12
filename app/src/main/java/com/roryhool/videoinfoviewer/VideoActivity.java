@@ -40,7 +40,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
 
 import com.coremedia.iso.IsoFile;
 import com.google.android.gms.ads.AdRequest;
@@ -61,7 +60,6 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 public class VideoActivity extends AppCompatActivity implements OnClickListener, OnFullscreenListener {
 
    protected Toolbar               mToolbar;
-   protected SearchView            mSearchView;
    protected RelativeLayout        mRootLayout;
    protected DisableableScrollView mScrollView;
    protected VideoPlayerView       mVideoPlayer;
@@ -158,60 +156,7 @@ public class VideoActivity extends AppCompatActivity implements OnClickListener,
 
    @Override
    public boolean onCreateOptionsMenu( Menu menu ) {
-
       getMenuInflater().inflate( R.menu.video, menu );
-
-      /*
-      MenuItem searchMenuItem = menu.findItem( R.id.search );
-
-      searchMenuItem.setOnActionExpandListener( new OnActionExpandListener() {
-
-         @Override
-         public boolean onMenuItemActionExpand( MenuItem item ) {
-            return true;
-         }
-
-         @Override
-         public boolean onMenuItemActionCollapse( MenuItem item ) {
-            FragmentManager manager = getFragmentManager();
-            FragmentTransaction fragTransaction = manager.beginTransaction();
-            fragTransaction.remove( mSearchFragment );
-            fragTransaction.commit();
-
-            return true;
-         }
-
-      } );
-      
-      mSearchView = (SearchView) searchMenuItem.getActionView();
-      mSearchView.setOnQueryTextListener( mSearchFragment );
-      */
-
-      /*
-       * mSearchView.setOnCloseListener( new OnCloseListener() {
-       * 
-       * @Override public boolean onClose() {
-       * 
-       * FragmentManager manager = getFragmentManager(); FragmentTransaction fragTransaction = manager.beginTransaction(); fragTransaction.remove( mSearchFragment ); fragTransaction.commit();
-       * 
-       * Log.d( "this", "SearchView onClose" ); return false; }
-       * 
-       * } );
-       */
-
-      /*
-      mSearchView.setOnSearchClickListener( new View.OnClickListener() {
-
-         @Override
-         public void onClick( View v ) {
-            Log.d( "this", "SearchView onClick" );
-            FragmentManager manager = getFragmentManager();
-            FragmentTransaction fragTransaction = manager.beginTransaction();
-            fragTransaction.add( R.id.fragment_frame, mSearchFragment );
-            fragTransaction.commit();
-         }
-      } );
-      */
 
       return true;
    }
