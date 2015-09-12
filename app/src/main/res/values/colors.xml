@@ -1,37 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary">@color/blue_peter_river</color>
-    <color name="primaryDark">@color/blue_belize_hole</color>
-    <color name="accent">@color/green_nephritis</color>
-    <color name="accentDark">@color/green_emerald</color>
+    <color name="primary">#212121</color>
+    <color name="primaryDark">#111111</color>
+    <color name="accent">#41A3E1</color>
+    <color name="accentDark">#3E88B9</color>
 
-    <color name="holo_blue_light">#33B5E5</color>
-    <color name="holo_blue_dark">#0099CC</color>
-    <color name="holo_blue_bright">#00DDFF</color>
-    
+    <color name="transparentAccent">#4441A3E1</color>
+
     <color name="grey_dark">#707070</color>
     <color name="grey_middle">#969696</color>
     <color name="grey_light">#BDBDBD</color>
     <color name="grey_lighter">#CDCDCD</color>
     <color name="grey_faint">#E6E6E6</color>
     
-    <color name="green_nephritis">#27ae60</color>
-    <color name="green_emerald">#2ecc71</color>
-    
-    <color name="blue_peter_river">#3498db</color>
-    <color name="lighter_blue">#4188D2</color>
-    <color name="blue_belize_hole">#2980b9</color>
-    
-    <color name="red_alizarin">#e74c3c</color>
-    <color name="red_pomegranate">#c0392b</color>
-    
     <color name="transparent">#00000000</color>
-    <color name="transparent_blue_peter_river">#443498db</color>
-    
+
     <color name="transparent_black">#44000000</color>
     <color name="black">#000000</color>
     
     <color name="white">#FFFFFF</color>
     <color name="white_grey">#F0F0F0</color>
+    
 </resources>
