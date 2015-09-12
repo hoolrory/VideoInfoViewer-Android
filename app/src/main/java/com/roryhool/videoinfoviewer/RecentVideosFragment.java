@@ -87,6 +87,9 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
    public void onResume() {
       super.onResume();
       mFab.setVisibility( View.VISIBLE );
+
+      mAdapter.clear();
+      mAdapter.addAll( VideoCache.Instance( getActivity() ).getVideos() );
    }
 
    @Override

@@ -48,7 +48,7 @@ public class VideoCache {
 
    private Context mContext;
 
-   ArrayList<Video> mVideoList = new ArrayList<Video>();
+   ArrayList<Video> mVideoList = new ArrayList<>();
 
    public VideoCache( Context context ) {
       mContext = context;
@@ -99,7 +99,7 @@ public class VideoCache {
       Type listOfVideoObject = new TypeToken<ArrayList<Video>>() {}.getType();
       
       Gson gson = new Gson();
-      mVideoList = (ArrayList<Video>) gson.fromJson( json, listOfVideoObject );
+      mVideoList = gson.fromJson( json, listOfVideoObject );
 
       for ( Video video : mVideoList ) {
          video.CacheId = CurrentCacheId;
@@ -110,10 +110,7 @@ public class VideoCache {
    }
 
    private void saveVideos() {
-
-      Gson gson = new Gson();
-      
-      String json = gson.toJson( mVideoList );
+      String json = new Gson().toJson( mVideoList );
       SharedPreferences settings = mContext.getSharedPreferences( RECENT_VIDEO_PREFS, Context.MODE_PRIVATE );
       SharedPreferences.Editor editor = settings.edit();
       editor.putString( RECENT_VIDEO_KEY, json );
