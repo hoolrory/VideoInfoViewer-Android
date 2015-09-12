@@ -38,6 +38,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"
 				android:background="@color/transparent_black"
+				android:popupTheme="@style/AppTheme.ThemeOverlay.ActionBar.PopupTheme"
+				popupTheme="@style/AppTheme.ThemeOverlay.ActionBar.PopupTheme"
 				app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 			<android.support.v7.widget.CardView

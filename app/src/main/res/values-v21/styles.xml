@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.ThemeOverlay.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/primary</item>
+        <item name="android:actionModeBackground">@color/primary</item>
+        <item name="actionModeBackground">@color/primary</item>
+        <item name="android:actionModeSplitBackground">@color/primary</item>
+        <item name="actionModeSplitBackground">@color/primary</item>
+        <item name="android:colorBackground">@color/primaryDark</item>
+        <item name="popupTheme">@style/AppTheme.ThemeOverlay.ActionBar.PopupTheme</item>
+        <item name="android:popupTheme">@style/AppTheme.ThemeOverlay.ActionBar.PopupTheme</item>
+        <item name="android:actionMenuTextAppearance">@style/AppTheme.MenuTextStyle</item>
+        <item name="actionMenuTextAppearance">@style/AppTheme.MenuTextStyle</item>
+    </style>
+
+</resources>

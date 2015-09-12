@@ -19,6 +19,18 @@
         <item name="android:actionModeSplitBackground">@color/primary</item>
         <item name="actionModeSplitBackground">@color/primary</item>
         <item name="android:colorBackground">@color/primaryDark</item>
+        <item name="popupTheme">@style/AppTheme.ThemeOverlay.ActionBar.PopupTheme</item>
+        <item name="android:actionMenuTextAppearance">@style/AppTheme.MenuTextStyle</item>
+        <item name="actionMenuTextAppearance">@style/AppTheme.MenuTextStyle</item>
+    </style>
+
+    <style name="AppTheme.ThemeOverlay.ActionBar.PopupTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/white_grey</item>
+        <item name="android:colorBackground">@color/white_grey</item>
+    </style>
+
+    <style name="AppTheme.MenuTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:background">@color/white_grey</item>
     </style>
 
     <style name="Theme.AppTheme.NoActionBar" parent="AppTheme">
