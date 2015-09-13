@@ -110,7 +110,7 @@ public class UriHelper {
    }
 
 
-   public static String getFilePathFromUri( Context context, Uri uri ) {
+   public static String getFilePathFromUri( Uri uri ) {
       if ( uri == null ) {
          return null;
       }

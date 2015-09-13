@@ -36,7 +36,6 @@ import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
 import com.roryhool.videoinfoviewer.utils.FormatUtils;
-import com.roryhool.videoinfoviewer.utils.UriHelper;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
 import com.roryhool.videoinfoviewer.views.DisableableScrollView;
 import com.roryhool.videoinfoviewer.views.RobotoTextView;
@@ -59,8 +58,7 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
    protected Uri   mVideoUri;
    protected Video mVideo;
 
-   protected RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
-   protected RetrieveIsoFileTask      mRetrieveIsoFileTask;
+   protected RetrieveIsoFileTask mRetrieveIsoFileTask;
 
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
@@ -76,6 +74,11 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
 
       mViewAtomButton.setOnClickListener( this );
 
+      mVideoPlayer.addFullscreenListener( this );
+      if ( getActivity() instanceof OnFullscreenListener ) {
+         mVideoPlayer.addFullscreenListener( (OnFullscreenListener) getActivity() );
+      }
+
       Video video = null;
 
       Bundle args = getArguments();
@@ -87,18 +90,8 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
       if ( video != null ) {
          mVideoUri = Uri.parse( video.FilePath );
          LoadVideo( video );
-      } else {
-         mVideoUri = args.getParcelable( Extras.EXTRA_URI );
-         if ( mVideoUri != null ) {
-            mRetrieveVideoDetailsTask = new RetrieveVideoDetailsTask();
-            mRetrieveVideoDetailsTask.execute( mVideoUri );
-         }
-      }
 
-      mVideoPlayer.setVideoUri( mVideoUri );
-      mVideoPlayer.addFullscreenListener( this );
-      if ( getActivity() instanceof OnFullscreenListener ) {
-         mVideoPlayer.addFullscreenListener( (OnFullscreenListener) getActivity() );
+         mVideoPlayer.setVideoUri( mVideoUri );
       }
 
       return view;
@@ -144,8 +137,6 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
       mLoadingProgress.setVisibility( View.GONE );
       mVideoPropertiesCard.setVisibility( View.VISIBLE );
       mViewAtomButton.setVisibility( View.VISIBLE );
-
-      VideoCache.Instance().addVideo( mVideo );
 
       addKeyValueField( R.string.key_file_name, mVideo.FileName );
       addKeyValueField( R.string.key_resolution, String.format( "%dx%d", mVideo.VideoWidth, mVideo.VideoHeight ) );
@@ -228,25 +219,6 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
       protected void onPostExecute( IsoFile isoFile ) {
          mVideo.setIsoFile( isoFile );
          LoadVideo( mVideo );
-      }
-   }
-
-   public class RetrieveVideoDetailsTask extends AsyncTask<Uri, Void, Video> {
-
-      @Override
-      protected void onPreExecute() {
-      }
-
-      @Override
-      protected Video doInBackground( Uri... uris ) {
-         String filePath = UriHelper.getFilePathFromUri( getActivity(), mVideoUri );
-         Video video = Video.CreateFromFilePath( filePath );
-         return video;
-      }
-
-      @Override
-      protected void onPostExecute( Video video ) {
-         LoadVideo( video );
       }
    }
 }

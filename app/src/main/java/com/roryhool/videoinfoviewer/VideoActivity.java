@@ -16,11 +16,18 @@
 
 package com.roryhool.videoinfoviewer;
 
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,16 +39,24 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
+import com.roryhool.videoinfoviewer.data.Video;
+import com.roryhool.videoinfoviewer.utils.UriHelper;
+import com.roryhool.videoinfoviewer.utils.VideoCache;
 import com.roryhool.videoinfoviewer.utils.ViewUtils;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 
-public class VideoActivity extends AppCompatActivity implements OnFullscreenListener {
+public class VideoActivity extends AppCompatActivity implements OnFullscreenListener, OnPageChangeListener {
 
    protected Toolbar        mToolbar;
    protected RelativeLayout mRootLayout;
-   protected FrameLayout    mFragmentFrame;
    protected FrameLayout    mAdFrame;
    protected AdView         mAdView;
+   protected ViewPager      mViewPager;
+   protected TabLayout      mTabLayout;
+
+   protected VideoFragmentAdapter mPagerAdapter;
+
+   protected RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
 
    protected int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 
@@ -54,41 +69,39 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       mRootLayout = (RelativeLayout) findViewById( R.id.root_layout );
 
       mToolbar = (Toolbar) findViewById( R.id.toolbar );
+      mTabLayout = (TabLayout) findViewById( R.id.tab_layout );
 
       setSupportActionBar( mToolbar );
       getSupportActionBar().setDisplayHomeAsUpEnabled( true );
       getSupportActionBar().setDisplayShowHomeEnabled( true );
 
-      mFragmentFrame = (FrameLayout) findViewById( R.id.fragment_frame );
       mAdFrame = (FrameLayout) findViewById( R.id.ad_frame );
 
       mRootLayout.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
 
       Bundle extras = getIntent().getExtras();
+      Bundle args = new Bundle();
 
-      int cacheId = -1;
+      mViewPager = (ViewPager) findViewById( R.id.view_pager );
+      mViewPager.addOnPageChangeListener( this );
 
-      if ( extras != null ) {
-         if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
-            cacheId = extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID );
+      if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
+         setCurrentVideo( VideoCache.Instance().getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) ) );
+      } else {
+         Uri videoUri = args.getParcelable( Extras.EXTRA_URI );
+         if ( videoUri != null ) {
+            mRetrieveVideoDetailsTask = new RetrieveVideoDetailsTask();
+            mRetrieveVideoDetailsTask.execute( videoUri );
          }
       }
 
-      Bundle args = new Bundle();
+      TypedValue secondaryTextColor = new TypedValue();
+      getTheme().resolveAttribute( android.R.attr.textColorSecondary, secondaryTextColor, true );
+      TypedValue primaryTextColor = new TypedValue();
+      getTheme().resolveAttribute( android.R.attr.textColorPrimary, primaryTextColor, true );
 
-      if ( cacheId != -1 ) {
-         args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, cacheId );
-      } else {
-         args.putParcelable( Extras.EXTRA_URI, getIntent().getData() );
-      }
-
-      VideoFragment videoFragment = new VideoFragment();
-      videoFragment.setArguments( args );
-
-      FragmentManager manager = getSupportFragmentManager();
-      FragmentTransaction fragTransaction = manager.beginTransaction();
-      fragTransaction.add( R.id.fragment_frame, videoFragment );
-      fragTransaction.commit();
+      mTabLayout.setTabTextColors( secondaryTextColor.data, primaryTextColor.data );
+      mTabLayout.setupWithViewPager( mViewPager );
 
       if ( !BuildConfig.DEBUG ) {
          setupAds();
@@ -115,6 +128,13 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       }
 
       return true;
+   }
+
+   protected void setCurrentVideo( Video video ) {
+      VideoCache.Instance().addVideo( video );
+
+      mPagerAdapter = new VideoFragmentAdapter( getSupportFragmentManager() );
+      mViewPager.setAdapter( mPagerAdapter );
    }
 
    private void setupAds() {
@@ -177,6 +197,78 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
          }
 
          getSupportActionBar().show();
+      }
+   }
+
+   @Override
+   public void onPageScrolled( int position, float positionOffset, int positionOffsetPixels ) {
+
+   }
+
+   @Override
+   public void onPageSelected( int position ) {
+
+   }
+
+   @Override
+   public void onPageScrollStateChanged( int state ) {
+
+   }
+
+   protected class VideoFragmentAdapter extends FragmentStatePagerAdapter {
+
+      public VideoFragmentAdapter( FragmentManager fragmentManager ) {
+         super( fragmentManager );
+      }
+
+      @Override
+      public Fragment getItem( int index ) {
+
+         Bundle args = new Bundle();
+         Video video = VideoCache.Instance().getVideoByIndex( index );
+         if ( video != null ) {
+            args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, video.CacheId );
+         }
+
+         VideoFragment videoFragment = new VideoFragment();
+         videoFragment.setArguments( args );
+
+         return videoFragment;
+      }
+
+      @Override
+      public int getCount() {
+         return VideoCache.Instance().getVideos().size();
+      }
+
+      @Override
+      public CharSequence getPageTitle( int index ) {
+         Video video = VideoCache.Instance().getVideoByIndex( index );
+         if ( video != null ) {
+            return video.FileName;
+         }
+
+         return "";
+      }
+   }
+
+
+   public class RetrieveVideoDetailsTask extends AsyncTask<Uri, Void, Video> {
+
+      @Override
+      protected void onPreExecute() {
+      }
+
+      @Override
+      protected Video doInBackground( Uri... uris ) {
+         String filePath = UriHelper.getFilePathFromUri( uris[0] );
+         Video video = Video.CreateFromFilePath( filePath );
+         return video;
+      }
+
+      @Override
+      protected void onPostExecute( Video video ) {
+         setCurrentVideo( video );
       }
    }
 }

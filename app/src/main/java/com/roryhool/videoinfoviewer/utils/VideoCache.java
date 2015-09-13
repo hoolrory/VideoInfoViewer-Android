@@ -59,6 +59,14 @@ public class VideoCache {
       return clone.subList( 0, Math.min( MAX_VIDEOS, mVideoList.size() ) );
    }
 
+   public Video getVideoByIndex( int index ) {
+      if ( mVideoList.size() - 1 > index ) {
+         return mVideoList.get( index );
+      }
+
+      return null;
+   }
+
    public void addVideo( Video video ) {
       for ( Video existingVideo : mVideoList ) {
          if ( video.compareTo( existingVideo ) == 0 ) {

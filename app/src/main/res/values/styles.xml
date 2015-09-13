@@ -10,6 +10,10 @@
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="android:windowBackground">@color/white_grey</item>
         <item name="colorButtonNormal">@color/accent</item>
+
+        <item name="android:textColorPrimary">@color/white_grey</item>
+        <item name="android:textColorSecondary">@color/white_grey</item>
+        <item name="android:textColorTertiary">@color/white_grey</item>
     </style>
 
     <style name="AppTheme.ThemeOverlay.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
