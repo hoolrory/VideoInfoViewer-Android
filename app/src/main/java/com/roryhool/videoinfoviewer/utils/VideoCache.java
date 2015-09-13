@@ -26,6 +26,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.roryhool.videoinfoviewer.VideoInfoViewerApp;
 import com.roryhool.videoinfoviewer.data.Video;
 
 public class VideoCache {
@@ -39,19 +40,16 @@ public class VideoCache {
 
    private static VideoCache mInstance = null;
 
-   public static VideoCache Instance( Context context ) {
+   public static VideoCache Instance() {
       if ( mInstance == null ) {
-         mInstance = new VideoCache( context );
+         mInstance = new VideoCache();
       }
       return mInstance;
    }
 
-   private Context mContext;
-
    ArrayList<Video> mVideoList = new ArrayList<>();
 
-   public VideoCache( Context context ) {
-      mContext = context;
+   public VideoCache() {
       initiateArray();
    }
 
@@ -88,8 +86,7 @@ public class VideoCache {
 
    @SuppressWarnings( "unchecked" )
    private void initiateArray() {
-
-      SharedPreferences settings = mContext.getSharedPreferences( RECENT_VIDEO_PREFS, Context.MODE_PRIVATE );
+      SharedPreferences settings = VideoInfoViewerApp.getContext().getSharedPreferences( RECENT_VIDEO_PREFS, Context.MODE_PRIVATE );
       String json = settings.getString( RECENT_VIDEO_KEY, null );
 
       if ( json == null ) {
@@ -111,7 +108,7 @@ public class VideoCache {
 
    private void saveVideos() {
       String json = new Gson().toJson( mVideoList );
-      SharedPreferences settings = mContext.getSharedPreferences( RECENT_VIDEO_PREFS, Context.MODE_PRIVATE );
+      SharedPreferences settings = VideoInfoViewerApp.getContext().getSharedPreferences( RECENT_VIDEO_PREFS, Context.MODE_PRIVATE );
       SharedPreferences.Editor editor = settings.edit();
       editor.putString( RECENT_VIDEO_KEY, json );
       editor.apply();

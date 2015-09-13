@@ -68,7 +68,7 @@ public class AtomInfoFragment extends Fragment {
 
          Activity activity = getActivity();
          if ( activity != null ) {
-            Analytics.Instance( activity ).LogEvent( "Video Info", "Load Atom Info", mBox.getType() );
+            Analytics.logEvent( "Video Info", "Load Atom Info", mBox.getType() );
             if ( !BuildConfig.DEBUG ) {
                setupAds( activity );
             }

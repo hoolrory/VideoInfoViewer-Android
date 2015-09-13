@@ -182,7 +182,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       @Override
       public void onClick( View view ) {
 
-         Analytics.Instance( getContext() ).LogEvent( "App Action", "Toggled Fullscreen Mode" );
+         Analytics.logEvent( "App Action", "Toggled Fullscreen Mode" );
 
          if ( mMediaPlayer.isPlaying() ) {
             resetTimer();
@@ -254,7 +254,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
             mPlayButton.setImageResource( R.drawable.ic_media_pause2 );
 
             if ( !mAlreadyLoggedPlayAction ) {
-               Analytics.Instance( getContext() ).LogEvent( "App Action", "Played Video" );
+               Analytics.logEvent( "App Action", "Played Video" );
                mAlreadyLoggedPlayAction = true;
             }
          }

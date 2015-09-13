@@ -72,9 +72,9 @@ public class AtomHelper {
       if ( sKnownBoxes.contains( box.getClass() ) ) {
          
       } else if ( UnknownBox.class.isInstance( box ) ) {
-         Analytics.Instance( context ).LogEvent( "Video Info", "Found UnknownBox", box.getType() );
+         Analytics.logEvent( "Video Info", "Found UnknownBox", box.getType() );
       } else {
-         Analytics.Instance( context ).LogEvent( "Video Info", "Found box not in list", box.getType() );
+         Analytics.logEvent( "Video Info", "Found box not in list", box.getType() );
       }
    }
 
@@ -82,7 +82,7 @@ public class AtomHelper {
 
    public static String getNameForType( String type ) {
       String name = sTypeToNameMap.get( type );
-      Analytics.Instance( VideoInfoViewerApp.getContext() ).LogEvent( "Video Info", "Failed to get name for type ", type );
+      Analytics.logEvent( "Video Info", "Failed to get name for type ", type );
       return name;
    }
 

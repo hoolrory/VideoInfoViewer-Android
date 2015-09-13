@@ -65,7 +65,7 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
       mFab = (FloatingActionButton) view.findViewById( R.id.fab );
       mFab.setOnClickListener( this );
 
-      List<Video> recentVideos = VideoCache.Instance( view.getContext() ).getVideos();
+      List<Video> recentVideos = VideoCache.Instance().getVideos();
 
       int onboardingVisibility = recentVideos.size() == 0 ? View.VISIBLE : View.GONE;
 
@@ -89,7 +89,7 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
       mFab.setVisibility( View.VISIBLE );
 
       mAdapter.clear();
-      mAdapter.addAll( VideoCache.Instance( getActivity() ).getVideos() );
+      mAdapter.addAll( VideoCache.Instance().getVideos() );
    }
 
    @Override
@@ -144,7 +144,7 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
          fragTransaction.addToBackStack( "Credits" );
          fragTransaction.commit();
 
-         Analytics.Instance( activity ).LogEvent( "App Action", "Opened Credits" );
+         Analytics.logEvent( "App Action", "Opened Credits" );
       }
    }
 
@@ -168,17 +168,14 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
 
       FragmentActivity activity = getActivity();
       if ( activity != null ) {
-         Analytics.Instance( activity ).LogEvent( "App Action", "Launched Video Chooser" );
+         Analytics.logEvent( "App Action", "Launched Video Chooser" );
       }
    }
 
    public class RecentVideosAdapter extends ArrayAdapter<Video> {
 
-      protected Context mContext;
-
       public RecentVideosAdapter( Context context, int resource, List<Video> objects ) {
          super( context, resource, R.id.video_filename, objects );
-         mContext = context;
       }
 
       @Override
@@ -191,7 +188,7 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
          TextView fileNameText = (TextView) videoView.findViewById( R.id.video_filename );
          TextView resolutionText = (TextView) videoView.findViewById( R.id.video_resolution );
 
-         thumbnailView.setImageURI( Uri.parse( video.getThumbnailFilePath( mContext ) ) );
+         thumbnailView.setImageURI( Uri.parse( video.getThumbnailFilePath() ) );
          fileNameText.setText( video.FileName );
          resolutionText.setText( String.format( "%dx%d", video.VideoWidth, video.VideoHeight ) );
 
@@ -211,7 +208,7 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
             intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, video.CacheId );
             startActivity( intent );
 
-            Analytics.Instance( activity ).LogEvent( "App Action", "Selected Video from Recent Videos List" );
+            Analytics.logEvent( "App Action", "Selected Video from Recent Videos List" );
          }
       }
    }

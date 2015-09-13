@@ -1,17 +1,17 @@
 /**
-   Copyright (c) 2014 Rory Hool
-   
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-   
-       http://www.apache.org/licenses/LICENSE-2.0
-   
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ * Copyright (c) 2014 Rory Hool
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  **/
 
 package com.roryhool.videoinfoviewer;
@@ -35,15 +35,15 @@ import com.roryhool.videoinfoviewer.search.SearchItem;
 
 public class SearchFragment extends Fragment implements OnQueryTextListener {
 
-   ListView mListView;
+   protected ListView mListView;
 
-   SearchItemAdapter mAdapter;
+   protected SearchItemAdapter mAdapter;
 
-   Video mVideo;
+   protected Video mVideo;
 
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
-      
+
       View view = inflater.inflate( R.layout.fragment_search, container, false );
       mListView = (ListView) view.findViewById( R.id.search_items_list );
 
@@ -65,7 +65,7 @@ public class SearchFragment extends Fragment implements OnQueryTextListener {
    public boolean onQueryTextChange( String newText ) {
       return false;
    }
-   
+
    private class SearchItemAdapterPrepareTask extends AsyncTask<Video, Void, List<SearchItem>> {
 
       @Override
@@ -81,11 +81,9 @@ public class SearchFragment extends Fragment implements OnQueryTextListener {
          mAdapter = new SearchItemAdapter( VideoInfoViewerApp.getContext(), 0, items );
          mListView.setAdapter( mAdapter );
       }
-      
    }
 
    private class SearchItemAdapter extends ArrayAdapter<SearchItem> {
-
 
       public SearchItemAdapter( Context context, int textViewResourceId, List<SearchItem> objects ) {
          super( context, textViewResourceId, objects );
@@ -101,7 +99,5 @@ public class SearchFragment extends Fragment implements OnQueryTextListener {
       public boolean hasStableIds() {
          return true;
       }
-
    }
-
 }

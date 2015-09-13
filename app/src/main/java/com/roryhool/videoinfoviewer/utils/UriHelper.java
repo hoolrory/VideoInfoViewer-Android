@@ -16,17 +16,20 @@
 
 package com.roryhool.videoinfoviewer.utils;
 
+import java.io.File;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import com.roryhool.videoinfoviewer.VideoInfoViewerApp;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 
 public class UriHelper {
@@ -101,9 +104,39 @@ public class UriHelper {
          return uri.getPath();
       }
 
-      Analytics.Instance( context ).LogEvent( "Failure", "Failed to resolve content URI to path", uri.toString() );
+      Analytics.logEvent( "Failure", "Failed to resolve content URI to path", uri.toString() );
 
       return null;
    }
 
+
+   public static String getFilePathFromUri( Context context, Uri uri ) {
+      if ( uri == null ) {
+         return null;
+      }
+
+      String filePath = null;
+      if ( uri.getPath() != null ) {
+         File f = new File( uri.getPath() );
+         if ( f.exists() ) {
+            filePath = uri.getPath();
+         }
+      }
+
+      String scheme = uri.getScheme();
+      if ( filePath == null && scheme != null && scheme.equals( "content" ) ) {
+         String[] projection = { MediaStore.Video.Media.DATA };
+         Cursor cursor = VideoInfoViewerApp.getContext().getContentResolver().query( uri, projection, null, null, null );
+
+         int dataColumn = cursor.getColumnIndex( MediaStore.Video.Media.DATA );
+         if ( dataColumn >= 0 && cursor.moveToFirst() ) {
+
+            filePath = cursor.getString( dataColumn );
+         }
+
+         cursor.close();
+      }
+
+      return filePath;
+   }
 }

@@ -29,6 +29,7 @@ import com.coremedia.iso.IsoFile;
 import com.coremedia.iso.boxes.Box;
 import com.coremedia.iso.boxes.SampleSizeBox;
 import com.google.gson.annotations.SerializedName;
+import com.roryhool.videoinfoviewer.VideoInfoViewerApp;
 import com.roryhool.videoinfoviewer.utils.BoxUtils;
 
 public class Video implements Comparable<Video> {
@@ -85,11 +86,11 @@ public class Video implements Comparable<Video> {
       return video.FilePath.equals( FilePath ) ? 0 : -1;
    }
 
-   public String getThumbnailFilePath( Context context ) {
-      return context.getFilesDir().getAbsolutePath() + "/" + FileName + ".png";
+   public String getThumbnailFilePath() {
+      return VideoInfoViewerApp.getContext().getFilesDir().getAbsolutePath() + "/" + FileName + ".png";
    }
 
-   public static Video CreateFromFilePath( Context context, String filePath ) {
+   public static Video CreateFromFilePath( String filePath ) {
 
       File file = new File( filePath );
 
@@ -123,14 +124,14 @@ public class Video implements Comparable<Video> {
       Bitmap bitmap = retriever.getFrameAtTime( Long.parseLong( video.Duration ) / 2 );
 
       try {
-         FileOutputStream out = new FileOutputStream( video.getThumbnailFilePath( context ) );
+         FileOutputStream out = new FileOutputStream( video.getThumbnailFilePath() );
          bitmap.compress( Bitmap.CompressFormat.PNG, 90, out );
          out.close();
       } catch ( Exception e ) {
          e.printStackTrace();
       }
 
-      IsoFile isoFile = null;
+      IsoFile isoFile;
       try {
          isoFile = new IsoFile( video.FilePath );
          

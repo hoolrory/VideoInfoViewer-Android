@@ -56,9 +56,9 @@ public class AtomActivity extends AppCompatActivity {
       }
 
       if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
-         Analytics.Instance( this ).LogEvent( "App Action", "Opened Video in AtomActivity" );
+         Analytics.logEvent( "App Action", "Opened Video in AtomActivity" );
 
-         mVideo = VideoCache.Instance( this ).getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
+         mVideo = VideoCache.Instance().getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
 
          mAtomStructureFragment = new AtomStructureFragment();
          mAtomStructureFragment.setVideo( mVideo );
