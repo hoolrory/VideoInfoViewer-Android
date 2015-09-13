@@ -175,9 +175,11 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
          LinearLayout keyLayout = (LinearLayout) mVideoPropertiesLayout.getChildAt( 0 );
          LinearLayout valueLayout = (LinearLayout) mVideoPropertiesLayout.getChildAt( 1 );
 
-         RobotoTextView keyView = new RobotoTextView( new ContextThemeWrapper( activity, R.style.CardKey ) );
+         RobotoTextView keyView = new RobotoTextView( activity );
+         keyView.setTextAppearance( activity, R.style.CardKey );
 
-         RobotoTextView valueView = new RobotoTextView( new ContextThemeWrapper( activity, R.style.CardValueOneLine ) );
+         RobotoTextView valueView = new RobotoTextView( activity );
+         valueView.setTextAppearance( activity, R.style.CardValueOneLine );
          FontManager.get( activity ).setRobotoLight( valueView );
 
          keyView.setText( keyStringId );
