@@ -51,9 +51,13 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.roryhool.videoinfoviewer.R;
+import com.roryhool.videoinfoviewer.VideoActivity;
+import com.roryhool.videoinfoviewer.VideoActivity.CancelFullscreenEvent;
+import com.roryhool.videoinfoviewer.VideoInfoViewerApp;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.animation.ResizeAnimation;
 import com.roryhool.videoinfoviewer.data.Video;
+import com.squareup.otto.Subscribe;
 
 public class VideoPlayerView extends FrameLayout implements SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener, OnClickListener {
 
@@ -118,6 +122,8 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       mFullscreenButton.setOnClickListener( this );
 
       setOnClickListener( this );
+
+      VideoInfoViewerApp.getBus().register( this );
    }
 
    public void setVideo( Video video ) {
@@ -175,26 +181,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
             play();
          }
       } else if ( v.getId() == R.id.fullscreen_button ) {
-         Analytics.logEvent( "App Action", "Toggled Fullscreen Mode" );
-         if ( mMediaPlayer != null && mMediaPlayer.isPlaying() ) {
-            resetTimer();
-         }
-
-         int targetHeight = getContext().getResources().getDimensionPixelSize( R.dimen.video_player_size );
-         mFullscreen = getHeight() == targetHeight;
-         fullscreenChanged( mFullscreen );
-
-         if ( mFullscreen ) {
-            WindowManager wm = (WindowManager) getContext().getSystemService( Context.WINDOW_SERVICE );
-            Display display = wm.getDefaultDisplay();
-            Point size = new Point();
-            display.getSize( size );
-
-            targetHeight = size.y;
-         }
-         ResizeAnimation animation = new ResizeAnimation( VideoPlayerView.this, getHeight(), targetHeight, true );
-         animation.setDuration( 200 );
-         startAnimation( animation );
+         toggleFullscreen();
       } else {
          if ( mMediaPlayer != null ) {
             if ( !mControlsShowing ) {
@@ -206,15 +193,46 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       }
    }
 
+   @Subscribe
+   public void onCancelFullscreenEvent( CancelFullscreenEvent event ) {
+      if ( mFullscreen ) {
+         toggleFullscreen();
+      }
+   }
+
+   protected void toggleFullscreen() {
+      Analytics.logEvent( "App Action", "Toggled Fullscreen Mode" );
+      if ( mMediaPlayer != null && mMediaPlayer.isPlaying() ) {
+         resetTimer();
+      }
+
+      int targetHeight = getContext().getResources().getDimensionPixelSize( R.dimen.video_player_size );
+      mFullscreen = getHeight() == targetHeight;
+      fullscreenChanged( mFullscreen );
+
+      if ( mFullscreen ) {
+         WindowManager wm = (WindowManager) getContext().getSystemService( Context.WINDOW_SERVICE );
+         Display display = wm.getDefaultDisplay();
+         Point size = new Point();
+         display.getSize( size );
+
+         targetHeight = size.y;
+      }
+      ResizeAnimation animation = new ResizeAnimation( VideoPlayerView.this, getHeight(), targetHeight, true );
+      animation.setDuration( 200 );
+      startAnimation( animation );
+   }
+
    public void shutdownMediaPlayer() {
       if ( mMediaPlayer != null ) {
          pause();
          mMediaPlayer.release();
          mMediaPlayer = null;
+
+         slideOutVideoControls();
+         mThumbView.setVisibility( View.VISIBLE );
       }
 
-      slideOutVideoControls();
-      mThumbView.setVisibility( View.VISIBLE );
    }
 
    protected void setupMediaPlayer() {

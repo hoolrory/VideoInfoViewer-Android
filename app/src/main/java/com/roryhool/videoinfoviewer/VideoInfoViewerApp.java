@@ -21,13 +21,20 @@ import android.content.Context;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.squareup.otto.Bus;
 
 public class VideoInfoViewerApp extends Application {
 
    private static Context sContext;
 
+   private static Bus sBus = new Bus();
+
    public static Context getContext() {
       return sContext;
+   }
+
+   public static Bus getBus() {
+      return sBus;
    }
 
    @Override
@@ -38,6 +45,7 @@ public class VideoInfoViewerApp extends Application {
    }
 
    private static Tracker mTracker;
+
    /**
     * Gets the default {@link Tracker} for this {@link Application}.
     * @return tracker

@@ -47,6 +47,9 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 
 public class VideoActivity extends AppCompatActivity implements OnFullscreenListener, OnPageChangeListener {
 
+   public static class CancelFullscreenEvent {
+   }
+
    protected Toolbar        mToolbar;
    protected RelativeLayout mRootLayout;
    protected FrameLayout    mAdFrame;
@@ -59,6 +62,8 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
    protected RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
 
    protected int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+
+   protected boolean mFullscreen;
 
    @Override
    public void onCreate( Bundle savedInstanceState ) {
@@ -131,6 +136,19 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       return true;
    }
 
+   @Override
+   public void onBackPressed() {
+      if ( mFullscreen ) {
+         exitFullscreen();
+      } else {
+         super.onBackPressed();
+      }
+   }
+
+   protected void cancelFullscreen() {
+      VideoInfoViewerApp.getBus().post( new CancelFullscreenEvent() );
+   }
+
    protected void setCurrentVideo( Video video ) {
       VideoCache.Instance().addVideo( video );
 
@@ -164,7 +182,9 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
 
    @Override
    public void onFullscreenChanged( boolean fullscreen ) {
-      if ( fullscreen ) {
+      mFullscreen = fullscreen;
+
+      if ( mFullscreen ) {
          getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility | View.SYSTEM_UI_FLAG_LOW_PROFILE | View.SYSTEM_UI_FLAG_FULLSCREEN );
 
          mRootLayout.setPadding( 0, 0, 0, 0 );
@@ -183,29 +203,37 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
          getSupportActionBar().hide();
          mTabLayout.setVisibility( View.GONE );
       } else {
-         getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
-
-         mRootLayout.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
-
-         TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
-         animate.setDuration( 2000 );
-         animate.setFillAfter( true );
-
-         mAdFrame.startAnimation( animate );
-         mAdFrame.setVisibility( View.VISIBLE );
-         mAdFrame.setEnabled( true );
-         if ( mAdView != null ) {
-            mAdView.setVisibility( View.VISIBLE );
-         }
-
-         getSupportActionBar().show();
-         mTabLayout.setVisibility( View.VISIBLE );
+         exitFullscreen();
       }
+   }
+
+   protected void exitFullscreen() {
+      VideoInfoViewerApp.getBus().post( new CancelFullscreenEvent() );
+
+      getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
+
+      mRootLayout.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
+
+      TranslateAnimation animate = new TranslateAnimation( 0, 0, mAdFrame.getHeight(), 0 );
+      animate.setDuration( 2000 );
+      animate.setFillAfter( true );
+
+      mAdFrame.startAnimation( animate );
+      mAdFrame.setVisibility( View.VISIBLE );
+      mAdFrame.setEnabled( true );
+      if ( mAdView != null ) {
+         mAdView.setVisibility( View.VISIBLE );
+      }
+
+      getSupportActionBar().show();
+      mTabLayout.setVisibility( View.VISIBLE );
    }
 
    @Override
    public void onPageScrolled( int position, float positionOffset, int positionOffsetPixels ) {
-
+      if ( mFullscreen ) {
+         exitFullscreen();
+      }
    }
 
    @Override

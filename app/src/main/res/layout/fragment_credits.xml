@@ -72,6 +72,14 @@
                 android:layout_margin="4dp"
                 style="@style/CardTitle_T2" />
 
+            <com.roryhool.videoinfoviewer.views.RobotoTextView
+                android:id="@+id/otto_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/otto_title"
+                android:layout_margin="4dp"
+                style="@style/CardTitle_T2" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/two_px"

@@ -46,6 +46,8 @@
     <string name="reactivex_title"> - <a href="https://github.com/ReactiveX/RxJava/">RxJava - Copyright 2013 Netflix, Inc</a></string>
 
     <string name="reactivexandroid_title"> - <a href="https://github.com/ReactiveX/RxAndroid/">RxAndroid - Copyright 2015 The RxAndroid authors</a></string>
+
+    <string name="otto_title"> - <a href="https://github.com/square/otto">Otto - Copyright 2012 Square, Inc. - Copyright 2010 Google, Inc.</a></string>
     
     <string name="icon_credit">Icon provided by <a href="http://dribbble.com/sok">Simeon K.</a></string>
     
