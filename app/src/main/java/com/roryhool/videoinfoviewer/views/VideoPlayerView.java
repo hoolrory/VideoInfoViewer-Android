@@ -122,7 +122,6 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    public void setVideo( Video video ) {
       mVideo = video;
-      mVideoTextureView.setVideoSize( mVideo.VideoWidth, mVideo.VideoHeight );
       mThumbView.setImageURI( Uri.parse( video.getThumbnailFilePath() ) );
    }
 
@@ -208,7 +207,14 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    }
 
    public void shutdownMediaPlayer() {
+      if ( mMediaPlayer != null ) {
+         pause();
+         mMediaPlayer.release();
+         mMediaPlayer = null;
+      }
 
+      slideOutVideoControls();
+      mThumbView.setVisibility( View.VISIBLE );
    }
 
    protected void setupMediaPlayer() {
@@ -293,7 +299,6 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    @Override
    public void onSurfaceTextureAvailable( SurfaceTexture surfaceTexture, int width, int height ) {
-
       mSurfaceTexture = surfaceTexture;
 
       mPlayableProgress.setVisibility( View.INVISIBLE );
@@ -326,6 +331,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
          if ( mStartPlayingWhenPrepared ) {
             play();
          }
+         mVideoTextureView.setVideoSize( mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight() );
          slideInVideoControls();
          resetTimer();
       }
@@ -376,7 +382,6 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       if ( !mControlsShowing ) {
          return;
       }
-
       mControlsShowing = false;
 
       AlphaAnimation alphaAnim = new AlphaAnimation( 1.0f, 0.0f );
@@ -385,12 +390,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       mPlayButton.startAnimation( alphaAnim );
       mPlayButton.setClickable( false );
 
-      int y = getResources().getDimensionPixelSize( R.dimen.min_touch );
-
-      TranslateAnimation translateAnim = new TranslateAnimation( 0, 0, 0, y );
-      translateAnim.setDuration( 200 );
-      translateAnim.setFillAfter( true );
-      mVideoControls.startAnimation( translateAnim );
+      slideOutVideoControls();
    }
 
    private void showControls() {
@@ -415,11 +415,17 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    }
 
    private void slideInVideoControls() {
-      int y = getResources().getDimensionPixelSize( R.dimen.min_touch );
+      slideVideoControls( getResources().getDimensionPixelSize( R.dimen.min_touch ), 0 );
+   }
 
-      TranslateAnimation anim = new TranslateAnimation( 0, 0, y, 0 );
-      anim.setDuration( 200 );
-      anim.setFillAfter( true );
-      mVideoControls.startAnimation( anim );
+   private void slideOutVideoControls() {
+      slideVideoControls( 0, getResources().getDimensionPixelSize( R.dimen.min_touch ) );
+   }
+
+   private void slideVideoControls( int fromYDelta, int toYDelta ) {
+      TranslateAnimation translateAnim = new TranslateAnimation( 0, 0, fromYDelta, toYDelta );
+      translateAnim.setDuration( 200 );
+      translateAnim.setFillAfter( true );
+      mVideoControls.startAnimation( translateAnim );
    }
 }

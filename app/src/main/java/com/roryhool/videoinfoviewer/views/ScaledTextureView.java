@@ -69,6 +69,7 @@ public class ScaledTextureView extends TextureView implements SurfaceTextureList
    public void setVideoSize( int videoWidth, int videoHeight ) {
       mVideoWidth = videoWidth;
       mVideoHeight = videoHeight;
+      requestLayout();
    }
 
    @Override
