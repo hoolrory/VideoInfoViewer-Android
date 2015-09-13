@@ -3,14 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000" >
+    android:background="@color/black" >
 
     <com.roryhool.videoinfoviewer.views.ScaledTextureView
         android:id="@+id/video_texture_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:background="#C367AF" />
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/video_thumb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     
     <ImageButton
         android:id="@+id/play_button"
@@ -18,6 +22,7 @@
         android:layout_height="48dip"
         android:src="@drawable/ic_media_play2"
         android:layout_centerInParent="true"
+        android:visibility="invisible"
         android:background="@drawable/button_selector"
         android:contentDescription="@string/play_description" />
     
@@ -25,6 +30,7 @@
         android:id="@+id/video_controls"
         android:layout_width="match_parent"
         android:layout_height="48dip"
+        android:visibility="invisible"
         android:background="@color/transparent_black"
         android:layout_alignBottom="@+id/video_texture_view">
     
@@ -49,11 +55,19 @@
 	        android:contentDescription="@string/fullscreen_description" />
     
     </RelativeLayout>
-    
+
+    <ProgressBar
+        android:id="@+id/playable_progress"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="true" />
+
+    <!--
     <View 
         android:layout_width="match_parent"
         android:layout_height="48dip"
         android:layout_below="@+id/video_texture_view"
-        android:background="@color/black" />
+        android:background="@color/black" /> -->
     
 </RelativeLayout>

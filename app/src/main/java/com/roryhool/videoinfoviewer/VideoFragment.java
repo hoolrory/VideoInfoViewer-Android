@@ -19,16 +19,15 @@ package com.roryhool.videoinfoviewer;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.coremedia.iso.IsoFile;
@@ -55,7 +54,6 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
    protected Button                mViewAtomButton;
    protected LinearLayout          mVideoPropertiesLayout;
 
-   protected Uri   mVideoUri;
    protected Video mVideo;
 
    protected RetrieveIsoFileTask mRetrieveIsoFileTask;
@@ -88,10 +86,8 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
       }
 
       if ( video != null ) {
-         mVideoUri = Uri.parse( video.FilePath );
          LoadVideo( video );
-
-         mVideoPlayer.setVideoUri( mVideoUri );
+         mVideoPlayer.setVideo( video );
       }
 
       return view;
@@ -100,8 +96,22 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
    @Override
    public void onPause() {
       super.onPause();
+      onPausedOrHidden();
+   }
 
-      mVideoPlayer.pause();
+   @Override
+   public void setUserVisibleHint( boolean isVisibleToUser ) {
+      super.setUserVisibleHint( isVisibleToUser );
+
+      if ( !getUserVisibleHint() ) {
+         onPausedOrHidden();
+      }
+   }
+
+   protected void onPausedOrHidden() {
+      if ( mVideoPlayer != null ) {
+         mVideoPlayer.shutdownMediaPlayer();
+      }
    }
 
    @Override

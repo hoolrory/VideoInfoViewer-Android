@@ -38,11 +38,14 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView.SurfaceTextureListener;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -50,8 +53,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.roryhool.videoinfoviewer.R;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.animation.ResizeAnimation;
+import com.roryhool.videoinfoviewer.data.Video;
 
-public class VideoPlayerView extends FrameLayout implements SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener {
+public class VideoPlayerView extends FrameLayout implements SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener, OnClickListener {
 
    public interface OnFullscreenListener {
       void onFullscreenChanged( boolean fullscreen );
@@ -62,13 +66,18 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    protected ImageButton       mPlayButton;
    protected ImageButton       mFullscreenButton;
    protected RelativeLayout    mVideoControls;
+   protected ImageView         mThumbView;
+   protected ProgressBar       mPlayableProgress;
+
+   protected SurfaceTexture mSurfaceTexture;
 
    protected MediaPlayer mMediaPlayer;
-   protected Uri         mVideoUri;
+   protected Video       mVideo;
 
-   protected boolean mControlsShowing = true;
+   protected boolean mControlsShowing;
    protected boolean mFullscreen;
    protected boolean mAlreadyLoggedPlayAction;
+   protected boolean mStartPlayingWhenPrepared;
 
    protected List<OnFullscreenListener> mFullscreenListeners = new ArrayList<>();
 
@@ -94,6 +103,10 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
       mVideoTextureView.addSurfaceTextureListener( this );
 
+      mThumbView = (ImageView) findViewById( R.id.video_thumb );
+
+      mPlayableProgress = (ProgressBar) findViewById( R.id.playable_progress );
+
       mPlayButton = (ImageButton) findViewById( R.id.play_button );
 
       mVideoControls = (RelativeLayout) findViewById( R.id.video_controls );
@@ -101,14 +114,16 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       mFullscreenButton = (ImageButton) findViewById( R.id.fullscreen_button );
 
       mSeekBar.setOnSeekBarChangeListener( mOnSeekBarChangeListener );
-      mPlayButton.setOnClickListener( mOnPlayClickListener );
-      mFullscreenButton.setOnClickListener( mOnFullscreenClickListener );
+      mPlayButton.setOnClickListener( this );
+      mFullscreenButton.setOnClickListener( this );
 
-      this.setOnClickListener( mOnVideoPlayerViewClickListener );
+      setOnClickListener( this );
    }
 
-   public void setVideoUri( Uri videoUri ) {
-      mVideoUri = videoUri;
+   public void setVideo( Video video ) {
+      mVideo = video;
+      mVideoTextureView.setVideoSize( mVideo.VideoWidth, mVideo.VideoHeight );
+      mThumbView.setImageURI( Uri.parse( video.getThumbnailFilePath() ) );
    }
 
    public void addFullscreenListener( OnFullscreenListener listener ) {
@@ -130,70 +145,44 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
       @Override
       public void onStartTrackingTouch( SeekBar seekBar ) {
-         if ( mMediaPlayer != null ) {
-            if ( mMediaPlayer.isPlaying() ) {
-               pause();
-               mResumePlaying = true;
-            }
+         if ( mMediaPlayer != null && mMediaPlayer.isPlaying() ) {
+            pause();
+            mResumePlaying = true;
          }
       }
 
       @Override
       public void onStopTrackingTouch( SeekBar seekBar ) {
          if ( mResumePlaying ) {
-            if ( mMediaPlayer != null ) {
-               if ( !mMediaPlayer.isPlaying() ) {
-                  play();
-               }
+            if ( mMediaPlayer != null && !mMediaPlayer.isPlaying() ) {
+               play();
             }
          }
          mResumePlaying = false;
       }
-
    };
 
-   protected OnClickListener mOnPlayClickListener = new OnClickListener() {
-      @Override
-      public void onClick( View view ) {
-         if ( mMediaPlayer != null ) {
-            if ( mMediaPlayer.isPlaying() ) {
-               pause();
-            } else {
-               play();
-            }
-         }
-      }
-   };
 
-   protected OnClickListener mOnVideoPlayerViewClickListener = new OnClickListener() {
-      @Override
-      public void onClick( View view ) {
-         if ( mControlsShowing ) {
-            if ( mMediaPlayer.isPlaying() ) {
-               hideControls();
-            }
+   @Override
+   public void onClick( View v ) {
+      if ( v.getId() == R.id.play_button ) {
+         if ( mMediaPlayer == null ) {
+            mStartPlayingWhenPrepared = true;
+            mThumbView.setVisibility( View.GONE );
+            setupMediaPlayer();
+         } else if ( mMediaPlayer.isPlaying() ) {
+            pause();
          } else {
-            showControls();
+            play();
          }
-      }
-   };
-
-   protected OnClickListener mOnFullscreenClickListener = new OnClickListener() {
-      @Override
-      public void onClick( View view ) {
-
+      } else if ( v.getId() == R.id.fullscreen_button ) {
          Analytics.logEvent( "App Action", "Toggled Fullscreen Mode" );
-
-         if ( mMediaPlayer.isPlaying() ) {
+         if ( mMediaPlayer != null && mMediaPlayer.isPlaying() ) {
             resetTimer();
          }
 
-         ResizeAnimation animation = null;
-
-         int currentHeight = getHeight();
          int targetHeight = getContext().getResources().getDimensionPixelSize( R.dimen.video_player_size );
-
-         mFullscreen = currentHeight == targetHeight;
+         mFullscreen = getHeight() == targetHeight;
          fullscreenChanged( mFullscreen );
 
          if ( mFullscreen ) {
@@ -201,15 +190,50 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
             Display display = wm.getDefaultDisplay();
             Point size = new Point();
             display.getSize( size );
-            int height = size.y;
 
-            targetHeight = height;
+            targetHeight = size.y;
          }
-         animation = new ResizeAnimation( VideoPlayerView.this, currentHeight, targetHeight, true );
+         ResizeAnimation animation = new ResizeAnimation( VideoPlayerView.this, getHeight(), targetHeight, true );
          animation.setDuration( 200 );
          startAnimation( animation );
+      } else {
+         if ( mMediaPlayer != null ) {
+            if ( !mControlsShowing ) {
+               showControls();
+            } else if ( mMediaPlayer.isPlaying() ) {
+               hideControls();
+            }
+         }
       }
-   };
+   }
+
+   public void shutdownMediaPlayer() {
+
+   }
+
+   protected void setupMediaPlayer() {
+      Surface s = new Surface( mSurfaceTexture );
+
+      try {
+         mMediaPlayer = new MediaPlayer();
+         mMediaPlayer.setDataSource( getContext(), Uri.parse( mVideo.FilePath ) );
+         mMediaPlayer.setSurface( s );
+         mMediaPlayer.prepare();
+         mMediaPlayer.setOnBufferingUpdateListener( this );
+         mMediaPlayer.setOnCompletionListener( this );
+         mMediaPlayer.setOnPreparedListener( this );
+         mMediaPlayer.setOnVideoSizeChangedListener( this );
+         mMediaPlayer.setAudioStreamType( AudioManager.STREAM_MUSIC );
+      } catch ( IllegalArgumentException e ) {
+         e.printStackTrace();
+      } catch ( SecurityException e ) {
+         e.printStackTrace();
+      } catch ( IllegalStateException e ) {
+         e.printStackTrace();
+      } catch ( IOException e ) {
+         e.printStackTrace();
+      }
+   }
 
    protected void fullscreenChanged( boolean fullscreen ) {
       for ( OnFullscreenListener listener : mFullscreenListeners ) {
@@ -244,63 +268,36 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
    }
 
    public void play() {
-      if ( mMediaPlayer != null ) {
-         if ( !mMediaPlayer.isPlaying() ) {
-            startTimer();
-            if ( mMediaPlayer.getCurrentPosition() >= mMediaPlayer.getDuration() ) {
-               mMediaPlayer.seekTo( 0 );
-            }
-            mMediaPlayer.start();
-            mPlayButton.setImageResource( R.drawable.ic_media_pause2 );
+      if ( mMediaPlayer != null && !mMediaPlayer.isPlaying() ) {
+         startTimer();
+         if ( mMediaPlayer.getCurrentPosition() >= mMediaPlayer.getDuration() ) {
+            mMediaPlayer.seekTo( 0 );
+         }
+         mMediaPlayer.start();
+         mPlayButton.setImageResource( R.drawable.ic_media_pause2 );
 
-            if ( !mAlreadyLoggedPlayAction ) {
-               Analytics.logEvent( "App Action", "Played Video" );
-               mAlreadyLoggedPlayAction = true;
-            }
+         if ( !mAlreadyLoggedPlayAction ) {
+            Analytics.logEvent( "App Action", "Played Video" );
+            mAlreadyLoggedPlayAction = true;
          }
       }
    }
 
    public void pause() {
-      if ( mMediaPlayer != null ) {
-         if ( mMediaPlayer.isPlaying() ) {
-            cancelTimer();
-            mMediaPlayer.pause();
-            mPlayButton.setImageResource( R.drawable.ic_media_play2 );
-         }
+      if ( mMediaPlayer != null && mMediaPlayer.isPlaying() ) {
+         cancelTimer();
+         mMediaPlayer.pause();
+         mPlayButton.setImageResource( R.drawable.ic_media_play2 );
       }
    }
 
    @Override
    public void onSurfaceTextureAvailable( SurfaceTexture surfaceTexture, int width, int height ) {
 
-      Surface s = new Surface( surfaceTexture );
+      mSurfaceTexture = surfaceTexture;
 
-      try {
-         mMediaPlayer = new MediaPlayer();
-         mMediaPlayer.setDataSource( getContext(), mVideoUri );
-         mMediaPlayer.setSurface( s );
-         mMediaPlayer.prepare();
-         mMediaPlayer.setOnBufferingUpdateListener( this );
-         mMediaPlayer.setOnCompletionListener( this );
-         mMediaPlayer.setOnPreparedListener( this );
-         mMediaPlayer.setOnVideoSizeChangedListener( this );
-         mMediaPlayer.setAudioStreamType( AudioManager.STREAM_MUSIC );
-      } catch ( IllegalArgumentException e ) {
-         e.printStackTrace();
-      } catch ( SecurityException e ) {
-         e.printStackTrace();
-      } catch ( IllegalStateException e ) {
-         e.printStackTrace();
-      } catch ( IOException e ) {
-         e.printStackTrace();
-      }
-
-      if ( mMediaPlayer != null ) {
-         mSeekBar.setProgress( 0 );
-         mSeekBar.setMax( mMediaPlayer.getDuration() );
-         mVideoTextureView.SetVideoSize( mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight() );
-      }
+      mPlayableProgress.setVisibility( View.INVISIBLE );
+      mPlayButton.setVisibility( View.VISIBLE );
    }
 
    @Override
@@ -322,9 +319,16 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
 
    @Override
    public void onPrepared( MediaPlayer mediaPlayer ) {
-      mMediaPlayer.seekTo( 0 );
-      mMediaPlayer.start();
-      mMediaPlayer.pause();
+      if ( mMediaPlayer != null ) {
+         mSeekBar.setProgress( 0 );
+         mSeekBar.setMax( mMediaPlayer.getDuration() );
+
+         if ( mStartPlayingWhenPrepared ) {
+            play();
+         }
+         slideInVideoControls();
+         resetTimer();
+      }
    }
 
    @Override
@@ -396,19 +400,26 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       updateProgress();
       mControlsShowing = true;
 
+      fadeInPlayButton();
+      slideInVideoControls();
+
+      resetTimer();
+   }
+
+   private void fadeInPlayButton() {
       AlphaAnimation alphaAnim = new AlphaAnimation( 0.0f, 1.0f );
       alphaAnim.setDuration( 200 );
       alphaAnim.setFillAfter( true );
       mPlayButton.startAnimation( alphaAnim );
       mPlayButton.setClickable( true );
+   }
 
+   private void slideInVideoControls() {
       int y = getResources().getDimensionPixelSize( R.dimen.min_touch );
 
       TranslateAnimation anim = new TranslateAnimation( 0, 0, y, 0 );
       anim.setDuration( 200 );
       anim.setFillAfter( true );
       mVideoControls.startAnimation( anim );
-
-      resetTimer();
    }
 }

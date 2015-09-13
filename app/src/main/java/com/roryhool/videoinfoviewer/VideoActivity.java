@@ -181,6 +181,7 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
          }
 
          getSupportActionBar().hide();
+         mTabLayout.setVisibility( View.GONE );
       } else {
          getWindow().getDecorView().setSystemUiVisibility( mBaseSystemUiVisibility );
 
@@ -198,6 +199,7 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
          }
 
          getSupportActionBar().show();
+         mTabLayout.setVisibility( View.VISIBLE );
       }
    }
 
@@ -208,7 +210,7 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
 
    @Override
    public void onPageSelected( int position ) {
-
+      mPagerAdapter.getItem( position );
    }
 
    @Override
@@ -252,7 +254,6 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
          return "";
       }
    }
-
 
    public class RetrieveVideoDetailsTask extends AsyncTask<Uri, Void, Video> {
 
