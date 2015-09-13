@@ -70,6 +70,7 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
 
       mToolbar = (Toolbar) findViewById( R.id.toolbar );
       mTabLayout = (TabLayout) findViewById( R.id.tab_layout );
+      mTabLayout.setTabMode( TabLayout.MODE_SCROLLABLE );
 
       setSupportActionBar( mToolbar );
       getSupportActionBar().setDisplayHomeAsUpEnabled( true );
