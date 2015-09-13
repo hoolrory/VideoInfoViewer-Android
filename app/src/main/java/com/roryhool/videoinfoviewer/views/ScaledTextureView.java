@@ -1,17 +1,17 @@
 /**
-   Copyright (c) 2014 Rory Hool
-   
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-   
-       http://www.apache.org/licenses/LICENSE-2.0
-   
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ * Copyright (c) 2014 Rory Hool
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  **/
 
 package com.roryhool.videoinfoviewer.views;
@@ -27,17 +27,16 @@ import android.view.TextureView.SurfaceTextureListener;
 
 public class ScaledTextureView extends TextureView implements SurfaceTextureListener {
 
-   int mVideoWidth = 1;
-   int mVideoHeight = 1;
+   protected SurfaceTexture mSurfaceTexture;
 
-   private List<SurfaceTextureListener> mListeners = new ArrayList<>();
+   protected int mWidth;
+   protected int mHeight;
+   protected int mAspectX = 1;
+   protected int mAspectY = 1;
 
-   boolean mSurfaceAvailable = false;
+   protected boolean mSurfaceAvailable = false;
 
-   SurfaceTexture mSurfaceTexture;
-
-   int mWidth;
-   int mHeight;
+   protected List<SurfaceTextureListener> mListeners = new ArrayList<>();
 
    public ScaledTextureView( Context context ) {
       super( context );
@@ -60,15 +59,15 @@ public class ScaledTextureView extends TextureView implements SurfaceTextureList
 
    public void addSurfaceTextureListener( SurfaceTextureListener listener ) {
       mListeners.add( listener );
-      
+
       if ( mSurfaceAvailable ) {
          listener.onSurfaceTextureAvailable( mSurfaceTexture, mWidth, mHeight );
       }
    }
 
-   public void setVideoSize( int videoWidth, int videoHeight ) {
-      mVideoWidth = videoWidth;
-      mVideoHeight = videoHeight;
+   public void setAspectRatio( int x, int y ) {
+      mAspectX = x;
+      mAspectY = y;
       requestLayout();
    }
 
@@ -77,7 +76,7 @@ public class ScaledTextureView extends TextureView implements SurfaceTextureList
       int parentSpecifiedWidth = MeasureSpec.getSize( widthMeasureSpec );
       int parentSpecifiedHeight = MeasureSpec.getSize( heightMeasureSpec );
 
-      double heightToWidthRatio = (double) mVideoHeight / (double) mVideoWidth;
+      double heightToWidthRatio = (double) mAspectY / (double) mAspectX;
 
       int width;
       int height;

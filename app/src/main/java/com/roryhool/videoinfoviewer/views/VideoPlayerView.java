@@ -331,7 +331,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
          if ( mStartPlayingWhenPrepared ) {
             play();
          }
-         mVideoTextureView.setVideoSize( mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight() );
+         mVideoTextureView.setAspectRatio( mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight() );
          slideInVideoControls();
          resetTimer();
       }
