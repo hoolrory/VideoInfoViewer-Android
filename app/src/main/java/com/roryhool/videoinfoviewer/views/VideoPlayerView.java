@@ -51,7 +51,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.roryhool.videoinfoviewer.R;
-import com.roryhool.videoinfoviewer.VideoActivity;
 import com.roryhool.videoinfoviewer.VideoActivity.CancelFullscreenEvent;
 import com.roryhool.videoinfoviewer.VideoInfoViewerApp;
 import com.roryhool.videoinfoviewer.analytics.Analytics;

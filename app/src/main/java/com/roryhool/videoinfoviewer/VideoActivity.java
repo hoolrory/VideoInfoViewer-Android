@@ -86,15 +86,14 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       mRootLayout.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
 
       Bundle extras = getIntent().getExtras();
-      Bundle args = new Bundle();
 
       mViewPager = (ViewPager) findViewById( R.id.view_pager );
       mViewPager.addOnPageChangeListener( this );
 
-      if ( extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
+      if ( extras != null && extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
          setCurrentVideo( VideoCache.Instance().getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) ) );
       } else {
-         Uri videoUri = args.getParcelable( Extras.EXTRA_URI );
+         Uri videoUri = getIntent().getData();
          if ( videoUri != null ) {
             mRetrieveVideoDetailsTask = new RetrieveVideoDetailsTask();
             mRetrieveVideoDetailsTask.execute( videoUri );
@@ -107,7 +106,6 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       getTheme().resolveAttribute( android.R.attr.textColorPrimary, primaryTextColor, true );
 
       mTabLayout.setTabTextColors( secondaryTextColor.data, primaryTextColor.data );
-      mTabLayout.setupWithViewPager( mViewPager );
 
       if ( !BuildConfig.DEBUG ) {
          setupAds();
@@ -145,15 +143,12 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       }
    }
 
-   protected void cancelFullscreen() {
-      VideoInfoViewerApp.getBus().post( new CancelFullscreenEvent() );
-   }
-
    protected void setCurrentVideo( Video video ) {
       VideoCache.Instance().addVideo( video );
 
       mPagerAdapter = new VideoFragmentAdapter( getSupportFragmentManager() );
       mViewPager.setAdapter( mPagerAdapter );
+      mTabLayout.setupWithViewPager( mViewPager );
    }
 
    private void setupAds() {

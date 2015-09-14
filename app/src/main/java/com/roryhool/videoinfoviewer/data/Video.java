@@ -1,17 +1,17 @@
 /**
-   Copyright (c) 2014 Rory Hool
-   
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-   
-       http://www.apache.org/licenses/LICENSE-2.0
-   
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ * Copyright (c) 2014 Rory Hool
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  **/
 
 package com.roryhool.videoinfoviewer.data;
@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.util.Log;
@@ -66,7 +65,7 @@ public class Video implements Comparable<Video> {
 
    @SerializedName( "Date" )
    public String Date;
-   
+
    @SerializedName( "ThumbnailPath" )
    public String ThumbnailPath;
 
@@ -111,22 +110,43 @@ public class Video implements Comparable<Video> {
       video.BitRate = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_BITRATE );
       video.Date = retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_DATE );
       try {
-         video.VideoWidth = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-      } catch (NumberFormatException e) {
+         video.VideoWidth = Integer.parseInt( retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH ) );
+      } catch ( NumberFormatException e ) {
 
       }
       try {
-         video.VideoHeight = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
-      } catch (NumberFormatException e) {
+         video.VideoHeight = Integer.parseInt( retriever.extractMetadata( MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT ) );
+      } catch ( NumberFormatException e ) {
 
       }
-      
+
       Bitmap bitmap = retriever.getFrameAtTime( Long.parseLong( video.Duration ) / 2 );
+
+      double currentWidth = (double) bitmap.getWidth();
+      double currentHeight = (double) bitmap.getHeight();
+
+      double thumbWidth = currentWidth;
+      double thumbHeight = currentHeight;
+
+      double maxDimension = 640;
+      boolean widthGreater = bitmap.getWidth() > bitmap.getHeight();
+      if ( widthGreater && currentWidth > maxDimension ) {
+         double ratio = maxDimension / currentWidth;
+         thumbWidth = currentWidth * ratio;
+         thumbHeight = currentHeight * ratio;
+      } else if ( !widthGreater && currentHeight > maxDimension ) {
+         double ratio = maxDimension / currentHeight;
+         thumbWidth = currentWidth * ratio;
+         thumbHeight = currentHeight * ratio;
+      }
 
       try {
          FileOutputStream out = new FileOutputStream( video.getThumbnailFilePath() );
-         bitmap.compress( Bitmap.CompressFormat.PNG, 90, out );
+         Bitmap smaller = Bitmap.createScaledBitmap( bitmap, (int) thumbWidth, (int) thumbHeight, true );
+         bitmap.recycle();
+         smaller.compress( Bitmap.CompressFormat.PNG, 90, out );
          out.close();
+         smaller.recycle();
       } catch ( Exception e ) {
          e.printStackTrace();
       }
@@ -134,7 +154,7 @@ public class Video implements Comparable<Video> {
       IsoFile isoFile;
       try {
          isoFile = new IsoFile( video.FilePath );
-         
+
          Box box = BoxUtils.FindBox( isoFile.getMovieBox(), "stsz" );
 
          if ( box instanceof SampleSizeBox ) {
