@@ -136,7 +136,7 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
 
    protected void LoadVideo( Video video ) {
       mVideo = video;
-      if ( mVideo.getIsoFile() == null ) {
+      if ( mVideo.getIsoFile() == null && mRetrieveIsoFileTask == null ) {
          mRetrieveIsoFileTask = new RetrieveIsoFileTask();
          mRetrieveIsoFileTask.execute( mVideo );
          return;
