@@ -17,6 +17,7 @@
 package com.roryhool.videoinfoviewer.atomfragments;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.ActionBar.LayoutParams;
@@ -36,7 +37,6 @@ import android.view.ViewGroup;
 import android.view.animation.RotateAnimation;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -154,6 +154,10 @@ public class AtomStructureFragment extends Fragment {
          mExpanded = !mExpanded;
       }
 
+      public List<Atom> getChildAtoms() {
+         return mChildAtoms;
+      }
+
       public int getVisibleChildCount() {
          int visibleChildCount = 0;
          if ( mExpanded ) {
@@ -244,7 +248,10 @@ public class AtomStructureFragment extends Fragment {
       @Override
       public void onClick( View v ) {
          if ( v.getId() == R.id.atom_root ) {
+            int visibleChildCount = mAtom.getVisibleChildCount();
             mAtom.toggleExpansion();
+
+            visibleChildCount = mAtom.isExpanded() ? mAtom.getVisibleChildCount() : visibleChildCount;
 
             boolean isExpanded = mAtom.isExpanded();
             int from = isExpanded ? -90 : 0;
@@ -255,6 +262,16 @@ public class AtomStructureFragment extends Fragment {
             animation.setDuration( 600 );
             animation.setFillAfter( true );
             boxIcon.startAnimation( animation );
+
+            if ( isExpanded ) {
+               int position = mAdapter.getItemPosition( mAtom );
+               int count = mAdapter.addItems( position + 1, mAtom.getChildAtoms() );
+               mAdapter.notifyItemRangeInserted( position + 1, visibleChildCount );
+            } else {
+               int position = mAdapter.getItemPosition( mAtom );
+               mAdapter.removeItems( position + 1, visibleChildCount );
+
+            }
 
          } else if ( v.getId() == R.id.box_info_button ) {
 
@@ -281,6 +298,38 @@ public class AtomStructureFragment extends Fragment {
          notifyDataSetChanged();
       }
 
+      public int getItemPosition( Atom atom ) {
+         int position = 0;
+         for ( Atom a : mAtoms ) {
+            if ( a.equals( atom ) ) {
+               return position;
+            }
+            position++;
+         }
+         return -1;
+      }
+
+      public void removeItems( int position, int count ) {
+         Iterator<Atom> atomIterator = mAtoms.listIterator( position );
+         for ( int i = position; i < position + count; i++ ) {
+            atomIterator.next();
+            atomIterator.remove();
+         }
+         notifyItemRangeRemoved( position, count );
+      }
+
+      public int addItems( int position, List<Atom> atoms ) {
+         int i = position;
+         for ( Atom atom : atoms ) {
+            mAtoms.add( i, atom );
+            i++;
+            if ( atom.isExpanded() ) {
+               i = addItems( i, atom.getChildAtoms() );
+            }
+         }
+         return i;
+      }
+
       @Override
       public AtomViewHolder onCreateViewHolder( ViewGroup viewGroup, int position ) {
          LayoutInflater inflater = LayoutInflater.from( viewGroup.getContext() );
@@ -291,6 +340,7 @@ public class AtomStructureFragment extends Fragment {
       @Override
       public void onBindViewHolder( AtomViewHolder atomViewHolder, int position ) {
          atomViewHolder.bind( mAtoms.get( position ) );
+         atomViewHolder.mView.setTag( position );
       }
 
       @Override
