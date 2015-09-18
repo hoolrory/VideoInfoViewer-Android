@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
       String crittercismAppId = getString( R.string.crittercism_app_id );
 
-      if ( crittercismAppId != null && !crittercismAppId.isEmpty() ) {
+      if ( crittercismAppId != null && !crittercismAppId.isEmpty() && !BuildConfig.DEBUG ) {
          Crittercism.initialize( getApplicationContext(), crittercismAppId );
       }
 
