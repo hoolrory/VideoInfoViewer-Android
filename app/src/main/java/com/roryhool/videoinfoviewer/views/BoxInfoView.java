@@ -1,17 +1,17 @@
 /**
-   Copyright (c) 2014 Rory Hool
-   
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-   
-       http://www.apache.org/licenses/LICENSE-2.0
-   
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ * Copyright (c) 2014 Rory Hool
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  **/
 
 package com.roryhool.videoinfoviewer.views;
@@ -30,7 +30,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -93,16 +92,14 @@ import com.roryhool.videoinfoviewer.utils.Logg;
 
 public class BoxInfoView extends FrameLayout {
 
-   TextView mBoxTypeText;
-   TextView mBoxDescriptionText;
+   protected TextView     mBoxTypeText;
+   protected TextView     mBoxDescriptionText;
+   protected LinearLayout mBaseLayout;
+   protected Button       mButton;
 
-   LinearLayout mBaseLayout;
+   protected Box mBox;
 
-   Button mButton;
-
-   Box mBox;
-
-   LoadRawDataTask mLoadRawDataTask;
+   protected LoadRawDataTask mLoadRawDataTask;
 
    public BoxInfoView( Context context ) {
       super( context );
@@ -117,32 +114,27 @@ public class BoxInfoView extends FrameLayout {
       mButton = (Button) findViewById( R.id.load_raw_data_button );
       mButton.setOnClickListener( mLoadRawDataButtonClickListener );
    }
-   
-   public void stop() 
-   {
-      if ( mLoadRawDataTask != null && mLoadRawDataTask.isRunning() )
-      {
+
+   public void stop() {
+      if ( mLoadRawDataTask != null && mLoadRawDataTask.isRunning() ) {
          mLoadRawDataTask.cancel();
       }
    }
-   
-   Button.OnClickListener mLoadRawDataButtonClickListener = new Button.OnClickListener(){
+
+   Button.OnClickListener mLoadRawDataButtonClickListener = new Button.OnClickListener() {
 
       @Override
       public void onClick( View view ) {
-
          loadRawData();
-
          mButton.setVisibility( View.GONE );
       }
-      
    };
 
    private void loadRawData() {
       mLoadRawDataTask = new LoadRawDataTask();
       mLoadRawDataTask.execute( mBox );
    }
-   
+
    public class LoadRawDataTask extends AsyncTask<Box, Void, String[]> {
 
       private boolean mRunning = true;
@@ -152,7 +144,7 @@ public class BoxInfoView extends FrameLayout {
 
          String[] strings = new String[2];
          Box box = boxes[0];
-         
+
          ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
          WritableByteChannel channel = Channels.newChannel( stream );
@@ -234,14 +226,16 @@ public class BoxInfoView extends FrameLayout {
       LinearLayout rightLayout = (LinearLayout) layout.findViewById( R.id.right_layout );
 
       Log.d( "this", String.format( Locale.US, "Adding view %s - %s", key, getDisplayForObject( value ) ) );
-      RobotoTextView keyText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardKey ) );
-      keyText.setText( key );
+      RobotoTextView keyView = new RobotoTextView( getContext() );
+      keyView.setTextAppearance( getContext(), R.style.CardKey );
+      keyView.setText( key );
 
-      RobotoTextView valueText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
-      valueText.setText( getDisplayForObject( value ) );
+      RobotoTextView valueView = new RobotoTextView( getContext() );
+      valueView.setTextAppearance( getContext(), R.style.CardValue );
+      valueView.setText( getDisplayForObject( value ) );
 
-      leftLayout.addView( keyText );
-      rightLayout.addView( valueText );
+      leftLayout.addView( keyView );
+      rightLayout.addView( valueView );
 
       mBaseLayout.addView( layout );
    }
@@ -256,7 +250,8 @@ public class BoxInfoView extends FrameLayout {
       LinearLayout stringLayout = (LinearLayout) layout.findViewById( R.id.string_layout );
 
       for ( String string : array ) {
-         RobotoTextView valueText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         RobotoTextView valueText = new RobotoTextView( getContext() );
+         valueText.setTextAppearance( getContext(), R.style.CardValue );
          valueText.setText( string );
          stringLayout.addView( valueText );
       }
@@ -303,16 +298,17 @@ public class BoxInfoView extends FrameLayout {
 
       mBaseLayout.addView( layout );
    }
-   
+
    private GridLayout addTableHeader( String... headers ) {
-      
+
       GridLayout gridLayout = new GridLayout( getContext() );
       gridLayout.setBackgroundResource( R.color.grey_faint );
       int rowNum = 0;
       int columnNum = 0;
       for ( String header : headers ) {
 
-         RobotoTextView headerText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardKey ) );
+         RobotoTextView headerText = new RobotoTextView( getContext() );
+         headerText.setTextAppearance( getContext(), R.style.CardKey );
          headerText.setText( header );
 
          Spec rowspecs = GridLayout.spec( rowNum, 1 );
@@ -335,7 +331,8 @@ public class BoxInfoView extends FrameLayout {
       int columnNum = 0;
       for ( String column : columns ) {
 
-         RobotoTextView columnText = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         RobotoTextView columnText = new RobotoTextView( getContext() );
+         columnText.setTextAppearance( getContext(), R.style.CardValue );
          columnText.setText( column );
 
          Spec rowspecs = GridLayout.spec( rowNum, 1 );
@@ -449,7 +446,7 @@ public class BoxInfoView extends FrameLayout {
    }
 
    public void LoadBox( Box box ) {
-      
+
       mBox = box;
 
       mBoxTypeText.setText( box.getType() );
@@ -539,7 +536,7 @@ public class BoxInfoView extends FrameLayout {
 
          Logg.d( "Unable to load box of type %s", box.getClass().getName() );
       }
-      
+
       if ( box instanceof AbstractBox ) {
          AbstractBox abstractBox = (AbstractBox) box;
          abstractBox.getUserType();
@@ -633,7 +630,8 @@ public class BoxInfoView extends FrameLayout {
 
       if ( skippedRows > 0 ) {
 
-         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         RobotoTextView text = new RobotoTextView( getContext() );
+         text.setTextAppearance( getContext(), R.style.CardValue );
          text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
          mBaseLayout.addView( text );
       }
@@ -768,7 +766,8 @@ public class BoxInfoView extends FrameLayout {
 
       if ( skippedRows > 0 ) {
 
-         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         RobotoTextView text = new RobotoTextView( getContext() );
+         text.setTextAppearance( getContext(), R.style.CardValue );
          text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
          mBaseLayout.addView( text );
       }
@@ -795,7 +794,8 @@ public class BoxInfoView extends FrameLayout {
 
       if ( skippedRows > 0 ) {
 
-         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         RobotoTextView text = new RobotoTextView( getContext() );
+         text.setTextAppearance( getContext(), R.style.CardValue );
          text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
          mBaseLayout.addView( text );
       }
@@ -825,8 +825,8 @@ public class BoxInfoView extends FrameLayout {
       mBaseLayout.addView( scrollView );
 
       if ( skippedRows > 0 ) {
-
-         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         RobotoTextView text = new RobotoTextView( getContext() );
+         text.setTextAppearance( getContext(), R.style.CardValue );
          text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
          mBaseLayout.addView( text );
       }
@@ -893,7 +893,8 @@ public class BoxInfoView extends FrameLayout {
 
       if ( skippedRows > 0 ) {
 
-         RobotoTextView text = new RobotoTextView( new ContextThemeWrapper( getContext(), R.style.CardValue ) );
+         RobotoTextView text = new RobotoTextView( getContext() );
+         text.setTextAppearance( getContext(), R.style.CardValue );
          text.setText( String.format( Locale.US, "%d entries emmited", skippedRows ) );
          mBaseLayout.addView( text );
       }

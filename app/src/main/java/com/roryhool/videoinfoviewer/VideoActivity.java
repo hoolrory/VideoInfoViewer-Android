@@ -45,6 +45,9 @@ import com.roryhool.videoinfoviewer.utils.VideoCache;
 import com.roryhool.videoinfoviewer.utils.ViewUtils;
 import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 
+import java.util.HashMap;
+import java.util.Stack;
+
 public class VideoActivity extends AppCompatActivity implements OnFullscreenListener, OnPageChangeListener {
 
    public static class CancelFullscreenEvent {
@@ -88,6 +91,7 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       Bundle extras = getIntent().getExtras();
 
       mViewPager = (ViewPager) findViewById( R.id.view_pager );
+      mViewPager.setOffscreenPageLimit( 5 );
       mViewPager.addOnPageChangeListener( this );
 
       if ( extras != null && extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
@@ -136,11 +140,18 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
 
    @Override
    public void onBackPressed() {
-      if ( mFullscreen ) {
+      Video video = VideoCache.Instance().getVideoByIndex( mViewPager.getCurrentItem() );
+      if ( mPagerAdapter.interceptOnBackPressed( video ) ) {
+
+      } else if ( mFullscreen ) {
          exitFullscreen();
       } else {
          super.onBackPressed();
       }
+   }
+
+   public void addFragmentToVideoTab( Video video, Class<? extends Fragment> fragmentClass, Bundle args ) {
+      mPagerAdapter.setFragment( video, fragmentClass, args, true );
    }
 
    protected void setCurrentVideo( Video video ) {
@@ -243,28 +254,104 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
 
    protected class VideoFragmentAdapter extends FragmentStatePagerAdapter {
 
+      protected class FragmentState {
+         public Class<? extends Fragment> fragmentClass;
+         public Bundle args = new Bundle();
+      }
+
+      private HashMap<Video, Fragment> mCurrentFragments = new HashMap<>();
+
+      private HashMap<Video, FragmentState>        mCurrentFragmentState = new HashMap<>();
+      private HashMap<Video, Stack<FragmentState>> mBackStack            = new HashMap<>();
+
       public VideoFragmentAdapter( FragmentManager fragmentManager ) {
          super( fragmentManager );
       }
 
       @Override
       public Fragment getItem( int index ) {
-
-         Bundle args = new Bundle();
          Video video = VideoCache.Instance().getVideoByIndex( index );
-         if ( video != null ) {
-            args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, video.CacheId );
+
+         Fragment fragment = null;
+         if ( mCurrentFragmentState.containsKey( video ) ) {
+            FragmentState state = mCurrentFragmentState.get( video );
+            try {
+               fragment = state.fragmentClass.newInstance();
+               fragment.setArguments( state.args );
+            } catch ( InstantiationException e ) {
+               e.printStackTrace();
+            } catch ( IllegalAccessException e ) {
+               e.printStackTrace();
+            }
          }
 
-         VideoFragment videoFragment = new VideoFragment();
-         videoFragment.setArguments( args );
+         if ( fragment == null ) {
+            Bundle args = new Bundle();
+            if ( video != null ) {
+               args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, video.CacheId );
+            }
+            fragment = new VideoFragment();
+            fragment.setArguments( args );
+         }
 
-         return videoFragment;
+         FragmentState state = new FragmentState();
+         state.fragmentClass = fragment.getClass();
+         state.args = fragment.getArguments();
+
+         mCurrentFragments.put( video, fragment );
+         mCurrentFragmentState.put( video, state );
+
+         return fragment;
+      }
+
+      public boolean interceptOnBackPressed( Video video ) {
+         Stack<FragmentState> stack = mBackStack.get( video );
+         if ( stack != null && stack.size() > 0 ) {
+            FragmentState state = mBackStack.get( video ).pop();
+            setFragment( video, state.fragmentClass, state.args, false );
+            return true;
+         }
+         return false;
+      }
+
+      public void setFragment( Video video, Class<? extends Fragment> fragmentClass, Bundle args, boolean addCurrentToBackStack ) {
+         if ( mCurrentFragments.containsKey( video ) && addCurrentToBackStack ) {
+            if ( mBackStack.get( video ) == null ) {
+               mBackStack.put( video, new Stack<FragmentState>() );
+            }
+            Fragment currentFragment = mCurrentFragments.get( video );
+            FragmentState previousFragmentState = new FragmentState();
+            previousFragmentState.fragmentClass = currentFragment.getClass();
+            currentFragment.onSaveInstanceState( previousFragmentState.args );
+            mBackStack.get( video ).push( previousFragmentState );
+         }
+
+         FragmentState currentFragmentState = new FragmentState();
+         currentFragmentState.fragmentClass = fragmentClass;
+         currentFragmentState.args = args;
+
+         mCurrentFragmentState.put( video, currentFragmentState );
+         notifyDataSetChanged();
       }
 
       @Override
       public int getCount() {
          return VideoCache.Instance().getVideos().size();
+      }
+
+      @Override
+      public int getItemPosition( Object object ) {
+         if ( object instanceof Fragment ) {
+            Fragment fragment = (Fragment) object;
+            Bundle args = fragment.getArguments();
+            if ( args != null && args.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
+               Video video = VideoCache.Instance().getVideoById( args.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
+               if ( fragment.getClass() != mCurrentFragmentState.get( video ).fragmentClass ) {
+                  return POSITION_NONE;
+               }
+            }
+         }
+         return POSITION_UNCHANGED;
       }
 
       @Override

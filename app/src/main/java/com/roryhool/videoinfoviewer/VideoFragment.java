@@ -17,7 +17,6 @@
 package com.roryhool.videoinfoviewer;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,11 +26,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.coremedia.iso.IsoFile;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
+import com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.FontManager;
 import com.roryhool.videoinfoviewer.utils.FormatUtils;
@@ -100,6 +99,12 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
    }
 
    @Override
+   public void onSaveInstanceState( Bundle outState ) {
+      super.onSaveInstanceState( outState );
+      outState.putAll( getArguments() );
+   }
+
+   @Override
    public void setUserVisibleHint( boolean isVisibleToUser ) {
       super.setUserVisibleHint( isVisibleToUser );
 
@@ -125,11 +130,15 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
    public void onClick( View v ) {
       if ( v.getId() == R.id.view_atom_button ) {
          Activity activity = getActivity();
-         if ( activity != null ) {
-            Intent intent = new Intent( activity, AtomActivity.class );
+         if ( activity instanceof VideoActivity ) {
 
-            intent.putExtra( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
-            startActivity( intent );
+            AtomStructureFragment fragment = new AtomStructureFragment();
+            Bundle args = new Bundle();
+            args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
+            fragment.setArguments( args );
+
+            VideoActivity videoActivity = (VideoActivity) activity;
+            videoActivity.addFragmentToVideoTab( mVideo, AtomStructureFragment.class, args );
          }
       }
    }

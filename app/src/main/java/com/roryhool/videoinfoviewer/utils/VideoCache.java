@@ -1,17 +1,17 @@
 /**
-   Copyright (c) 2014 Rory Hool
-   
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-   
-       http://www.apache.org/licenses/LICENSE-2.0
-   
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+ * Copyright (c) 2014 Rory Hool
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  **/
 
 package com.roryhool.videoinfoviewer.utils;
@@ -32,7 +32,7 @@ import com.roryhool.videoinfoviewer.data.Video;
 public class VideoCache {
 
    private String RECENT_VIDEO_PREFS = "RECENT_VIDEO_PREFS";
-   private String RECENT_VIDEO_KEY = "RECENT_VIDEO_KEY";
+   private String RECENT_VIDEO_KEY   = "RECENT_VIDEO_KEY";
 
    private int CurrentCacheId = 0;
 
@@ -60,7 +60,7 @@ public class VideoCache {
    }
 
    public Video getVideoByIndex( int index ) {
-      if ( mVideoList.size() - 1 > index ) {
+      if ( index < mVideoList.size() ) {
          return mVideoList.get( index );
       }
 
@@ -101,8 +101,9 @@ public class VideoCache {
          return;
       }
 
-      Type listOfVideoObject = new TypeToken<ArrayList<Video>>() {}.getType();
-      
+      Type listOfVideoObject = new TypeToken<ArrayList<Video>>() {
+      }.getType();
+
       Gson gson = new Gson();
       mVideoList = gson.fromJson( json, listOfVideoObject );
 

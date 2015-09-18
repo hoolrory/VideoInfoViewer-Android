@@ -22,14 +22,12 @@ import java.util.List;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,12 +44,14 @@ import android.widget.TextView;
 import com.coremedia.iso.IsoFile;
 import com.coremedia.iso.boxes.Box;
 import com.googlecode.mp4parser.AbstractContainerBox;
-import com.roryhool.videoinfoviewer.AtomActivity;
 import com.roryhool.videoinfoviewer.Extras;
 import com.roryhool.videoinfoviewer.R;
+import com.roryhool.videoinfoviewer.VideoActivity;
+import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.AtomHelper;
 import com.roryhool.videoinfoviewer.utils.IsoFileCache;
+import com.roryhool.videoinfoviewer.utils.VideoCache;
 
 import rx.Observable;
 import rx.android.app.AppObservable;
@@ -75,6 +75,13 @@ public class AtomStructureFragment extends Fragment {
 
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
+      if ( savedInstanceState == null ) {
+         Analytics.logEvent( "App Action", "Opened Video in AtomStructureFragment" );
+         mVideo = getVideo( getArguments() );
+      } else {
+         mVideo = getVideo( savedInstanceState );
+      }
+
       View v = inflater.inflate( R.layout.fragment_atom_structure, container, false );
       mRecycler = (RecyclerView) v.findViewById( R.id.recycler );
       mProgress = (ProgressBar) v.findViewById( R.id.progress );
@@ -83,7 +90,6 @@ public class AtomStructureFragment extends Fragment {
       mAdapter = new AtomAdapter();
       mRecycler.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
       mRecycler.setAdapter( mAdapter );
-
       mSubscription.add(
               AppObservable.bindFragment( this, Observable.from( mIsoFile.getBoxes() ) )
                            .subscribe(
@@ -99,7 +105,6 @@ public class AtomStructureFragment extends Fragment {
                                          mAtoms.add( atom );
                                          atom.addChildren( mAtoms );
                                       }
-
                                    }, new Action1<Throwable>() {
                                       @Override
                                       public void call( Throwable throwable ) {
@@ -117,8 +122,14 @@ public class AtomStructureFragment extends Fragment {
       return v;
    }
 
-   public void setVideo( Video video ) {
-      mVideo = video;
+   @Override
+   public void onSaveInstanceState( Bundle outState ) {
+      super.onSaveInstanceState( outState );
+      outState.putAll( getArguments() );
+   }
+
+   public Video getVideo( Bundle bundle ) {
+      return VideoCache.Instance().getVideoById( bundle.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
    }
 
    public static class Atom {
@@ -138,8 +149,6 @@ public class AtomStructureFragment extends Fragment {
 
       public void addChildren( List<Atom> atoms ) {
          if ( mBox instanceof AbstractContainerBox ) {
-            Log.d( "this", "box is instance of AbstractContainerBox" );
-
             AbstractContainerBox containerBox = (AbstractContainerBox) mBox;
             for ( Box childBox : containerBox.getBoxes() ) {
                Atom childAtom = new Atom( childBox, mDepth + 1 );
@@ -274,12 +283,17 @@ public class AtomStructureFragment extends Fragment {
             }
 
          } else if ( v.getId() == R.id.box_info_button ) {
-
             Activity activity = getActivity();
-            if ( activity != null ) {
-               Intent intent = new Intent( activity, AtomActivity.class );
-               intent.putExtra( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( mAtom.getBox() ) );
-               startActivity( intent );
+            if ( activity instanceof VideoActivity ) {
+
+               AtomInfoFragment fragment = new AtomInfoFragment();
+               Bundle args = new Bundle();
+               args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
+               args.putInt( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( mAtom.getBox() ) );
+               fragment.setArguments( args );
+
+               VideoActivity videoActivity = (VideoActivity) activity;
+               videoActivity.addFragmentToVideoTab( mVideo, AtomInfoFragment.class, args );
             }
          }
       }
