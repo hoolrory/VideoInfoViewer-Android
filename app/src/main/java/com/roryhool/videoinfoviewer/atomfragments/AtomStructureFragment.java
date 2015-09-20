@@ -137,6 +137,7 @@ public class AtomStructureFragment extends Fragment {
       protected Box    mBox;
       protected String mName;
       protected int    mDepth;
+      protected String mId;
 
       protected List<Atom> mChildAtoms = new ArrayList<>();
 
@@ -145,6 +146,7 @@ public class AtomStructureFragment extends Fragment {
       public Atom( Box box, int depth ) {
          mBox = box;
          mDepth = depth;
+         mId = String.format( "%s-%d-%d", mBox.getType(), mBox.getSize(), mBox.getOffset() );
       }
 
       public void addChildren( List<Atom> atoms ) {
@@ -189,6 +191,10 @@ public class AtomStructureFragment extends Fragment {
          }
 
          return mName;
+      }
+
+      public String getId() {
+         return mId;
       }
 
       protected boolean isExpanded() {
