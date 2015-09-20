@@ -16,6 +16,7 @@
 
 package com.roryhool.videoinfoviewer;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -102,17 +103,23 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
          setCurrentVideo( VideoCache.Instance().getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) ) );
       } else {
          Uri videoUri = getIntent().getData();
+         if ( videoUri == null && getIntent().hasExtra( Intent.EXTRA_STREAM ) ) {
+            videoUri = getIntent().getParcelableExtra( Intent.EXTRA_STREAM );
+         }
          AppObservable.bindActivity( this, Observable.create( new RetrieveVideoDetailsTask( videoUri ) ) )
                       .subscribeOn( Schedulers.io() )
                       .subscribe(
                          new Subscriber<Video>() {
                             @Override
-                            public void onCompleted() {}
+                            public void onCompleted() {
+                            }
+
                             @Override
                             public void onError( Throwable e ) {
                                Toast.makeText( VideoActivity.this, R.string.failed_to_open_video, Toast.LENGTH_LONG ).show();
                                finish();
                             }
+
                             @Override
                             public void onNext( Video video ) {
                                setCurrentVideo( video );
