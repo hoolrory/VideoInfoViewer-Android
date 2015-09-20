@@ -17,7 +17,6 @@
 package com.roryhool.videoinfoviewer;
 
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -34,6 +33,7 @@ import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -48,6 +48,12 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 import java.util.HashMap;
 import java.util.Stack;
 
+import rx.Observable;
+import rx.Observable.OnSubscribe;
+import rx.Subscriber;
+import rx.android.app.AppObservable;
+import rx.schedulers.Schedulers;
+
 public class VideoActivity extends AppCompatActivity implements OnFullscreenListener, OnPageChangeListener {
 
    public static class CancelFullscreenEvent {
@@ -61,8 +67,6 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
    protected TabLayout      mTabLayout;
 
    protected VideoFragmentAdapter mPagerAdapter;
-
-   protected RetrieveVideoDetailsTask mRetrieveVideoDetailsTask;
 
    protected int mBaseSystemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 
@@ -98,10 +102,22 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
          setCurrentVideo( VideoCache.Instance().getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) ) );
       } else {
          Uri videoUri = getIntent().getData();
-         if ( videoUri != null ) {
-            mRetrieveVideoDetailsTask = new RetrieveVideoDetailsTask();
-            mRetrieveVideoDetailsTask.execute( videoUri );
-         }
+         AppObservable.bindActivity( this, Observable.create( new RetrieveVideoDetailsTask( videoUri ) ) )
+                      .subscribeOn( Schedulers.io() )
+                      .subscribe(
+                         new Subscriber<Video>() {
+                            @Override
+                            public void onCompleted() {}
+                            @Override
+                            public void onError( Throwable e ) {
+                               Toast.makeText( VideoActivity.this, R.string.failed_to_open_video, Toast.LENGTH_LONG ).show();
+                               finish();
+                            }
+                            @Override
+                            public void onNext( Video video ) {
+                               setCurrentVideo( video );
+                            }
+                         } );
       }
 
       TypedValue secondaryTextColor = new TypedValue();
@@ -365,22 +381,25 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       }
    }
 
-   public class RetrieveVideoDetailsTask extends AsyncTask<Uri, Void, Video> {
+   public static class RetrieveVideoDetailsTask implements OnSubscribe<Video> {
 
-      @Override
-      protected void onPreExecute() {
+      private final Uri mUri;
+
+      public RetrieveVideoDetailsTask( Uri uri ) {
+         mUri = uri;
       }
 
       @Override
-      protected Video doInBackground( Uri... uris ) {
-         String filePath = UriHelper.getFilePathFromUri( uris[0] );
-         Video video = Video.CreateFromFilePath( filePath );
-         return video;
-      }
+      public void call( Subscriber<? super Video> subscriber ) {
+         try {
 
-      @Override
-      protected void onPostExecute( Video video ) {
-         setCurrentVideo( video );
+            String filePath = UriHelper.getFilePathFromUri( mUri );
+            Video video = Video.CreateFromFilePath( filePath );
+            subscriber.onNext( video );
+         } catch ( Exception e ) {
+            subscriber.onError( e );
+         }
+         subscriber.onCompleted();
       }
    }
 }

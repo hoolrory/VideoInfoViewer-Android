@@ -36,6 +36,8 @@
     
     <string name="search_title">Search</string>
     <string name="search_hint">Search for property</string>
+
+    <string name="failed_to_open_video">Failed to open video, make sure it is a valid MP4.</string>
     
     <string name="apache_license_title">This software contains the following components licensed under Apache 2.0</string>
     
