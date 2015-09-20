@@ -91,32 +91,32 @@ public class AtomStructureFragment extends Fragment {
       mRecycler.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
       mRecycler.setAdapter( mAdapter );
       mSubscription.add(
-              AppObservable.bindFragment( this, Observable.from( mIsoFile.getBoxes() ) )
-                           .subscribe(
-                                   new Action1<Box>() {
+         AppObservable.bindFragment( this, Observable.from( mIsoFile.getBoxes() ) )
+                      .subscribe(
+                         new Action1<Box>() {
 
-                                      @Override
-                                      public void call( Box box ) {
-                                         Activity activity = getActivity();
-                                         if ( activity != null ) {
-                                            AtomHelper.logEventsForBox( activity, box );
-                                         }
-                                         Atom atom = new Atom( box, 0 );
-                                         mAtoms.add( atom );
-                                         atom.addChildren( mAtoms );
-                                      }
-                                   }, new Action1<Throwable>() {
-                                      @Override
-                                      public void call( Throwable throwable ) {
-                                         throwable.printStackTrace();
-                                      }
-                                   }, new Action0() {
-                                      @Override
-                                      public void call() {
-                                         mAdapter.setAtoms( mAtoms );
-                                         mProgress.setVisibility( View.GONE );
-                                      }
-                                   } )
+                            @Override
+                            public void call( Box box ) {
+                               Activity activity = getActivity();
+                               if ( activity != null ) {
+                                  AtomHelper.logEventsForBox( activity, box );
+                               }
+                               Atom atom = new Atom( box, 0 );
+                               mAtoms.add( atom );
+                               atom.addChildren( mAtoms );
+                            }
+                         }, new Action1<Throwable>() {
+                            @Override
+                            public void call( Throwable throwable ) {
+                               throwable.printStackTrace();
+                            }
+                         }, new Action0() {
+                            @Override
+                            public void call() {
+                               mAdapter.setAtoms( mAtoms );
+                               mProgress.setVisibility( View.GONE );
+                            }
+                         } )
       );
 
       return v;
