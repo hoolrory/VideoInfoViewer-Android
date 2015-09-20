@@ -252,6 +252,17 @@ public class AtomStructureFragment extends Fragment {
 
          ImageView boxIcon = (ImageView) mView.findViewById( R.id.box_icon );
          boxIcon.setVisibility( atom.getChildCount() == 0 ? View.INVISIBLE : View.VISIBLE );
+
+         if ( atom.getChildCount() > 0 ) {
+            int from = mAtom.isExpanded() ? -90 : 0;
+            int to = mAtom.isExpanded() ? 0 : -90;
+
+            RotateAnimation animation = new RotateAnimation( from, to, boxIcon.getWidth() / 2, boxIcon.getHeight() / 2 );
+            animation.setDuration( 0 );
+            animation.setFillAfter( true );
+            boxIcon.startAnimation( animation );
+         }
+
       }
 
       public int dpToPx( int dp ) {
@@ -280,7 +291,7 @@ public class AtomStructureFragment extends Fragment {
 
             if ( isExpanded ) {
                int position = mAdapter.getItemPosition( mAtom );
-               int count = mAdapter.addItems( position + 1, mAtom.getChildAtoms() );
+               mAdapter.addItems( position + 1, mAtom.getChildAtoms() );
                mAdapter.notifyItemRangeInserted( position + 1, visibleChildCount );
             } else {
                int position = mAdapter.getItemPosition( mAtom );
