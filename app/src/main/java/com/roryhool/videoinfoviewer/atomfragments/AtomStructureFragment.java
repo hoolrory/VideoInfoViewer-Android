@@ -69,7 +69,8 @@ public class AtomStructureFragment extends Fragment {
 
    protected AtomAdapter mAdapter;
 
-   protected List<Atom> mAtoms = new ArrayList<>();
+   protected List<Atom> mAtoms           = new ArrayList<>();
+   protected List<Atom> mAtomsForAdapter = new ArrayList<>();
 
    protected CompositeSubscription mSubscription = new CompositeSubscription();
 
@@ -99,7 +100,8 @@ public class AtomStructureFragment extends Fragment {
                                }
                                Atom atom = new Atom( box, 0 );
                                mAtoms.add( atom );
-                               atom.addChildren( mAtoms );
+                               mAtomsForAdapter.add( atom );
+                               atom.addChildren( mAtoms, atom.isExpanded() ? mAtomsForAdapter : new ArrayList<Atom>() );
                             }
                          }, new Action1<Throwable>() {
                             @Override
@@ -109,7 +111,7 @@ public class AtomStructureFragment extends Fragment {
                          }, new Action0() {
                             @Override
                             public void call() {
-                               mAdapter.setAtoms( mAtoms );
+                               mAdapter.setAtoms( mAtomsForAdapter );
                                mProgress.setVisibility( View.GONE );
                             }
                          } )
@@ -122,13 +124,27 @@ public class AtomStructureFragment extends Fragment {
    public void onSaveInstanceState( Bundle outState ) {
       super.onSaveInstanceState( outState );
       outState.putAll( getArguments() );
+
+      for ( Atom atom : mAtoms ) {
+         if ( !atom.isExpanded() ) {
+            outState.putBoolean( atom.getId(), atom.isExpanded() );
+         }
+      }
    }
 
    public Video getVideo( Bundle bundle ) {
       return VideoCache.Instance().getVideoById( bundle.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) );
    }
 
-   public static class Atom {
+   public boolean getIsExpanded( Atom atom ) {
+      Bundle args = getArguments();
+      if ( args != null && args.containsKey( atom.getId() ) ) {
+         return args.getBoolean( atom.getId() );
+      }
+      return true;
+   }
+
+   public class Atom {
 
       protected Box    mBox;
       protected String mName;
@@ -143,15 +159,17 @@ public class AtomStructureFragment extends Fragment {
          mBox = box;
          mDepth = depth;
          mId = String.format( "%s-%d-%d", mBox.getType(), mBox.getSize(), mBox.getOffset() );
+         mExpanded = getIsExpanded( this );
       }
 
-      public void addChildren( List<Atom> atoms ) {
+      public void addChildren( List<Atom> atoms, List<Atom> atomsForAdapter ) {
          if ( mBox instanceof AbstractContainerBox ) {
             AbstractContainerBox containerBox = (AbstractContainerBox) mBox;
             for ( Box childBox : containerBox.getBoxes() ) {
                Atom childAtom = new Atom( childBox, mDepth + 1 );
                atoms.add( childAtom );
-               childAtom.addChildren( atoms );
+               atomsForAdapter.add( childAtom );
+               childAtom.addChildren( atoms, childAtom.isExpanded() ? atomsForAdapter : new ArrayList<Atom>() );
                mChildAtoms.add( childAtom );
             }
          }
