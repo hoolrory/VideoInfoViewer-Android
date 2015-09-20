@@ -46,21 +46,17 @@ public class AtomInfoFragment extends Fragment {
    protected Box mBox;
 
    protected LinearLayout mRootLayout;
-   protected ProgressBar mLoadingProgress;
-   protected FrameLayout mAdFrame;
-   protected BoxInfoView mBoxInfoView;
-   protected AdView      mAdView;
+   protected ProgressBar  mLoadingProgress;
+   protected FrameLayout  mAdFrame;
+   protected BoxInfoView  mBoxInfoView;
+   protected AdView       mAdView;
 
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
       View view = inflater.inflate( R.layout.fragment_box_info, container, false );
 
-      if ( savedInstanceState == null ) {
-         Analytics.logEvent( "App Action", "Opened Box in AtomInfoFragment" );
-         mBox = getBox( getArguments() );
-      } else {
-         mBox = getBox( savedInstanceState );
-      }
+      Analytics.logEvent( "App Action", "Opened Box in AtomInfoFragment" );
+      mBox = getBox( getArguments() );
 
       mRootLayout = (LinearLayout) view.findViewById( R.id.root_layout );
       mLoadingProgress = (ProgressBar) view.findViewById( R.id.loading_progress );

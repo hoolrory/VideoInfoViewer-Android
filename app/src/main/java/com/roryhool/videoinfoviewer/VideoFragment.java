@@ -131,11 +131,8 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
       if ( v.getId() == R.id.view_atom_button ) {
          Activity activity = getActivity();
          if ( activity instanceof VideoActivity ) {
-
-            AtomStructureFragment fragment = new AtomStructureFragment();
             Bundle args = new Bundle();
             args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
-            fragment.setArguments( args );
 
             VideoActivity videoActivity = (VideoActivity) activity;
             videoActivity.addFragmentToVideoTab( mVideo, AtomStructureFragment.class, args );

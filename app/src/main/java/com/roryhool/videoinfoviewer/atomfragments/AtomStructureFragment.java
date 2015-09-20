@@ -75,12 +75,8 @@ public class AtomStructureFragment extends Fragment {
 
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
-      if ( savedInstanceState == null ) {
-         Analytics.logEvent( "App Action", "Opened Video in AtomStructureFragment" );
-         mVideo = getVideo( getArguments() );
-      } else {
-         mVideo = getVideo( savedInstanceState );
-      }
+      Analytics.logEvent( "App Action", "Opened Video in AtomStructureFragment" );
+      mVideo = getVideo( getArguments() );
 
       View v = inflater.inflate( R.layout.fragment_atom_structure, container, false );
       mRecycler = (RecyclerView) v.findViewById( R.id.recycler );
@@ -302,12 +298,9 @@ public class AtomStructureFragment extends Fragment {
          } else if ( v.getId() == R.id.box_info_button ) {
             Activity activity = getActivity();
             if ( activity instanceof VideoActivity ) {
-
-               AtomInfoFragment fragment = new AtomInfoFragment();
                Bundle args = new Bundle();
                args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
                args.putInt( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( mAtom.getBox() ) );
-               fragment.setArguments( args );
 
                VideoActivity videoActivity = (VideoActivity) activity;
                videoActivity.addFragmentToVideoTab( mVideo, AtomInfoFragment.class, args );
