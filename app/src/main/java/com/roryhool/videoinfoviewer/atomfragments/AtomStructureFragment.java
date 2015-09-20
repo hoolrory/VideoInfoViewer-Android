@@ -246,19 +246,24 @@ public class AtomStructureFragment extends Fragment {
          String name = mAtom.getName();
          descriptionView.setText( name );
 
-         ImageView boxIcon = (ImageView) mView.findViewById( R.id.box_icon );
+         final ImageView boxIcon = (ImageView) mView.findViewById( R.id.box_icon );
          boxIcon.setVisibility( atom.getChildCount() == 0 ? View.INVISIBLE : View.VISIBLE );
 
          if ( atom.getChildCount() > 0 ) {
-            int from = mAtom.isExpanded() ? -90 : 0;
-            int to = mAtom.isExpanded() ? 0 : -90;
+            boxIcon.post(
+               new Runnable() {
+                  @Override
+                  public void run() {
+                     int from = mAtom.isExpanded() ? -90 : 0;
+                     int to = mAtom.isExpanded() ? 0 : -90;
 
-            RotateAnimation animation = new RotateAnimation( from, to, boxIcon.getWidth() / 2, boxIcon.getHeight() / 2 );
-            animation.setDuration( 0 );
-            animation.setFillAfter( true );
-            boxIcon.startAnimation( animation );
+                     RotateAnimation animation = new RotateAnimation( from, to, boxIcon.getWidth() / 2, boxIcon.getHeight() / 2 );
+                     animation.setDuration( 0 );
+                     animation.setFillAfter( true );
+                     boxIcon.startAnimation( animation );
+                  }
+               } );
          }
-
       }
 
       public int dpToPx( int dp ) {
