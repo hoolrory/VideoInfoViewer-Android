@@ -23,9 +23,11 @@ import java.util.List;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -37,7 +39,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -61,11 +62,15 @@ import rx.subscriptions.CompositeSubscription;
 
 public class AtomStructureFragment extends Fragment {
 
+   protected static final String EXTRA_LAYOUT_MANAGER_STATE = "com.roryhool.videoinfoviewer.atomfragments.AtomStructureFragment.EXTRA_LAYOUT_MANAGER_STATE";
+
    protected Video   mVideo;
    protected IsoFile mIsoFile;
 
    protected RecyclerView mRecycler;
-   protected ProgressBar  mProgress;
+   protected View         mProgressView;
+
+   protected LayoutManager mLayoutManager;
 
    protected AtomAdapter mAdapter;
 
@@ -74,19 +79,30 @@ public class AtomStructureFragment extends Fragment {
 
    protected CompositeSubscription mSubscription = new CompositeSubscription();
 
+   protected Parcelable mLayoutManagerState;
+
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
       Analytics.logEvent( "App Action", "Opened Video in AtomStructureFragment" );
       mVideo = getVideo( getArguments() );
 
+      Bundle args = getArguments();
+      if ( args != null ) {
+         if ( args.containsKey( EXTRA_LAYOUT_MANAGER_STATE ) ) {
+            mLayoutManagerState = args.getParcelable(EXTRA_LAYOUT_MANAGER_STATE );
+         }
+      }
+
       View v = inflater.inflate( R.layout.fragment_atom_structure, container, false );
       mRecycler = (RecyclerView) v.findViewById( R.id.recycler );
-      mProgress = (ProgressBar) v.findViewById( R.id.progress );
+      mProgressView = v.findViewById( R.id.progress );
       mIsoFile = mVideo.getIsoFile();
 
       mAdapter = new AtomAdapter();
-      mRecycler.setLayoutManager( new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false ) );
+      mLayoutManager = new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
+      mRecycler.setLayoutManager( mLayoutManager );
       mRecycler.setAdapter( mAdapter );
+
       mSubscription.add(
          AppObservable.bindFragment( this, Observable.from( mIsoFile.getBoxes() ) )
                       .subscribe(
@@ -112,7 +128,26 @@ public class AtomStructureFragment extends Fragment {
                             @Override
                             public void call() {
                                mAdapter.setAtoms( mAtomsForAdapter );
-                               mProgress.setVisibility( View.GONE );
+                               if ( mLayoutManagerState == null ) {
+                                  mProgressView.setVisibility( View.GONE );
+                               } else {
+                                  mRecycler.post(
+                                     new Runnable() {
+                                        @Override
+                                        public void run() {
+                                           if ( mLayoutManagerState != null ) {
+                                              mLayoutManager.onRestoreInstanceState( mLayoutManagerState );
+                                           }
+                                           mProgressView.setVisibility( View.GONE );
+                                        }
+                                     } );
+                               }
+         /*
+                               Bundle args = getArguments();
+                               if( args != null && args.containsKey( EXTRA_RECYCLER_POSITION )) {
+                                  int recyclerPositionY = args.getInt( EXTRA_RECYCLER_POSITION );
+                                  mRecycler.scrollTo( 0, recyclerPositionY );
+                               }*/
                             }
                          } )
       );
@@ -130,6 +165,8 @@ public class AtomStructureFragment extends Fragment {
             outState.putBoolean( atom.getId(), atom.isExpanded() );
          }
       }
+
+      outState.putParcelable( EXTRA_LAYOUT_MANAGER_STATE, mLayoutManager.onSaveInstanceState() );
    }
 
    public Video getVideo( Bundle bundle ) {
