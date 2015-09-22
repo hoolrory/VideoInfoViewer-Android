@@ -26,7 +26,7 @@
         android:layout_above="@+id/adFrame" />
    
 	<FrameLayout
-		android:id="@+id/ad_frame"
+		android:id="@+id/adFrame"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true" />

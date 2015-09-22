@@ -89,7 +89,7 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       getSupportActionBar().setDisplayHomeAsUpEnabled( true );
       getSupportActionBar().setDisplayShowHomeEnabled( true );
 
-      mAdFrame = (FrameLayout) findViewById( R.id.ad_frame );
+      mAdFrame = (FrameLayout) findViewById( R.id.adFrame );
 
       mRootLayout.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
 
