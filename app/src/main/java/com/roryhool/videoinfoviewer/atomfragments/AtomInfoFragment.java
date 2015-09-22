@@ -17,22 +17,16 @@
 package com.roryhool.videoinfoviewer.atomfragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.coremedia.iso.boxes.Box;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.roryhool.videoinfoviewer.BuildConfig;
 import com.roryhool.videoinfoviewer.Extras;
 import com.roryhool.videoinfoviewer.R;
 import com.roryhool.videoinfoviewer.analytics.Analytics;
@@ -47,9 +41,7 @@ public class AtomInfoFragment extends Fragment {
 
    protected LinearLayout mRootLayout;
    protected ProgressBar  mLoadingProgress;
-   protected FrameLayout  mAdFrame;
    protected BoxInfoView  mBoxInfoView;
-   protected AdView       mAdView;
 
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
@@ -60,7 +52,6 @@ public class AtomInfoFragment extends Fragment {
 
       mRootLayout = (LinearLayout) view.findViewById( R.id.root_layout );
       mLoadingProgress = (ProgressBar) view.findViewById( R.id.loading_progress );
-      mAdFrame = (FrameLayout) view.findViewById( R.id.adFrame );
 
       return view;
    }
@@ -75,9 +66,6 @@ public class AtomInfoFragment extends Fragment {
          Activity activity = getActivity();
          if ( activity != null ) {
             Analytics.logEvent( "Video Info", "Load Atom Info", mBox.getType() );
-            if ( !BuildConfig.DEBUG ) {
-               setupAds( activity );
-            }
          }
          new RetrieveBoxInfoTask().execute( mBox );
       }
@@ -100,30 +88,6 @@ public class AtomInfoFragment extends Fragment {
 
    protected Box getBox( Bundle bundle ) {
       return IsoFileCache.Instance().getBox( bundle.getInt( Extras.EXTRA_BOX_ID ) );
-   }
-
-   protected void setupAds( Context context ) {
-      String admobAdUnitId = getString( R.string.atom_info_admob_ad_unit_id );
-
-      if ( admobAdUnitId != null && !admobAdUnitId.equals( ( "" ) ) ) {
-         mAdView = new AdView( context );
-         mAdView.setAdSize( AdSize.BANNER );
-         mAdView.setAdUnitId( admobAdUnitId );
-
-         mAdFrame.addView( mAdView );
-
-         String[] testDeviceIds = getResources().getStringArray( R.array.admob_test_device_ids );
-
-         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-         adRequestBuilder.addTestDevice( AdRequest.DEVICE_ID_EMULATOR );
-
-         for ( int i = 0; i < testDeviceIds.length; i++ ) {
-            adRequestBuilder.addTestDevice( testDeviceIds[i] );
-         }
-
-         AdRequest adRequest = adRequestBuilder.build();
-         mAdView.loadAd( adRequest );
-      }
    }
 
    protected BoxInfoView LoadBoxInfo( Box box ) {

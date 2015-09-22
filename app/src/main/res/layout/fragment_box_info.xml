@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-   xmlns:android="http://schemas.android.com/apk/res/android"
-   android:layout_width="match_parent"
-   android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
    
-   <ScrollView
-	   android:layout_width="match_parent"
-	   android:layout_height="match_parent"
-      android:layout_above="@+id/adFrame"
-      android:layout_alignParentTop="true" >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true" >
       
-	   <LinearLayout
-			android:id="@+id/root_layout"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-          
-       <ProgressBar
-           android:id="@+id/loading_progress"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           style="@android:style/Widget.Holo.Light.Spinner"
-           android:background="@null"
-           android:layout_marginTop="10dp"
-           android:layout_gravity="center_horizontal" />
-	       
-	   </LinearLayout>
-    
-   </ScrollView>
-    
-   <FrameLayout
-		android:id="@+id/adFrame"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true" />
+        <LinearLayout
+            android:id="@+id/root_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/loading_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.Light.Spinner"
+            android:background="@null"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+
+    </ScrollView>
     
 </RelativeLayout>
