@@ -166,7 +166,9 @@ public class AtomStructureFragment extends Fragment {
          }
       }
 
-      outState.putParcelable( EXTRA_LAYOUT_MANAGER_STATE, mLayoutManager.onSaveInstanceState() );
+      if ( mLayoutManager != null ) {
+         outState.putParcelable( EXTRA_LAYOUT_MANAGER_STATE, mLayoutManager.onSaveInstanceState() );
+      }
    }
 
    public Video getVideo( Bundle bundle ) {
