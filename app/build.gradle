@@ -9,7 +9,7 @@ retrolambda {
 println "GOT STUFF " + System.getenv( "JAVA8_HOME" )
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
     compileOptions {
@@ -33,11 +33,11 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:22.2.0'
-    compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.android.support:recyclerview-v7:22.2.0'
-    compile 'com.android.support:design:22.2.0'
-    compile "com.android.support:cardview-v7:22.2.0"
+    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
+    compile 'com.android.support:design:22.2.1'
+    compile "com.android.support:cardview-v7:22.2.1"
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile 'io.reactivex:rxjava:1.0.0'
