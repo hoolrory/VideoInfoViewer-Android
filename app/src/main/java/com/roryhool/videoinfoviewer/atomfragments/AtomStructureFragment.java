@@ -55,8 +55,8 @@ import com.roryhool.videoinfoviewer.utils.VideoCache;
 
 import rx.Observable;
 import rx.android.app.AppObservable;
-import rx.functions.Action0;
-import rx.functions.Action1;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class AtomStructureFragment extends Fragment {
@@ -68,6 +68,7 @@ public class AtomStructureFragment extends Fragment {
 
    protected RecyclerView mRecycler;
    protected View         mProgressView;
+   protected TextView     mErrorText;
 
    protected LayoutManager mLayoutManager;
 
@@ -83,6 +84,13 @@ public class AtomStructureFragment extends Fragment {
    @Override
    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
       Analytics.logEvent( "App Action", "Opened Video in AtomStructureFragment" );
+
+      View view = inflater.inflate( R.layout.fragment_atom_structure, container, false );
+
+      mRecycler = (RecyclerView) view.findViewById( R.id.recycler );
+      mProgressView = view.findViewById( R.id.progress );
+      mErrorText = (TextView) view.findViewById( R.id.error_text );
+
       mVideo = getVideo( getArguments() );
 
       Bundle args = getArguments();
@@ -92,66 +100,64 @@ public class AtomStructureFragment extends Fragment {
          }
       }
 
-      View v = inflater.inflate( R.layout.fragment_atom_structure, container, false );
-      mRecycler = (RecyclerView) v.findViewById( R.id.recycler );
-      mProgressView = v.findViewById( R.id.progress );
       mIsoFile = mVideo.getIsoFile();
 
-      mAdapter = new AtomAdapter();
-      mLayoutManager = new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
-      mRecycler.setLayoutManager( mLayoutManager );
-      mRecycler.setAdapter( mAdapter );
+      if ( mIsoFile != null ) {
+         mProgressView.setVisibility( View.VISIBLE );
 
-      mSubscription.add(
-         AppObservable.bindFragment( this, Observable.from( mIsoFile.getBoxes() ) )
-                      .subscribe(
-                         new Action1<Box>() {
+         mAdapter = new AtomAdapter();
+         mLayoutManager = new LinearLayoutManager( getActivity(), LinearLayoutManager.VERTICAL, false );
+         mRecycler.setLayoutManager( mLayoutManager );
+         mRecycler.setAdapter( mAdapter );
 
-                            @Override
-                            public void call( Box box ) {
-                               Activity activity = getActivity();
-                               if ( activity != null ) {
-                                  AtomHelper.logEventsForBox( activity, box );
-                               }
-                               Atom atom = new Atom( box, 0 );
-                               mAtoms.add( atom );
-                               mAtomsForAdapter.add( atom );
-                               atom.addChildren( mAtoms, atom.isExpanded() ? mAtomsForAdapter : new ArrayList<Atom>() );
-                            }
-                         }, new Action1<Throwable>() {
-                            @Override
-                            public void call( Throwable throwable ) {
-                               throwable.printStackTrace();
-                            }
-                         }, new Action0() {
-                            @Override
-                            public void call() {
-                               mAdapter.setAtoms( mAtomsForAdapter );
-                               if ( mLayoutManagerState == null ) {
-                                  mProgressView.setVisibility( View.GONE );
-                               } else {
-                                  mRecycler.post(
-                                     new Runnable() {
-                                        @Override
-                                        public void run() {
-                                           if ( mLayoutManagerState != null ) {
-                                              mLayoutManager.onRestoreInstanceState( mLayoutManagerState );
-                                           }
-                                           mProgressView.setVisibility( View.GONE );
-                                        }
-                                     } );
-                               }
-         /*
-                               Bundle args = getArguments();
-                               if( args != null && args.containsKey( EXTRA_RECYCLER_POSITION )) {
-                                  int recyclerPositionY = args.getInt( EXTRA_RECYCLER_POSITION );
-                                  mRecycler.scrollTo( 0, recyclerPositionY );
-                               }*/
-                            }
-                         } )
-      );
+         mSubscription.add(
+            AppObservable.bindFragment(
+               this,
+               Observable.from( mIsoFile.getBoxes() ) )
+                         .subscribeOn( Schedulers.io() )
+                         .observeOn( AndroidSchedulers.mainThread() )
+                         .subscribe(
+                            box -> handleBox( box ),
+                            throwable -> onBoxFailure( throwable ),
+                            () -> onBoxesHandled()
+                         )
+         );
+      } else {
+         mErrorText.setText( R.string.failed_to_load_atom_structure );
+         Analytics.logEvent( "Failure", "Failed to load atom structure, null iso file" );
+      }
 
-      return v;
+      return view;
+   }
+
+   private void handleBox( Box box ) {
+      Activity activity = getActivity();
+      if ( activity != null ) {
+         AtomHelper.logEventsForBox( activity, box );
+      }
+      Atom atom = new Atom( box, 0 );
+      mAtoms.add( atom );
+      mAtomsForAdapter.add( atom );
+      atom.addChildren( mAtoms, atom.isExpanded() ? mAtomsForAdapter : new ArrayList<>() );
+   }
+
+   private void onBoxFailure( Throwable throwable ) {
+      throwable.printStackTrace();
+   }
+
+   private void onBoxesHandled() {
+      mAdapter.setAtoms( mAtomsForAdapter );
+      if ( mLayoutManagerState == null ) {
+         mProgressView.setVisibility( View.GONE );
+      } else {
+         mRecycler.post(
+            () -> {
+               if ( mLayoutManagerState != null ) {
+                  mLayoutManager.onRestoreInstanceState( mLayoutManagerState );
+               }
+               mProgressView.setVisibility( View.GONE );
+            } );
+      }
    }
 
    @Override
