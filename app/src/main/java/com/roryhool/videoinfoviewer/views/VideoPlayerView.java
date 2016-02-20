@@ -359,6 +359,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       showControls();
       cancelTimer();
       mPlayButton.setImageResource( R.drawable.ic_media_play2 );
+      mSeekBar.setMax( mMediaPlayer.getDuration() );
    }
 
    @Override
