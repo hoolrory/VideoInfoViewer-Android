@@ -112,7 +112,7 @@ public class BoxInfoView extends FrameLayout {
       mBaseLayout = (LinearLayout) findViewById( R.id.box_layout );
 
       mButton = (Button) findViewById( R.id.load_raw_data_button );
-      mButton.setOnClickListener( mLoadRawDataButtonClickListener );
+      mButton.setOnClickListener( this::onClickLoadRawData );
    }
 
    public void stop() {
@@ -121,14 +121,10 @@ public class BoxInfoView extends FrameLayout {
       }
    }
 
-   Button.OnClickListener mLoadRawDataButtonClickListener = new Button.OnClickListener() {
-
-      @Override
-      public void onClick( View view ) {
-         loadRawData();
-         mButton.setVisibility( View.GONE );
-      }
-   };
+   private void onClickLoadRawData( View view ) {
+      loadRawData();
+      mButton.setVisibility( View.GONE );
+   }
 
    private void loadRawData() {
       mLoadRawDataTask = new LoadRawDataTask();

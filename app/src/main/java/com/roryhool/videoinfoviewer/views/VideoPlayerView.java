@@ -38,7 +38,6 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView.SurfaceTextureListener;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.TranslateAnimation;
@@ -58,7 +57,7 @@ import com.roryhool.videoinfoviewer.animation.ResizeAnimation;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.squareup.otto.Subscribe;
 
-public class VideoPlayerView extends FrameLayout implements SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener, OnClickListener {
+public class VideoPlayerView extends FrameLayout implements SurfaceTextureListener, OnBufferingUpdateListener, OnCompletionListener, OnPreparedListener, OnVideoSizeChangedListener {
 
    public interface OnFullscreenListener {
       void onFullscreenChanged( boolean fullscreen );
@@ -117,10 +116,10 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       mFullscreenButton = (ImageButton) findViewById( R.id.fullscreen_button );
 
       mSeekBar.setOnSeekBarChangeListener( mOnSeekBarChangeListener );
-      mPlayButton.setOnClickListener( this );
-      mFullscreenButton.setOnClickListener( this );
+      mPlayButton.setOnClickListener( this::onClickPlay );
+      mFullscreenButton.setOnClickListener( this::onClickFullScreen );
 
-      setOnClickListener( this );
+      setOnClickListener( this::onClickVideo );
 
       VideoInfoViewerApp.getBus().register( this );
    }
@@ -166,30 +165,30 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       }
    };
 
-
-   @Override
-   public void onClick( View v ) {
-      if ( v.getId() == R.id.play_button ) {
-         if ( mMediaPlayer == null ) {
-            mStartPlayingWhenPrepared = true;
-            mThumbView.setVisibility( View.GONE );
-            setupMediaPlayer();
-         } else if ( mMediaPlayer.isPlaying() ) {
-            pause();
-         } else {
-            play();
-         }
-      } else if ( v.getId() == R.id.fullscreen_button ) {
-         toggleFullscreen();
+   private void onClickPlay( View view ) {
+      if ( mMediaPlayer == null ) {
+         mStartPlayingWhenPrepared = true;
+         mThumbView.setVisibility( View.GONE );
+         setupMediaPlayer();
+      } else if ( mMediaPlayer.isPlaying() ) {
+         pause();
       } else {
-         if ( mMediaPlayer != null ) {
-            if ( !mControlsShowing ) {
-               showControls();
-            } else if ( mMediaPlayer.isPlaying() ) {
-               hideControls();
-            }
+         play();
+      }
+   }
+
+   private void onClickVideo( View view ) {
+      if ( mMediaPlayer != null ) {
+         if ( !mControlsShowing ) {
+            showControls();
+         } else if ( mMediaPlayer.isPlaying() ) {
+            hideControls();
          }
       }
+   }
+
+   private void onClickFullScreen( View view ) {
+      toggleFullscreen();
    }
 
    @Subscribe

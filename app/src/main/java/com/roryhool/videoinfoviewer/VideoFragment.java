@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -43,7 +42,7 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 import java.io.IOException;
 import java.util.Locale;
 
-public class VideoFragment extends Fragment implements OnClickListener, OnFullscreenListener {
+public class VideoFragment extends Fragment implements OnFullscreenListener {
 
    protected DisableableScrollView mScrollView;
    protected VideoPlayerView       mVideoPlayer;
@@ -69,7 +68,7 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
       mVideoPropertiesLayout = (LinearLayout) view.findViewById( R.id.video_properties_layout );
       mViewAtomButton = (Button) view.findViewById( R.id.view_atom_button );
 
-      mViewAtomButton.setOnClickListener( this );
+      mViewAtomButton.setOnClickListener( this::onClickViewAtomButton );
 
       mVideoPlayer.addFullscreenListener( this );
       if ( getActivity() instanceof OnFullscreenListener ) {
@@ -126,17 +125,14 @@ public class VideoFragment extends Fragment implements OnClickListener, OnFullsc
       mVideoPlayer.handleResize();
    }
 
-   @Override
-   public void onClick( View v ) {
-      if ( v.getId() == R.id.view_atom_button ) {
-         Activity activity = getActivity();
-         if ( activity instanceof VideoActivity ) {
-            Bundle args = new Bundle();
-            args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
+   protected void onClickViewAtomButton( View v ) {
+      Activity activity = getActivity();
+      if ( activity instanceof VideoActivity ) {
+         Bundle args = new Bundle();
+         args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
 
-            VideoActivity videoActivity = (VideoActivity) activity;
-            videoActivity.addFragmentToVideoTab( mVideo, AtomStructureFragment.class, args );
-         }
+         VideoActivity videoActivity = (VideoActivity) activity;
+         videoActivity.addFragmentToVideoTab( mVideo, AtomStructureFragment.class, args );
       }
    }
 

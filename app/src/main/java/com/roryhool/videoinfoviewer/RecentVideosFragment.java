@@ -16,7 +16,6 @@
 
 package com.roryhool.videoinfoviewer;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -32,7 +31,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,7 +45,7 @@ import com.roryhool.videoinfoviewer.utils.VideoCache;
 
 import java.util.List;
 
-public class RecentVideosFragment extends Fragment implements OnClickListener {
+public class RecentVideosFragment extends Fragment {
 
    protected int SELECT_VIDEO_CODE = 100;
 
@@ -63,7 +61,7 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
       mRecentVideosList = (ListView) view.findViewById( R.id.recentVideosList );
 
       mFab = (FloatingActionButton) view.findViewById( R.id.fab );
-      mFab.setOnClickListener( this );
+      mFab.setOnClickListener( this::onClickFab );
 
       List<Video> recentVideos = VideoCache.Instance().getVideos();
 
@@ -109,10 +107,26 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
       }
    }
 
-   @Override
-   public void onClick( View v ) {
-      if ( v.getId() == R.id.fab ) {
-         launchVideoChooser();
+   protected void onClickFab( View v ) {
+      if ( Build.VERSION.SDK_INT < 19 ) {
+         Intent intent = new Intent();
+         intent.addCategory( Intent.CATEGORY_OPENABLE );
+         intent.setType( "video/mp4" );
+         intent.setAction( Intent.ACTION_GET_CONTENT );
+         Intent chooser = Intent.createChooser( intent, getString( R.string.select_video ) );
+         startActivityForResult( chooser, SELECT_VIDEO_CODE );
+      } else {
+         Intent intent = new Intent( Intent.ACTION_OPEN_DOCUMENT );
+         intent.addCategory( Intent.CATEGORY_OPENABLE );
+         intent.setType( "video/mp4" );
+         intent.setAction( Intent.ACTION_GET_CONTENT );
+         Intent chooser = Intent.createChooser( intent, getString( R.string.select_video ) );
+         startActivityForResult( chooser, SELECT_VIDEO_CODE );
+      }
+
+      FragmentActivity activity = getActivity();
+      if ( activity != null ) {
+         Analytics.logEvent( "App Action", "Launched Video Chooser" );
       }
    }
 
@@ -145,30 +159,6 @@ public class RecentVideosFragment extends Fragment implements OnClickListener {
          fragTransaction.commit();
 
          Analytics.logEvent( "App Action", "Opened Credits" );
-      }
-   }
-
-   @SuppressLint( "NewApi" )
-   private void launchVideoChooser() {
-      if ( Build.VERSION.SDK_INT < 19 ) {
-         Intent intent = new Intent();
-         intent.addCategory( Intent.CATEGORY_OPENABLE );
-         intent.setType( "video/mp4" );
-         intent.setAction( Intent.ACTION_GET_CONTENT );
-         Intent chooser = Intent.createChooser( intent, getString( R.string.select_video ) );
-         startActivityForResult( chooser, SELECT_VIDEO_CODE );
-      } else {
-         Intent intent = new Intent( Intent.ACTION_OPEN_DOCUMENT );
-         intent.addCategory( Intent.CATEGORY_OPENABLE );
-         intent.setType( "video/mp4" );
-         intent.setAction( Intent.ACTION_GET_CONTENT );
-         Intent chooser = Intent.createChooser( intent, getString( R.string.select_video ) );
-         startActivityForResult( chooser, SELECT_VIDEO_CODE );
-      }
-
-      FragmentActivity activity = getActivity();
-      if ( activity != null ) {
-         Analytics.logEvent( "App Action", "Launched Video Chooser" );
       }
    }
 

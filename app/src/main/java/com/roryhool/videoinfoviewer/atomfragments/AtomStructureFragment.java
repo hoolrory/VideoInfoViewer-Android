@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2014 Rory Hool
- * <p/>
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,6 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.RotateAnimation;
 import android.widget.CompoundButton;
@@ -89,7 +88,7 @@ public class AtomStructureFragment extends Fragment {
       Bundle args = getArguments();
       if ( args != null ) {
          if ( args.containsKey( EXTRA_LAYOUT_MANAGER_STATE ) ) {
-            mLayoutManagerState = args.getParcelable(EXTRA_LAYOUT_MANAGER_STATE );
+            mLayoutManagerState = args.getParcelable( EXTRA_LAYOUT_MANAGER_STATE );
          }
       }
 
@@ -267,7 +266,7 @@ public class AtomStructureFragment extends Fragment {
       }
    }
 
-   public class AtomViewHolder extends ViewHolder implements OnClickListener, OnCheckedChangeListener {
+   public class AtomViewHolder extends ViewHolder implements OnCheckedChangeListener {
 
       protected AtomAdapter mAdapter;
 
@@ -281,10 +280,10 @@ public class AtomStructureFragment extends Fragment {
          mView = view;
          mAdapter = adapter;
 
-         mView.setOnClickListener( this );
+         mView.setOnClickListener( this::onClickAtom );
 
          ImageButton infoButton = (ImageButton) mView.findViewById( R.id.box_info_button );
-         infoButton.setOnClickListener( this );
+         infoButton.setOnClickListener( this::onClickInfoButton );
       }
 
       public void bind( Atom atom ) {
@@ -329,44 +328,42 @@ public class AtomStructureFragment extends Fragment {
          return px;
       }
 
-      @Override
-      public void onClick( View v ) {
-         if ( v.getId() == R.id.atom_root ) {
-            int visibleChildCount = mAtom.getVisibleChildCount();
-            mAtom.toggleExpansion();
+      protected void onClickAtom( View v ) {
+         int visibleChildCount = mAtom.getVisibleChildCount();
+         mAtom.toggleExpansion();
 
-            visibleChildCount = mAtom.isExpanded() ? mAtom.getVisibleChildCount() : visibleChildCount;
+         visibleChildCount = mAtom.isExpanded() ? mAtom.getVisibleChildCount() : visibleChildCount;
 
-            boolean isExpanded = mAtom.isExpanded();
-            int from = isExpanded ? -90 : 0;
-            int to = isExpanded ? 0 : -90;
+         boolean isExpanded = mAtom.isExpanded();
+         int from = isExpanded ? -90 : 0;
+         int to = isExpanded ? 0 : -90;
 
-            ImageView boxIcon = (ImageView) mView.findViewById( R.id.box_icon );
-            RotateAnimation animation = new RotateAnimation( from, to, boxIcon.getWidth() / 2, boxIcon.getHeight() / 2 );
-            animation.setDuration( 600 );
-            animation.setFillAfter( true );
-            boxIcon.startAnimation( animation );
+         ImageView boxIcon = (ImageView) mView.findViewById( R.id.box_icon );
+         RotateAnimation animation = new RotateAnimation( from, to, boxIcon.getWidth() / 2, boxIcon.getHeight() / 2 );
+         animation.setDuration( 600 );
+         animation.setFillAfter( true );
+         boxIcon.startAnimation( animation );
 
-            if ( isExpanded ) {
-               int position = mAdapter.getItemPosition( mAtom );
-               mAdapter.addItems( position + 1, mAtom.getChildAtoms() );
-               mAdapter.notifyItemRangeInserted( position + 1, visibleChildCount );
-            } else {
-               int position = mAdapter.getItemPosition( mAtom );
-               mAdapter.removeItems( position + 1, visibleChildCount );
+         if ( isExpanded ) {
+            int position = mAdapter.getItemPosition( mAtom );
+            mAdapter.addItems( position + 1, mAtom.getChildAtoms() );
+            mAdapter.notifyItemRangeInserted( position + 1, visibleChildCount );
+         } else {
+            int position = mAdapter.getItemPosition( mAtom );
+            mAdapter.removeItems( position + 1, visibleChildCount );
 
-            }
+         }
+      }
 
-         } else if ( v.getId() == R.id.box_info_button ) {
-            Activity activity = getActivity();
-            if ( activity instanceof VideoActivity ) {
-               Bundle args = new Bundle();
-               args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
-               args.putInt( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( mAtom.getBox() ) );
+      protected void onClickInfoButton( View v ) {
+         Activity activity = getActivity();
+         if ( activity instanceof VideoActivity ) {
+            Bundle args = new Bundle();
+            args.putInt( Extras.EXTRA_VIDEO_CACHE_ID, mVideo.CacheId );
+            args.putInt( Extras.EXTRA_BOX_ID, IsoFileCache.Instance().cacheBox( mAtom.getBox() ) );
 
-               VideoActivity videoActivity = (VideoActivity) activity;
-               videoActivity.addFragmentToVideoTab( mVideo, AtomInfoFragment.class, args );
-            }
+            VideoActivity videoActivity = (VideoActivity) activity;
+            videoActivity.addFragmentToVideoTab( mVideo, AtomInfoFragment.class, args );
          }
       }
 
