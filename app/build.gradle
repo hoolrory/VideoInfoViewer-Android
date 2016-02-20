@@ -1,8 +1,21 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+retrolambda {
+    // read java8home from gradle.properties or JAVA8_HOME from environment
+    jdk project.hasProperty( 'java8home' ) ? java8home : System.getenv( "JAVA8_HOME" )
+}
+
+println "GOT STUFF " + System.getenv( "JAVA8_HOME" )
 
 android {
     compileSdkVersion 21
     buildToolsVersion "22.0.1"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "com.roryhool.videoinfoviewer"
