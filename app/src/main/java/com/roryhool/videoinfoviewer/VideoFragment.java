@@ -42,7 +42,7 @@ import com.roryhool.videoinfoviewer.views.VideoPlayerView.OnFullscreenListener;
 import java.io.IOException;
 import java.util.Locale;
 
-public class VideoFragment extends Fragment implements OnFullscreenListener {
+public class VideoFragment extends Fragment {
 
    protected DisableableScrollView mScrollView;
    protected VideoPlayerView       mVideoPlayer;
@@ -70,7 +70,7 @@ public class VideoFragment extends Fragment implements OnFullscreenListener {
 
       mViewAtomButton.setOnClickListener( this::onClickViewAtomButton );
 
-      mVideoPlayer.addFullscreenListener( this );
+      mVideoPlayer.addFullscreenListener( this::onFullscreenChanged );
       if ( getActivity() instanceof OnFullscreenListener ) {
          mVideoPlayer.addFullscreenListener( (OnFullscreenListener) getActivity() );
       }
@@ -202,8 +202,7 @@ public class VideoFragment extends Fragment implements OnFullscreenListener {
       }
    }
 
-   @Override
-   public void onFullscreenChanged( boolean fullscreen ) {
+   private void onFullscreenChanged( boolean fullscreen ) {
       if ( fullscreen ) {
          mScrollView.scrollTo( 0, 0 );
          mScrollView.setEnabled( false );
