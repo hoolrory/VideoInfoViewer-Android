@@ -40,6 +40,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
+import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.data.Video;
 import com.roryhool.videoinfoviewer.utils.UriHelper;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
@@ -102,12 +103,8 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       if ( extras != null && extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
          setCurrentVideo( VideoCache.Instance().getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) ) );
       } else {
-         Uri videoUri = getIntent().getData();
-         if ( videoUri == null && getIntent().hasExtra( Intent.EXTRA_STREAM ) ) {
-            videoUri = getIntent().getParcelableExtra( Intent.EXTRA_STREAM );
-         }
          AppObservable.bindActivity( this, Observable.create(
-            new RetrieveVideoDetailsTask( videoUri ) ) )
+            new RetrieveVideoDetailsTask( getUri() ) ) )
                       .subscribeOn( Schedulers.io() )
                       .subscribe(
                          video -> setCurrentVideo( video ),
@@ -166,6 +163,7 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
    }
 
    protected void onFailedToRetrieveDetails( Throwable t ) {
+      Analytics.logEvent( "Failure", "Failed to retrieve details of video", t.getMessage() );
       Toast.makeText( VideoActivity.this, R.string.failed_to_open_video, Toast.LENGTH_LONG ).show();
       finish();
    }
@@ -176,6 +174,26 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       mPagerAdapter = new VideoFragmentAdapter( getSupportFragmentManager() );
       mViewPager.setAdapter( mPagerAdapter );
       mTabLayout.setupWithViewPager( mViewPager );
+   }
+
+   private Uri getUri() {
+      Uri resultUri = getIntent().getData();
+      if ( resultUri == null && getIntent().hasExtra( Intent.EXTRA_STREAM ) ) {
+         resultUri = getIntent().getParcelableExtra( Intent.EXTRA_STREAM );
+      }
+
+      if ( resultUri.getScheme().equals( "content" ) ) {
+         String path = UriHelper.ContentUriToFilePath( this, resultUri );
+         Uri fileUri = path != null ? Uri.parse( path ) : null;
+         if ( fileUri != null ) {
+            Analytics.logEvent( "Video Info", "Converted content uri to file uri" );
+            resultUri = fileUri;
+         } else {
+            Analytics.logEvent( "Failure", "Failed to convert content uri to file uri" );
+         }
+      }
+
+      return resultUri;
    }
 
    private void setupAds() {

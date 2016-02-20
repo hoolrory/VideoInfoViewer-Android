@@ -16,6 +16,7 @@
 
 package com.roryhool.videoinfoviewer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -40,7 +41,6 @@ import android.widget.TextView;
 
 import com.roryhool.videoinfoviewer.analytics.Analytics;
 import com.roryhool.videoinfoviewer.data.Video;
-import com.roryhool.videoinfoviewer.utils.UriHelper;
 import com.roryhool.videoinfoviewer.utils.VideoCache;
 
 import java.util.List;
@@ -133,21 +133,12 @@ public class RecentVideosFragment extends Fragment {
    @Override
    public void onActivityResult( int requestCode, int resultCode, Intent data ) {
       FragmentActivity activity = getActivity();
-      if ( activity != null && data != null ) {
-
-         Uri resultUri = data.getData();
-         Uri videoUri = resultUri;
-
-         if ( videoUri.getScheme().equals( "content" ) ) {
-            String path = UriHelper.ContentUriToFilePath( activity, videoUri );
-            if ( path != null ) {
-               videoUri = Uri.parse( path );
-            }
+      if ( activity != null ) {
+         if ( data != null && resultCode == Activity.RESULT_OK ) {
+            Intent intent = new Intent( activity, VideoActivity.class );
+            intent.setData( data.getData() );
+            startActivity( intent );
          }
-
-         Intent intent = new Intent( activity, VideoActivity.class );
-         intent.setData( videoUri );
-         startActivity( intent );
       }
    }
 
