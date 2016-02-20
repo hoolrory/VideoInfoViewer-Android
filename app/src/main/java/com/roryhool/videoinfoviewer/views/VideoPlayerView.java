@@ -169,6 +169,7 @@ public class VideoPlayerView extends FrameLayout implements SurfaceTextureListen
       if ( mMediaPlayer == null ) {
          mStartPlayingWhenPrepared = true;
          mThumbView.setVisibility( View.GONE );
+         mControlsShowing = true;
          setupMediaPlayer();
       } else if ( mMediaPlayer.isPlaying() ) {
          pause();
