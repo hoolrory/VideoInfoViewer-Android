@@ -80,6 +80,22 @@
                 android:layout_margin="4dp"
                 style="@style/CardTitle_T2" />
 
+            <com.roryhool.videoinfoviewer.views.RobotoTextView
+                android:id="@+id/retrolambda_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/retrolambda_title"
+                android:layout_margin="4dp"
+                style="@style/CardTitle_T2" />
+
+            <com.roryhool.videoinfoviewer.views.RobotoTextView
+                android:id="@+id/gradle_retrolambda_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gradle_retrolambda_title"
+                android:layout_margin="4dp"
+                style="@style/CardTitle_T2" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/two_px"

@@ -70,6 +70,12 @@ public class CreditsFragment extends Fragment {
       TextView ottoCreditText = (TextView) view.findViewById( R.id.otto_credit );
       ottoCreditText.setMovementMethod( LinkMovementMethod.getInstance() );
 
+      TextView retrolambdaCreditText = (TextView) view.findViewById( R.id.retrolambda_credit );
+      retrolambdaCreditText.setMovementMethod( LinkMovementMethod.getInstance() );
+
+      TextView gradleRetrolambdaCreditText = (TextView) view.findViewById( R.id.gradle_retrolambda_credit );
+      gradleRetrolambdaCreditText.setMovementMethod( LinkMovementMethod.getInstance() );
+
       return view;
    }
 
