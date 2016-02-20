@@ -134,17 +134,19 @@ public class RecentVideosFragment extends Fragment {
    public void onActivityResult( int requestCode, int resultCode, Intent data ) {
       FragmentActivity activity = getActivity();
       if ( activity != null && data != null ) {
-         Intent intent = new Intent( activity, VideoActivity.class );
 
-         Uri uri = data.getData();
+         Uri resultUri = data.getData();
+         Uri videoUri = resultUri;
 
-         if ( uri.getScheme().equals( "content" ) ) {
-            String path = UriHelper.ContentUriToFilePath( activity, uri );
-            intent.setData( Uri.parse( path ) );
-         } else {
-            intent.setData( data.getData() );
+         if ( videoUri.getScheme().equals( "content" ) ) {
+            String path = UriHelper.ContentUriToFilePath( activity, videoUri );
+            if ( path != null ) {
+               videoUri = Uri.parse( path );
+            }
          }
 
+         Intent intent = new Intent( activity, VideoActivity.class );
+         intent.setData( videoUri );
          startActivity( intent );
       }
    }
