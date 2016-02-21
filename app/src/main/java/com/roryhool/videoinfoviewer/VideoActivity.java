@@ -182,7 +182,7 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
          resultUri = getIntent().getParcelableExtra( Intent.EXTRA_STREAM );
       }
 
-      if ( resultUri.getScheme().equals( "content" ) ) {
+      if ( resultUri != null && resultUri.getScheme().equals( "content" ) ) {
          String path = UriHelper.ContentUriToFilePath( this, resultUri );
          Uri fileUri = path != null ? Uri.parse( path ) : null;
          if ( fileUri != null ) {
