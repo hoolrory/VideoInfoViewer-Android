@@ -23,7 +23,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 
-import com.crittercism.app.Crittercism;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -57,12 +56,6 @@ public class MainActivity extends AppCompatActivity {
    @Override
    public void onStart() {
       super.onStart();
-
-      String crittercismAppId = getString( R.string.crittercism_app_id );
-
-      if ( crittercismAppId != null && !crittercismAppId.isEmpty() && !BuildConfig.DEBUG ) {
-         Crittercism.initialize( getApplicationContext(), crittercismAppId );
-      }
 
       if ( !BuildConfig.DEBUG ) {
          setupAds();
