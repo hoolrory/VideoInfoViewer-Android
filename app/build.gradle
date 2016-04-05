@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'io.fabric'
 
 retrolambda {
     // read java8home from gradle.properties or JAVA8_HOME from environment
@@ -44,4 +45,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:0.24.0'
     compile 'io.reactivex:rxjava:1.0.0'
     compile files('libs/isoviewer-1.0-RC-35.jar')
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
 }

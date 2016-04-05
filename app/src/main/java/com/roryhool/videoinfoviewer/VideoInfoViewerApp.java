@@ -19,9 +19,11 @@ package com.roryhool.videoinfoviewer;
 import android.app.Application;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.otto.Bus;
+import io.fabric.sdk.android.Fabric;
 
 public class VideoInfoViewerApp extends Application {
 
@@ -40,6 +42,7 @@ public class VideoInfoViewerApp extends Application {
    @Override
    public void onCreate() {
       super.onCreate();
+      Fabric.with(this, new Crashlytics());
 
       sContext = this;
    }
