@@ -33,3 +33,4 @@ build/
 
 # Local environment setup
 local.properties
+fabric.properties
