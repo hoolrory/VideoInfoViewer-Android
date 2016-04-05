@@ -149,7 +149,7 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
    @Override
    public void onBackPressed() {
       Video video = VideoCache.Instance().getVideoByIndex( mViewPager.getCurrentItem() );
-      if ( mPagerAdapter.interceptOnBackPressed( video ) ) {
+      if ( mPagerAdapter != null && mPagerAdapter.interceptOnBackPressed( video ) ) {
 
       } else if ( mFullscreen ) {
          exitFullscreen();
