@@ -72,5 +72,7 @@
     <string name="bytes_key">Bytes:</string>
     
     <string name="string_key">String:</string>
+
+    <string name="failed_to_get_storage_permission">Failed to get permission to read storage, please enable to use this app.</string>
     
 </resources>

@@ -7,8 +7,6 @@ retrolambda {
     jdk project.hasProperty( 'java8home' ) ? java8home : System.getenv( "JAVA8_HOME" )
 }
 
-println "GOT STUFF " + System.getenv( "JAVA8_HOME" )
-
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"

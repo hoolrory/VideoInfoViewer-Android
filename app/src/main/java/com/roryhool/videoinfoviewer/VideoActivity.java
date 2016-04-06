@@ -16,10 +16,14 @@
 
 package com.roryhool.videoinfoviewer;
 
+import android.Manifest.permission;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -58,6 +62,8 @@ import rx.schedulers.Schedulers;
 
 public class VideoActivity extends AppCompatActivity implements OnFullscreenListener, OnPageChangeListener {
 
+   public static byte REQUEST_CODE_PERMISSIONS = 100;
+
    public static class CancelFullscreenEvent {
    }
 
@@ -94,22 +100,14 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
 
       mRootLayout.setPadding( 0, ViewUtils.GetStatusBarHeight( VideoActivity.this ), 0, 0 );
 
-      Bundle extras = getIntent().getExtras();
-
       mViewPager = (ViewPager) findViewById( R.id.view_pager );
       mViewPager.setOffscreenPageLimit( 5 );
       mViewPager.addOnPageChangeListener( this );
 
-      if ( extras != null && extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
-         setCurrentVideo( VideoCache.Instance().getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) ) );
+      if ( ActivityCompat.checkSelfPermission( this, permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED ) {
+         ActivityCompat.requestPermissions( this, new String[] { permission.READ_EXTERNAL_STORAGE }, REQUEST_CODE_PERMISSIONS );
       } else {
-         AppObservable.bindActivity( this, Observable.create(
-            new RetrieveVideoDetailsTask( getUri() ) ) )
-                      .subscribeOn( Schedulers.io() )
-                      .subscribe(
-                         video -> setCurrentVideo( video ),
-                         throwable -> onFailedToRetrieveDetails( throwable )
-                      );
+         loadVideo();
       }
 
       TypedValue secondaryTextColor = new TypedValue();
@@ -162,6 +160,18 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       mPagerAdapter.setFragment( video, fragmentClass, args, true );
    }
 
+   @Override
+   public void onRequestPermissionsResult( int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults ) {
+      if ( requestCode == REQUEST_CODE_PERMISSIONS ) {
+         if ( ActivityCompat.checkSelfPermission( this, permission.READ_EXTERNAL_STORAGE ) == PackageManager.PERMISSION_GRANTED ) {
+            loadVideo();
+         } else {
+            Toast.makeText( this, R.string.failed_to_get_storage_permission, Toast.LENGTH_SHORT ).show();
+            finish();
+         }
+      }
+   }
+
    protected void onFailedToRetrieveDetails( Throwable t ) {
       Analytics.logEvent( "Failure", "Failed to retrieve details of video", t.getMessage() );
       Toast.makeText( VideoActivity.this, R.string.failed_to_open_video, Toast.LENGTH_LONG ).show();
@@ -174,6 +184,21 @@ public class VideoActivity extends AppCompatActivity implements OnFullscreenList
       mPagerAdapter = new VideoFragmentAdapter( getSupportFragmentManager() );
       mViewPager.setAdapter( mPagerAdapter );
       mTabLayout.setupWithViewPager( mViewPager );
+   }
+
+   protected void loadVideo() {
+      Bundle extras = getIntent().getExtras();
+      if ( extras != null && extras.containsKey( Extras.EXTRA_VIDEO_CACHE_ID ) ) {
+         setCurrentVideo( VideoCache.Instance().getVideoById( extras.getInt( Extras.EXTRA_VIDEO_CACHE_ID ) ) );
+      } else {
+         AppObservable.bindActivity( this, Observable.create(
+            new RetrieveVideoDetailsTask( getUri() ) ) )
+                      .subscribeOn( Schedulers.io() )
+                      .subscribe(
+                         video -> setCurrentVideo( video ),
+                         throwable -> onFailedToRetrieveDetails( throwable )
+                      );
+      }
    }
 
    private Uri getUri() {
